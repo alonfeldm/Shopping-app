@@ -10,8 +10,6 @@ internal static class Program
     {
         ApplicationConfiguration.Initialize();
         ClientWindow Window = new ClientWindow();
-        //Client Client = new Client();
-        
         Application.Run(Window);
     }
 }

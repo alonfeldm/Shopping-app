@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj": {}
+    "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj": {}
   },
   "projects": {
-    "c:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj": {
+    "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj",
+        "projectUniqueName": "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj",
         "projectName": "SharedLibraries",
-        "projectPath": "c:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj",
+        "projectPath": "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj",
         "packagesPath": "C:\\Users\\alonf\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\obj\\",
+        "outputPath": "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

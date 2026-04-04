@@ -23,7 +23,7 @@ public static class SecurityHelpers
     }
     public static string DecryptWithPrivateKey(byte[] Data, RSA rsa)
     {
-        return Convert.ToBase64String(rsa.Decrypt(Data, RSAEncryptionPadding.OaepSHA256));
+        return Encoding.UTF8.GetString(rsa.Decrypt(Data, RSAEncryptionPadding.OaepSHA256));
     }
     public static byte[] EncryptWithSessionKey(byte[] Data, Aes aes)
     {

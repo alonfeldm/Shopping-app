@@ -566,11 +566,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
+      "projectUniqueName": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
       "projectName": "Server",
-      "projectPath": "c:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
+      "projectPath": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
       "packagesPath": "C:\\Users\\alonf\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\alonf\\Documents\\Shopping app\\Server\\obj\\",
+      "outputPath": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -592,8 +592,8 @@
         "net10.0-windows7.0": {
           "targetAlias": "net10.0-windows",
           "projectReferences": {
-            "c:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj": {
-              "projectPath": "c:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj"
+            "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj": {
+              "projectPath": "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj"
             }
           }
         }

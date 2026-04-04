@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Jb4GAOTA7Xs=",
+  "dgSpecHash": "hRIWuhlLyJo=",
   "success": true,
-  "projectFilePath": "c:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
+  "projectFilePath": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\alonf\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\alonf\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
@@ -21,9 +21,9 @@
       "code": "NU1902",
       "level": "Warning",
       "message": "Package 'System.Data.SqlClient' 4.8.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-8g2p-5pqh-5jmc",
-      "projectPath": "c:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
+      "projectPath": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
       "warningLevel": 1,
-      "filePath": "c:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
+      "filePath": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
       "libraryId": "System.Data.SqlClient",
       "targetGraphs": [
         "net10.0-windows7.0"
@@ -33,9 +33,9 @@
       "code": "NU1903",
       "level": "Warning",
       "message": "Package 'System.Data.SqlClient' 4.8.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-98g6-xh36-x2p7",
-      "projectPath": "c:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
+      "projectPath": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
       "warningLevel": 1,
-      "filePath": "c:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
+      "filePath": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\Server.csproj",
       "libraryId": "System.Data.SqlClient",
       "targetGraphs": [
         "net10.0-windows7.0"
