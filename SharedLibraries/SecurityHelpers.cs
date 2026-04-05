@@ -17,9 +17,9 @@ public static class SecurityHelpers
     // {
     //     return rsa.ExportRSAPublicKey();
     // }
-    public static string EncryptWithPublicKey(byte[] Data, RSA ServerPublicKey)
+    public static byte[] EncryptWithPublicKey(byte[] Data, RSA ServerPublicKey)
     {
-        return Convert.ToBase64String(ServerPublicKey.Encrypt(Data, RSAEncryptionPadding.OaepSHA256));
+        return ServerPublicKey.Encrypt(Data, RSAEncryptionPadding.OaepSHA256);
     }
     public static string DecryptWithPrivateKey(byte[] Data, RSA rsa)
     {
