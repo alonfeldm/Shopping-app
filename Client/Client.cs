@@ -41,21 +41,23 @@ public class Client
     }
     public void Listen()
     {
-        try
-        {
-            while (true)
+        if(Connected){
+            try
             {
-                ProtocolFrame? Frame = Protocol.ReadFrame(NetworkStream!);
-                if(Frame == null)
+                while (true)
                 {
-                    break;
+                    ProtocolFrame? Frame = Protocol.ReadFrame(NetworkStream!);
+                    if(Frame == null)
+                    {
+                        break;
+                    }
+                    HandleFrame(Frame);
                 }
-                HandleFrame(Frame);
             }
-        }
-        catch
-        {
-            
+            catch
+            {
+            //do something  
+            }
         }
     }
     public void Send(ProtocolFrame Frame, bool Encrypted)
@@ -109,6 +111,7 @@ public class Client
                     HandleError(Frame);
                     break;
                 default:
+                    // needs to return a bad command to the server
                     break;
         }
         }
@@ -147,7 +150,7 @@ public class Client
     {
         byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
         OrderResultPayload? Payload = JsonSerializer.Deserialize<OrderResultPayload>(DecryptedPayload);
-        //prints out order success, or failure, if succes maybe adds to list
+        //prints out order success, or failure, if success maybe adds to list
     }
     public void HandleChatBroadcast(ProtocolFrame Frame)
     {
