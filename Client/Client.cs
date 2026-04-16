@@ -7,6 +7,7 @@ using SharedLibraries;
 using SharedLibraries.Payloads;
 using System.Text.Json;
 using System.Configuration;
+using System.Collections.Generic;
 
 namespace Client;
 
@@ -21,16 +22,19 @@ public class Client
     private Thread? ListenThread {get; set;}
     private int NextRequestId {get; set;} = 0;
     private bool Disposed {get; set;} = false;
+    private List<ProductWithDetails> Products {get; set;} = new List<ProductWithDetails>();
+    private List<Message> Messages {get; set;} = new List<Message>();
 
     public void Start(string Ip,int Port)
     {
-        if(!Connected)
+        if(!Connected){
             TcpClient = new TcpClient(Ip, Port);
             TcpClient!.NoDelay = true;
             Connected = true;
             NetworkStream = TcpClient.GetStream();
             ListenThread = new Thread(Listen);{ListenThread.IsBackground = true;}
             ListenThread.Start();
+        }
     }
     
     public void Stop()
@@ -38,13 +42,14 @@ public class Client
         Disposed = true;
         NetworkStream?.Close();
         TcpClient?.Close();
+        Connected = false;
     }
     public void Listen()
     {
         if(Connected){
             try
             {
-                while (true)
+                while (!Disposed)
                 {
                     ProtocolFrame? Frame = Protocol.ReadFrame(NetworkStream!);
                     if(Frame == null)
@@ -134,11 +139,23 @@ public class Client
     }
     public void HandleConnectionSuccess(ProtocolFrame Frame)
     {
-        //needs to print out a message to the user
+        PrintOut("Connected");
     }
     public void HandleAuthenticationResult(ProtocolFrame Frame)
     {
-        //needs to print out a message to the user
+        byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
+        AuthenticationResultPayload? Payload = JsonSerializer.Deserialize<AuthenticationResultPayload>(DecryptedPayload);
+        if(Payload!.Success)
+        {
+            Username = Payload.Username;
+            PrintOut("Authenticated as " + Payload.Username);
+            Products = Payload.Products;
+            Messages = Payload.Messages;
+        }
+        else
+        {
+            PrintOut("Authentication failed");
+        }
     }
     public void HandleSendProducts(ProtocolFrame Frame)
     {
@@ -150,19 +167,34 @@ public class Client
     {
         byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
         OrderResultPayload? Payload = JsonSerializer.Deserialize<OrderResultPayload>(DecryptedPayload);
-        //prints out order success, or failure, if success maybe adds to list
+        if(Payload!.Success)
+        {
+            PrintOut("Order successful");//maybe add to order list
+        }
+        else
+        {
+            PrintOut("Order failed ");
+        }
     }
     public void HandleChatBroadcast(ProtocolFrame Frame)
     {
         byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
         ChatBroadcastPayload? Payload = JsonSerializer.Deserialize<ChatBroadcastPayload>(DecryptedPayload);
-        //prints out the chat message to the user
+        Messages.Add(Payload!.Message);
     }
     public void HandleError(ProtocolFrame Frame)
     {
         byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
         ErrorPayload? Payload = JsonSerializer.Deserialize<ErrorPayload>(DecryptedPayload);
-        //prints out the error message to the user
+        PrintOut("Error: " + Payload!.ErrorMessage);
+    }
+    public void PrintOut(string Message)
+    {
+        //needs to print
+    }
+    public void RefreshScreen()
+    {
+        //displays new info, idk if needed
     }
     
 }
