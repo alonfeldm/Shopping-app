@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\alonf\\Documents\\Shopping app\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{19DC8385-7508-F401-772F-D131EE3C2BD6}|SharedLibraries\\SharedLibraries.csproj|c:\\users\\alonf\\documents\\shopping app\\sharedlibraries\\payloads\\securitypayloads.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{19DC8385-7508-F401-772F-D131EE3C2BD6}|SharedLibraries\\SharedLibraries.csproj|solutionrelative:sharedlibraries\\payloads\\securitypayloads.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|c:\\users\\alonf\\documents\\shopping app\\client\\clientwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|solutionrelative:client\\clientwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,15 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SecurityPayloads.cs",
-              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\Payloads\\SecurityPayloads.cs",
-              "RelativeDocumentMoniker": "SharedLibraries\\Payloads\\SecurityPayloads.cs",
-              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\Payloads\\SecurityPayloads.cs",
-              "RelativeToolTip": "SharedLibraries\\Payloads\\SecurityPayloads.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "ClientWindow.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ClientWindow.cs",
+              "RelativeDocumentMoniker": "Client\\ClientWindow.cs",
+              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ClientWindow.cs [Design]",
+              "RelativeToolTip": "Client\\ClientWindow.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-02T12:31:07.952Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-18T09:38:39.945Z",
+              "EditorCaption": " [Design]"
             }
           ]
         }
