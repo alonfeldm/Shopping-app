@@ -5,5 +5,5 @@ namespace Client;
 
 internal sealed class ClientWindow : Form
 {
-
+    
 }
