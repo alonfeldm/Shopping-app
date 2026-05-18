@@ -24,6 +24,7 @@ public class Client
     private bool Disposed {get; set;} = false;
     private List<ProductWithDetails> Products {get; set;} = new List<ProductWithDetails>();
     private List<Message> Messages {get; set;} = new List<Message>();
+    private bool TcpConnected {get; set;} = false;
 
     public void Start(string Ip,int Port)
     {
@@ -34,6 +35,8 @@ public class Client
             NetworkStream = TcpClient.GetStream();
             ListenThread = new Thread(Listen);{ListenThread.IsBackground = true;}
             ListenThread.Start();
+            Disposed = false;
+            TcpConnected = false;
         }
     }
     
@@ -43,6 +46,9 @@ public class Client
         NetworkStream?.Close();
         TcpClient?.Close();
         Connected = false;
+        aes = null;
+        Username = null;
+        TcpConnected = false;
     }
     public void Listen()
     {
@@ -134,12 +140,21 @@ public class Client
         SecureSessionPayload secureSessionPayload = new SecureSessionPayload(aes);
         byte[] PayloadToSend = JsonSerializer.SerializeToUtf8Bytes(secureSessionPayload);
         PayloadToSend = SecurityHelpers.EncryptWithPublicKey(PayloadToSend, rsa);
-        ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.SecureSession, ProtocolEncryptionFlags.Encrypted, NextRequestId++, PayloadToSend);
+        ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.SecureSession, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, PayloadToSend);
         Send(ResponseFrame, false);
     }
     public void HandleConnectionSuccess(ProtocolFrame Frame)
     {
-        PrintOut("Connected");
+        ConnectionSuccessPayload? Payload = JsonSerializer.Deserialize<ConnectionSuccessPayload>(Frame.Payload);
+        if(Payload!.Success)
+        {
+            PrintOut("Connected");
+            TcpConnected = true;
+        }
+        else
+        {
+            PrintOut("Failed to connect, try again");
+        }
     }
     public void HandleAuthenticationResult(ProtocolFrame Frame)
     {
@@ -196,5 +211,31 @@ public class Client
     {
         //displays new info, idk if needed
     }
-    
+    public void CreateRegisterFrame(string Username, string Password)
+    {
+        if(TcpConnected == false)
+        {
+            PrintOut("Not connected to server");
+            return;
+        }
+        RegisterPayload Payload = new RegisterPayload();
+        Payload.Username = Username;
+        Payload.Password = Password;
+        byte[] PayloadToSend = JsonSerializer.SerializeToUtf8Bytes(Payload);
+        Send(new ProtocolFrame(ProtocolCommands.Register, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, PayloadToSend), true);
+    }
+    public void CreateLoginFrame(string Username, string Password)
+    {
+        if(TcpConnected == false)
+        {
+            PrintOut("Not connected to server");
+            return;
+        }
+        LoginPayload Payload = new LoginPayload();
+        Payload.Username = Username;
+        Payload.Password = Password;
+        byte[] PayloadToSend = JsonSerializer.SerializeToUtf8Bytes(Payload);
+        Send(new ProtocolFrame(ProtocolCommands.Login, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, PayloadToSend), true);
+    }
+
 }
