@@ -2,7 +2,7 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="ClientWindow.cs">
+    <Compile Update="ConnectionWindow.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

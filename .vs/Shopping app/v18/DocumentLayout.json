@@ -3,8 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\alonf\\Documents\\Shopping app\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|c:\\users\\alonf\\documents\\shopping app\\client\\clientwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|solutionrelative:client\\clientwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|C:\\Users\\alonf\\Documents\\Shopping app\\client\\connectionwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|solutionrelative:client\\connectionwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|c:\\users\\alonf\\documents\\shopping app\\client\\connectionwindow.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|solutionrelative:client\\connectionwindow.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|c:\\users\\alonf\\documents\\shopping app\\client\\connectionwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|solutionrelative:client\\connectionwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|c:\\users\\alonf\\documents\\shopping app\\client\\connectionwindow.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
+      "RelativeMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|solutionrelative:client\\connectionwindow.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|c:\\users\\alonf\\documents\\shopping app\\client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|solutionrelative:client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +35,62 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ClientWindow.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ClientWindow.cs",
-              "RelativeDocumentMoniker": "Client\\ClientWindow.cs",
-              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ClientWindow.cs [Design]",
-              "RelativeToolTip": "Client\\ClientWindow.cs [Design]",
+              "Title": "ConnectionWindow.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.cs",
+              "RelativeDocumentMoniker": "Client\\ConnectionWindow.cs",
+              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.cs [Design]",
+              "RelativeToolTip": "Client\\ConnectionWindow.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T09:38:39.945Z",
+              "WhenOpened": "2026-05-20T14:31:36.999Z",
               "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ConnectionWindow.cs",
+              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.cs",
+              "RelativeDocumentMoniker": "Client\\ConnectionWindow.cs",
+              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.cs",
+              "RelativeToolTip": "Client\\ConnectionWindow.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T09:49:32.37Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ConnectionWindow.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.Designer.cs",
+              "RelativeDocumentMoniker": "Client\\ConnectionWindow.Designer.cs",
+              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.Designer.cs",
+              "RelativeToolTip": "Client\\ConnectionWindow.Designer.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAIAwwDwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T09:49:21.64Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ConnectionWindow.resx",
+              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.resx",
+              "RelativeDocumentMoniker": "Client\\ConnectionWindow.resx",
+              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.resx",
+              "RelativeToolTip": "Client\\ConnectionWindow.resx",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
+              "WhenOpened": "2026-05-18T09:49:30.212Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\Program.cs",
+              "RelativeDocumentMoniker": "Client\\Program.cs",
+              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\Program.cs",
+              "RelativeToolTip": "Client\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-18T09:40:37.212Z"
             }
           ]
         }

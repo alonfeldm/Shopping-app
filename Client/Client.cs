@@ -13,6 +13,8 @@ namespace Client;
 
 public class Client
 {
+    public event Action<string>? MessageRaised;
+
     private Aes? aes {get; set;}
     private bool Connected {get; set;} = false;
     private string? Username {get; set;}
@@ -205,7 +207,7 @@ public class Client
     }
     public void PrintOut(string Message)
     {
-        //needs to print
+        MessageRaised?.Invoke(Message);
     }
     public void RefreshScreen()
     {
