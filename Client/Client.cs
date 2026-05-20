@@ -13,8 +13,6 @@ namespace Client;
 
 public class Client
 {
-    public event Action<string>? MessageRaised;
-
     private Aes? aes {get; set;}
     private bool Connected {get; set;} = false;
     private string? Username {get; set;}
@@ -207,7 +205,7 @@ public class Client
     }
     public void PrintOut(string Message)
     {
-        MessageRaised?.Invoke(Message);
+        // Intentionally left blank for now. UI can decide how to present messages later.
     }
     public void RefreshScreen()
     {

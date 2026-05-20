@@ -39,8 +39,6 @@
             usernameTextBox = new System.Windows.Forms.TextBox();
             usernameLabel = new System.Windows.Forms.Label();
             passwordLabel = new System.Windows.Forms.Label();
-            outputTextBox = new System.Windows.Forms.TextBox();
-            outputLabel = new System.Windows.Forms.Label();
             SuspendLayout();
             // 
             // connectButton
@@ -138,32 +136,11 @@
             passwordLabel.TabIndex = 10;
             passwordLabel.Text = "Password";
             // 
-            // outputTextBox
-            // 
-            outputTextBox.Location = new System.Drawing.Point(160, 233);
-            outputTextBox.Multiline = true;
-            outputTextBox.Name = "outputTextBox";
-            outputTextBox.ReadOnly = true;
-            outputTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            outputTextBox.Size = new System.Drawing.Size(426, 150);
-            outputTextBox.TabIndex = 11;
-            // 
-            // outputLabel
-            // 
-            outputLabel.AutoSize = true;
-            outputLabel.Location = new System.Drawing.Point(160, 210);
-            outputLabel.Name = "outputLabel";
-            outputLabel.Size = new System.Drawing.Size(52, 20);
-            outputLabel.TabIndex = 12;
-            outputLabel.Text = "Output";
-            // 
             // ConnectionWindow
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(800, 450);
-            Controls.Add(outputLabel);
-            Controls.Add(outputTextBox);
             Controls.Add(passwordLabel);
             Controls.Add(usernameLabel);
             Controls.Add(usernameTextBox);
@@ -194,7 +171,5 @@
         private System.Windows.Forms.TextBox usernameTextBox;
         private System.Windows.Forms.Label usernameLabel;
         private System.Windows.Forms.Label passwordLabel;
-        private System.Windows.Forms.TextBox outputTextBox;
-        private System.Windows.Forms.Label outputLabel;
     }
 }
