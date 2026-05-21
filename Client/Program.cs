@@ -9,7 +9,7 @@ internal static class Program
     private static void Main(string[] args)
     {
         ApplicationConfiguration.Initialize();
-        ClientWindow Window = new ClientWindows();
+        ConnectionWindow Window = new ConnectionWindow();
         Application.Run(Window);
     }
 }

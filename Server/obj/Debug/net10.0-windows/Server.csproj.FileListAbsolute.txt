@@ -62,3 +62,6 @@ C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\refint\Se
 C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\Server.pdb
 C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\Server.genruntimeconfig.cache
 C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\ref\Server.dll
+C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\Server.sourcelink.json
+C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\Server.ServerWindow.resources
+C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\Server.csproj.GenerateResource.cache
