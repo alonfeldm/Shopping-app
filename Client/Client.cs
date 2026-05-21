@@ -145,7 +145,8 @@ public class Client
     }
     public void HandleConnectionSuccess(ProtocolFrame Frame)
     {
-        ConnectionSuccessPayload? Payload = JsonSerializer.Deserialize<ConnectionSuccessPayload>(Frame.Payload);
+        byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
+        ConnectionSuccessPayload? Payload = JsonSerializer.Deserialize<ConnectionSuccessPayload>(DecryptedPayload);
         if(Payload!.Success)
         {
             PrintOut("Connected");

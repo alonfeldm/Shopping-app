@@ -28,67 +28,68 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new System.Windows.Forms.TextBox();
-            label1 = new System.Windows.Forms.Label();
-            button1 = new System.Windows.Forms.Button();
-            button2 = new System.Windows.Forms.Button();
-            label2 = new System.Windows.Forms.Label();
+            PortTextBox = new System.Windows.Forms.TextBox();
+            PortLabel = new System.Windows.Forms.Label();
+            StartButton = new System.Windows.Forms.Button();
+            StopButton = new System.Windows.Forms.Button();
+            IPLabel = new System.Windows.Forms.Label();
             SuspendLayout();
             // 
-            // textBox1
+            // PortTextBox
             // 
-            textBox1.Location = new System.Drawing.Point(150, 100);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new System.Drawing.Size(100, 27);
-            textBox1.TabIndex = 0;
+            PortTextBox.Location = new System.Drawing.Point(150, 100);
+            PortTextBox.Name = "PortTextBox";
+            PortTextBox.Size = new System.Drawing.Size(100, 27);
+            PortTextBox.TabIndex = 0;
             // 
-            // label1
+            // PortLabel
             // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(180, 65);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(35, 20);
-            label1.TabIndex = 1;
-            label1.Text = "Port";
-            label1.Click += label1_Click;
+            PortLabel.AutoSize = true;
+            PortLabel.Location = new System.Drawing.Point(180, 65);
+            PortLabel.Name = "PortLabel";
+            PortLabel.Size = new System.Drawing.Size(35, 20);
+            PortLabel.TabIndex = 1;
+            PortLabel.Text = "Port";
             // 
-            // button1
+            // StartButton
             // 
-            button1.Location = new System.Drawing.Point(25, 71);
-            button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(100, 30);
-            button1.TabIndex = 2;
-            button1.Text = "Start";
-            button1.UseVisualStyleBackColor = true;
+            StartButton.Location = new System.Drawing.Point(25, 71);
+            StartButton.Name = "StartButton";
+            StartButton.Size = new System.Drawing.Size(100, 30);
+            StartButton.TabIndex = 2;
+            StartButton.Text = "Start";
+            StartButton.UseVisualStyleBackColor = true;
+            StartButton.Click += StartButton_Click;
             // 
-            // button2
+            // StopButton
             // 
-            button2.Location = new System.Drawing.Point(25, 129);
-            button2.Name = "button2";
-            button2.Size = new System.Drawing.Size(100, 30);
-            button2.TabIndex = 3;
-            button2.Text = "Stop";
-            button2.UseVisualStyleBackColor = true;
+            StopButton.Location = new System.Drawing.Point(25, 129);
+            StopButton.Name = "StopButton";
+            StopButton.Size = new System.Drawing.Size(100, 30);
+            StopButton.TabIndex = 3;
+            StopButton.Text = "Stop";
+            StopButton.UseVisualStyleBackColor = true;
+            StopButton.Click += StopButton_Click;
             // 
-            // label2
+            // IPLabel
             // 
-            label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(280, 100);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(104, 20);
-            label2.TabIndex = 4;
-            label2.Text = "IP placeholder";
+            IPLabel.AutoSize = true;
+            IPLabel.Location = new System.Drawing.Point(280, 100);
+            IPLabel.Name = "IPLabel";
+            IPLabel.Size = new System.Drawing.Size(104, 20);
+            IPLabel.TabIndex = 4;
+            IPLabel.Text = "IP placeholder";
             // 
             // ServerWindow
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(982, 553);
-            Controls.Add(label2);
-            Controls.Add(button2);
-            Controls.Add(button1);
-            Controls.Add(label1);
-            Controls.Add(textBox1);
+            Controls.Add(IPLabel);
+            Controls.Add(StopButton);
+            Controls.Add(StartButton);
+            Controls.Add(PortLabel);
+            Controls.Add(PortTextBox);
             Name = "ServerWindow";
             Text = "Form1";
             ResumeLayout(false);
@@ -97,10 +98,10 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox PortTextBox;
+        private System.Windows.Forms.Label PortLabel;
+        private System.Windows.Forms.Button StartButton;
+        private System.Windows.Forms.Button StopButton;
+        private System.Windows.Forms.Label IPLabel;
     }
 }

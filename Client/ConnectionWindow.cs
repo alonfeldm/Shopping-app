@@ -56,6 +56,7 @@ namespace Client
             try
             {
                 Client.Start(IpText, port);
+                MessageBox.Show("Connected successfully!");
 
             }
             catch (Exception ex)
