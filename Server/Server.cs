@@ -248,8 +248,8 @@ internal sealed class Server : IDisposable
     }
     public void HandleRegister(ClientSession client, ProtocolFrame frame)
     {
-        byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
-        RegisterPayload? Payload = JsonSerializer.Deserialize<RegisterPayload>(DecryptedPayload);
+        //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
+        RegisterPayload? Payload = JsonSerializer.Deserialize<RegisterPayload>(frame.Payload);
         lock (DatabaseLock)
         {
             User? UserExists = Database.SelectUser(Payload!.Username);
@@ -270,8 +270,8 @@ internal sealed class Server : IDisposable
     }
     public void HandleLogin(ClientSession client, ProtocolFrame frame)
     {
-        byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
-        LoginPayload? Payload = JsonSerializer.Deserialize<LoginPayload>(DecryptedPayload);
+        //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
+        LoginPayload? Payload = JsonSerializer.Deserialize<LoginPayload>(frame.Payload);
         lock (DatabaseLock)
         {
             User? LoggingInUser = Database.SelectUser(Payload!.Username);
@@ -332,8 +332,8 @@ internal sealed class Server : IDisposable
         client.Send(ResponseFrame, true);
     }
     public void HandlePlaceOrder(ClientSession client, ProtocolFrame frame){
-        byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
-        PlaceOrderPayload? Payload = JsonSerializer.Deserialize<PlaceOrderPayload>(DecryptedPayload);
+        //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
+        PlaceOrderPayload? Payload = JsonSerializer.Deserialize<PlaceOrderPayload>(frame.Payload);
         // currently no order saving so the order details dont matter except for username validity
         lock (DatabaseLock)
         {
@@ -350,8 +350,8 @@ internal sealed class Server : IDisposable
     }
     public void HandleChatPost(ClientSession client, ProtocolFrame frame)
     {
-        byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
-        ChatPostPayload? Payload = JsonSerializer.Deserialize<ChatPostPayload>(DecryptedPayload);
+        //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
+        ChatPostPayload? Payload = JsonSerializer.Deserialize<ChatPostPayload>(frame.Payload);
         Message NewMessage = Payload!.Message;
         NewMessage.MessageId = Interlocked.Increment(ref MessageIdCounter).ToString();
         lock(DatabaseLock)

@@ -90,7 +90,7 @@ internal class ClientSession : IDisposable
                         throw new InvalidOperationException("no aes key for decryption");
                     }
                 }
-                ProtocolFrame NewFrame = new ProtocolFrame(ReadFrame.Command, ReadFrame.Flags, RequestCounter++, SentPayload);
+                ProtocolFrame NewFrame = new ProtocolFrame(ReadFrame.Command, ProtocolEncryptionFlags.UnEncrypted, RequestCounter++, SentPayload);
                 FrameReceived?.Invoke(this, NewFrame);
 
             }

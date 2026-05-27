@@ -5,7 +5,6 @@ namespace Client
 {
     public partial class ConnectionWindow : Form
     {
-        //private bool ClickedConnect {get; set;} = false;
         private Client Client {get; set;} = new Client();
         public ConnectionWindow()
         {
