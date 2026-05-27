@@ -138,36 +138,93 @@ internal sealed class Server : IDisposable
             switch (frame.Command)
             {
                 case ProtocolCommands.SecureSession:
-                    HandleSecureSession(client, frame);
+                    try
+                    {
+                        HandleSecureSession(client, frame);
+                    }
+                    catch(Exception ex)
+                    {
+                        PrintOut?.Invoke("Failed to handle secure session frame: " + ex.Message);
+                    }
                     break;
                 case ProtocolCommands.Register:
-                    HandleRegister(client, frame);
+                    try
+                    {
+                        HandleRegister(client, frame);
+                    }
+                    catch(Exception ex)
+                    {
+                        PrintOut?.Invoke("Failed to handle register frame: " + ex.Message);
+                    }
                     break;
                 case ProtocolCommands.Login:
-                    HandleLogin(client, frame);
+                    try
+                    {
+                        HandleLogin(client, frame);
+                    }
+                    catch(Exception ex)
+                    {
+                        PrintOut?.Invoke("Failed to handle login frame: " + ex.Message);
+                    }
                     break;
                 case ProtocolCommands.GetProducts:
-                    HandleGetProducts(client, frame);
+                    try
+                    {
+                        HandleGetProducts(client, frame);
+                    }
+                    catch(Exception ex)
+                    {
+                        PrintOut?.Invoke("Failed to handle get products frame: " + ex.Message);
+                    }
                     break;
                 case ProtocolCommands.PlaceOrder:
-                    HandlePlaceOrder(client, frame);
+                    try
+                    {
+                        HandlePlaceOrder(client, frame);
+                    }
+                    catch(Exception ex)
+                    {
+                        PrintOut?.Invoke("Failed to handle place order frame: " + ex.Message);
+                    }
                     break;
                 case ProtocolCommands.ChatPost:
-                    HandleChatPost(client, frame);
+                    try
+                    {
+                        HandleChatPost(client, frame);
+                    }
+                    catch(Exception ex)
+                    {
+                        PrintOut?.Invoke("Failed to handle chat post frame: " + ex.Message);
+                    }
                     break;
                 case ProtocolCommands.Disconnect:
-                    client.Dispose();
+                    try
+                    {
+                        client.Dispose();
+                    }
+                    catch(Exception ex)
+                    {
+                        PrintOut?.Invoke("Failed to handle disconnect frame: " + ex.Message);
+                    }
                     break;
                 case ProtocolCommands.Heartbeat:
-                    HandleHeartbeat(client, frame);
+                    try
+                    {
+                        HandleHeartbeat(client, frame);
+                    }
+                    catch(Exception ex)
+                    {
+                        PrintOut?.Invoke("Failed to handle heartbeat frame: " + ex.Message);
+                    }
                     break;
                 default:
+                    PrintOut?.Invoke("Received unknown command: " + frame.Command);
                     break;
             }
         }
-        catch
+        catch(Exception ex)
         {
-            //general eeror catch
+            PrintOut?.Invoke("Failed to handle frame: " + ex.Message);
         }
     }
     public void OnDisconnected(ClientSession client)
@@ -330,5 +387,6 @@ internal sealed class Server : IDisposable
     {
         Stop();
     }
+    public event Action<string>? PrintOut;
 
 }

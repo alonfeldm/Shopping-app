@@ -57,7 +57,6 @@ namespace Client
             try
             {
                 Client.Start(IpText, port);
-                Client.TcpConnected = true;
 
             }
             catch (Exception ex)

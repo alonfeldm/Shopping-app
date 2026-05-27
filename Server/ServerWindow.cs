@@ -15,6 +15,7 @@ namespace Server
         public ServerWindow()
         {
             InitializeComponent();
+            Server.PrintOut += PrintMessage;
         }
 
         private void StartButton_Click(object sender, EventArgs e)
@@ -81,6 +82,9 @@ namespace Server
                 return;
             }
         }
+        private void PrintMessage(string message)
+        {
+            MessageBox.Show(message);
 
     }
 }

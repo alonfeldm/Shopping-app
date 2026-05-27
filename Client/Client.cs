@@ -66,10 +66,10 @@ public class Client
                     HandleFrame(Frame);
                 }
             }
-            catch
+            catch(Exception ex)
             {
-            PrintOut?.Invoke("Frame couldn't be read, connection might be lost");
-        }
+                PrintOut?.Invoke("Frame couldn't be read, connection might be lost: " + ex.Message);
+            }
     }
     }
     public void Send(ProtocolFrame Frame, bool Encrypted)
@@ -106,9 +106,9 @@ public class Client
                     {
                         HandleHello(Frame);
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle hello frame");
+                        PrintOut?.Invoke("Failed to handle hello frame: " + ex.Message);
                     }
                     break;
                 case ProtocolCommands.ConnectionSuccess:
@@ -116,9 +116,9 @@ public class Client
                     {
                         HandleConnectionSuccess(Frame);
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle connection success frame");
+                        PrintOut?.Invoke("Failed to handle connection success frame: " + ex.Message);
                     }
                     break;
                 case ProtocolCommands.AuthenticationResult:
@@ -126,9 +126,9 @@ public class Client
                     {
                         HandleAuthenticationResult(Frame);
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle authentication result frame");
+                        PrintOut?.Invoke("Failed to handle authentication result frame: " + ex.Message);
                     }
                     break;
                 case ProtocolCommands.SendProducts:
@@ -136,9 +136,9 @@ public class Client
                     {
                         HandleSendProducts(Frame);
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle send products frame");
+                        PrintOut?.Invoke("Failed to handle send products frame: " + ex.Message);
                     }
                     break;
                 case ProtocolCommands.OrderResult:
@@ -146,9 +146,9 @@ public class Client
                     {
                         HandleOrderResult(Frame);
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle order result frame");
+                        PrintOut?.Invoke("Failed to handle order result frame: " + ex.Message);
                     }
                     break;
                 case ProtocolCommands.ChatBroadcast:
@@ -156,9 +156,9 @@ public class Client
                     {
                         HandleChatBroadcast(Frame);
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle chat broadcast frame");
+                        PrintOut?.Invoke("Failed to handle chat broadcast frame: " + ex.Message);
                     }
                     break;
                 case ProtocolCommands.Error:
@@ -166,9 +166,9 @@ public class Client
                     {
                         HandleError(Frame);
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle error frame");
+                        PrintOut?.Invoke("Failed to handle error frame: " + ex.Message);
                     }
                     break;
                 default:
@@ -176,9 +176,10 @@ public class Client
                     break;
         }
         }
-        catch
+        catch(Exception ex)
         {
-            PrintOut?.Invoke("Error occurred while handling frame");
+            PrintOut?.Invoke("Error occurred while handling frame: " + ex.Message);
+
         }
     }
     public void HandleHello(ProtocolFrame Frame)
