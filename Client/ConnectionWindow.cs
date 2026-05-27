@@ -118,5 +118,15 @@ namespace Client
                 MessageBox.Show($"Failed to login: {ex.Message}");
             }
         }
+        private void DisconnectButton_Click(object? sender, EventArgs e)
+        {
+            if (!Connected)
+            {
+                MessageBox.Show("Not connected to the server.");
+                return;
+            }
+            Client.Stop();
+            Connected = false;
+        }
     }
 }

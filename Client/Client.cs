@@ -31,12 +31,11 @@ public class Client
         if(!Connected){
             TcpClient = new TcpClient(Ip, Port);
             TcpClient!.NoDelay = true;
-            Connected = true;
             NetworkStream = TcpClient.GetStream();
             ListenThread = new Thread(Listen);{ListenThread.IsBackground = true;}
             ListenThread.Start();
             Disposed = false;
-            TcpConnected = false;
+            TcpConnected = true;
         }
     }
     
@@ -67,9 +66,9 @@ public class Client
             }
             catch
             {
-            //do something  
-            }
+            PrintOut.Invoke("Frame couldn't be read, connection might be lost");
         }
+    }
     }
     public void Send(ProtocolFrame Frame, bool Encrypted)
     {
@@ -128,7 +127,7 @@ public class Client
         }
         catch
         {
-            
+            PrintOut.Invoke("Error occurred while handling frame");
         }
     }
     public void HandleHello(ProtocolFrame Frame)
@@ -150,7 +149,7 @@ public class Client
         if(Payload!.Success)
         {
             PrintOut.Invoke("Connected");
-            TcpConnected = true;
+            Connected = true;
         }
         else
         {
