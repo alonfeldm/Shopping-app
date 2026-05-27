@@ -37,6 +37,7 @@ namespace Server
             {
                 Server.Start(port);
                 isRunning = true;
+                MessageBox.Show("Server started successfully.");
             }
             catch
             {
@@ -66,6 +67,7 @@ namespace Server
                 {
                     Server.Stop();
                     isRunning = false;
+                    MessageBox.Show("Server stopped successfully.");
                 }
                 catch
                 {

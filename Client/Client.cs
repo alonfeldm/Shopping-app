@@ -14,7 +14,7 @@ namespace Client;
 public class Client
 {
     private Aes? aes {get; set;}
-    private bool Connected {get; set;} = false;
+    public bool SecureSessionConnected {get; set;} = false;
     private string? Username {get; set;}
     private readonly object SendLock = new object();
     private NetworkStream? NetworkStream {get; set;}
@@ -24,11 +24,12 @@ public class Client
     private bool Disposed {get; set;} = false;
     private List<ProductWithDetails> Products {get; set;} = new List<ProductWithDetails>();
     private List<Message> Messages {get; set;} = new List<Message>();
-    private bool TcpConnected {get; set;} = false;
+    public bool TcpConnected {get; set;} = false;
 
     public void Start(string Ip,int Port)
     {
-        if(!Connected){
+        if(!TcpConnected){
+            SecureSessionConnected = false;
             TcpClient = new TcpClient(Ip, Port);
             TcpClient!.NoDelay = true;
             NetworkStream = TcpClient.GetStream();
@@ -44,14 +45,14 @@ public class Client
         Disposed = true;
         NetworkStream?.Close();
         TcpClient?.Close();
-        Connected = false;
+        SecureSessionConnected = false;
         aes = null;
         Username = null;
         TcpConnected = false;
     }
     public void Listen()
     {
-        if(Connected){
+        if(TcpConnected){
             try
             {
                 while (!Disposed)
@@ -59,6 +60,7 @@ public class Client
                     ProtocolFrame? Frame = Protocol.ReadFrame(NetworkStream!);
                     if(Frame == null)
                     {
+                        PrintOut?.Invoke("Frame couldn't be read, connection might be lost");
                         break;
                     }
                     HandleFrame(Frame);
@@ -66,7 +68,7 @@ public class Client
             }
             catch
             {
-            PrintOut.Invoke("Frame couldn't be read, connection might be lost");
+            PrintOut?.Invoke("Frame couldn't be read, connection might be lost");
         }
     }
     }
@@ -121,13 +123,13 @@ public class Client
                     HandleError(Frame);
                     break;
                 default:
-                    // needs to return a bad command to the server
+                    PrintOut?.Invoke("Received unknown command: " + Frame.Command);
                     break;
         }
         }
         catch
         {
-            PrintOut.Invoke("Error occurred while handling frame");
+            PrintOut?.Invoke("Error occurred while handling frame");
         }
     }
     public void HandleHello(ProtocolFrame Frame)
@@ -148,12 +150,12 @@ public class Client
         ConnectionSuccessPayload? Payload = JsonSerializer.Deserialize<ConnectionSuccessPayload>(DecryptedPayload);
         if(Payload!.Success)
         {
-            PrintOut.Invoke("Connected");
-            Connected = true;
+            PrintOut?.Invoke("Connected");
+            SecureSessionConnected = true;
         }
         else
         {
-            PrintOut.Invoke("Failed to connect, try again");
+            PrintOut?.Invoke("Failed to connect, try again");
         }
     }
     public void HandleAuthenticationResult(ProtocolFrame Frame)
@@ -163,13 +165,13 @@ public class Client
         if(Payload!.Success)
         {
             Username = Payload.Username;
-            PrintOut.Invoke("Authenticated as " + Payload.Username);
+            PrintOut?.Invoke("Authenticated as " + Payload.Username);
             Products = Payload.Products;
             Messages = Payload.Messages;
         }
         else
         {
-            PrintOut.Invoke("Authentication failed");
+            PrintOut?.Invoke("Authentication failed");
         }
     }
     public void HandleSendProducts(ProtocolFrame Frame)
@@ -184,11 +186,11 @@ public class Client
         OrderResultPayload? Payload = JsonSerializer.Deserialize<OrderResultPayload>(DecryptedPayload);
         if(Payload!.Success)
         {
-            PrintOut.Invoke("Order successful");//maybe add to order list
+            PrintOut?.Invoke("Order successful");//maybe add to order list
         }
         else
         {
-            PrintOut.Invoke("Order failed ");
+            PrintOut?.Invoke("Order failed ");
         }
     }
     public void HandleChatBroadcast(ProtocolFrame Frame)
@@ -201,7 +203,7 @@ public class Client
     {
         byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
         ErrorPayload? Payload = JsonSerializer.Deserialize<ErrorPayload>(DecryptedPayload);
-        PrintOut.Invoke("Error from server: " + Payload!.ErrorMessage);
+        PrintOut?.Invoke("Error from server: " + Payload!.ErrorMessage);
     }
     public event Action<string>? PrintOut;
     public void RefreshScreen()
@@ -210,9 +212,9 @@ public class Client
     }
     public void CreateRegisterFrame(string Username, string Password)
     {
-        if(TcpConnected == false)
+        if(SecureSessionConnected == false)
         {
-            PrintOut.Invoke("Not connected to server");
+            PrintOut?.Invoke("Not connected to server");
             return;
         }
         RegisterPayload Payload = new RegisterPayload();
@@ -223,9 +225,9 @@ public class Client
     }
     public void CreateLoginFrame(string Username, string Password)
     {
-        if(TcpConnected == false)
+        if(SecureSessionConnected == false)
         {
-            PrintOut.Invoke("Not connected to server");
+            PrintOut?.Invoke("Not connected to server");
             return;
         }
         LoginPayload Payload = new LoginPayload();

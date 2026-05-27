@@ -5,7 +5,7 @@ namespace Client
 {
     public partial class ConnectionWindow : Form
     {
-        private bool Connected {get; set;} = false;
+        //private bool ClickedConnect {get; set;} = false;
         private Client Client {get; set;} = new Client();
         public ConnectionWindow()
         {
@@ -57,6 +57,7 @@ namespace Client
             try
             {
                 Client.Start(IpText, port);
+                Client.TcpConnected = true;
 
             }
             catch (Exception ex)
@@ -64,7 +65,6 @@ namespace Client
                 MessageBox.Show($"Failed to connect: {ex.Message}");
                 return;
             }
-            Connected = true;
         }
         private void PrintMessage(string message)
         {
@@ -73,7 +73,7 @@ namespace Client
 
         private void registerButton_Click(object? sender, EventArgs e)
         {
-            if (!Connected)
+            if (!Client.SecureSessionConnected)
             {
                 MessageBox.Show("Please connect to the server first.");
                 return;
@@ -97,7 +97,7 @@ namespace Client
 
         private void loginButton_Click(object? sender, EventArgs e)
         {
-            if (!Connected)
+            if (!Client.SecureSessionConnected)
             {
                 MessageBox.Show("Please connect to the server first.");
                 return;
@@ -120,13 +120,12 @@ namespace Client
         }
         private void DisconnectButton_Click(object? sender, EventArgs e)
         {
-            if (!Connected)
+            if (!Client.TcpConnected)
             {
                 MessageBox.Show("Not connected to the server.");
                 return;
             }
             Client.Stop();
-            Connected = false;
         }
     }
 }
