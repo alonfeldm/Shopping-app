@@ -149,12 +149,12 @@ public class Client
         ConnectionSuccessPayload? Payload = JsonSerializer.Deserialize<ConnectionSuccessPayload>(DecryptedPayload);
         if(Payload!.Success)
         {
-            PrintOut("Connected");
+            PrintOut.Invoke("Connected");
             TcpConnected = true;
         }
         else
         {
-            PrintOut("Failed to connect, try again");
+            PrintOut.Invoke("Failed to connect, try again");
         }
     }
     public void HandleAuthenticationResult(ProtocolFrame Frame)
@@ -164,13 +164,13 @@ public class Client
         if(Payload!.Success)
         {
             Username = Payload.Username;
-            PrintOut("Authenticated as " + Payload.Username);
+            PrintOut.Invoke("Authenticated as " + Payload.Username);
             Products = Payload.Products;
             Messages = Payload.Messages;
         }
         else
         {
-            PrintOut("Authentication failed");
+            PrintOut.Invoke("Authentication failed");
         }
     }
     public void HandleSendProducts(ProtocolFrame Frame)
@@ -185,11 +185,11 @@ public class Client
         OrderResultPayload? Payload = JsonSerializer.Deserialize<OrderResultPayload>(DecryptedPayload);
         if(Payload!.Success)
         {
-            PrintOut("Order successful");//maybe add to order list
+            PrintOut.Invoke("Order successful");//maybe add to order list
         }
         else
         {
-            PrintOut("Order failed ");
+            PrintOut.Invoke("Order failed ");
         }
     }
     public void HandleChatBroadcast(ProtocolFrame Frame)
@@ -202,12 +202,9 @@ public class Client
     {
         byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
         ErrorPayload? Payload = JsonSerializer.Deserialize<ErrorPayload>(DecryptedPayload);
-        PrintOut("Error: " + Payload!.ErrorMessage);
+        PrintOut.Invoke("Error from server: " + Payload!.ErrorMessage);
     }
-    public void PrintOut(string Message)
-    {
-        // Intentionally left blank for now. UI can decide how to present messages later.
-    }
+    public event Action<string>? PrintOut;
     public void RefreshScreen()
     {
         //displays new info, idk if needed
@@ -216,7 +213,7 @@ public class Client
     {
         if(TcpConnected == false)
         {
-            PrintOut("Not connected to server");
+            PrintOut.Invoke("Not connected to server");
             return;
         }
         RegisterPayload Payload = new RegisterPayload();
@@ -229,7 +226,7 @@ public class Client
     {
         if(TcpConnected == false)
         {
-            PrintOut("Not connected to server");
+            PrintOut.Invoke("Not connected to server");
             return;
         }
         LoginPayload Payload = new LoginPayload();

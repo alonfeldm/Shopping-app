@@ -10,6 +10,7 @@ namespace Client
         public ConnectionWindow()
         {
             InitializeComponent();
+            Client.PrintOut += PrintMessage;
         }
 
         private void connectButton_Click(object? sender, EventArgs e)
@@ -56,7 +57,6 @@ namespace Client
             try
             {
                 Client.Start(IpText, port);
-                MessageBox.Show("Connected successfully!");
 
             }
             catch (Exception ex)
@@ -65,6 +65,10 @@ namespace Client
                 return;
             }
             Connected = true;
+        }
+        private void PrintMessage(string message)
+        {
+            MessageBox.Show(message);
         }
 
         private void registerButton_Click(object? sender, EventArgs e)
