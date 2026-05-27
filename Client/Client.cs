@@ -102,25 +102,74 @@ public class Client
         try{
             switch(Frame.Command){
                 case ProtocolCommands.Hello:
-                    HandleHello(Frame);
+                    try
+                    {
+                        HandleHello(Frame);
+                    }
+                    catch
+                    {
+                        PrintOut?.Invoke("Failed to handle hello frame");
+                    }
                     break;
                 case ProtocolCommands.ConnectionSuccess:
-                    HandleConnectionSuccess(Frame);
+                    try
+                    {
+                        HandleConnectionSuccess(Frame);
+                    }
+                    catch
+                    {
+                        PrintOut?.Invoke("Failed to handle connection success frame");
+                    }
                     break;
                 case ProtocolCommands.AuthenticationResult:
-                    HandleAuthenticationResult(Frame);
+                    try
+                    {
+                        HandleAuthenticationResult(Frame);
+                    }
+                    catch
+                    {
+                        PrintOut?.Invoke("Failed to handle authentication result frame");
+                    }
                     break;
                 case ProtocolCommands.SendProducts:
-                    HandleSendProducts(Frame);
+                    try
+                    {
+                        HandleSendProducts(Frame);
+                    }
+                    catch
+                    {
+                        PrintOut?.Invoke("Failed to handle send products frame");
+                    }
                     break;
                 case ProtocolCommands.OrderResult:
-                    HandleOrderResult(Frame);
+                    try
+                    {
+                        HandleOrderResult(Frame);
+                    }
+                    catch
+                    {
+                        PrintOut?.Invoke("Failed to handle order result frame");
+                    }
                     break;
                 case ProtocolCommands.ChatBroadcast:
-                    HandleChatBroadcast(Frame);
+                    try
+                    {
+                        HandleChatBroadcast(Frame);
+                    }
+                    catch
+                    {
+                        PrintOut?.Invoke("Failed to handle chat broadcast frame");
+                    }
                     break;
                 case ProtocolCommands.Error:
-                    HandleError(Frame);
+                    try
+                    {
+                        HandleError(Frame);
+                    }
+                    catch
+                    {
+                        PrintOut?.Invoke("Failed to handle error frame");
+                    }
                     break;
                 default:
                     PrintOut?.Invoke("Received unknown command: " + Frame.Command);
