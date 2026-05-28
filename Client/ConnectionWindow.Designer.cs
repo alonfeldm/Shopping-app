@@ -187,6 +187,7 @@ namespace Client
             SendButton.TabIndex = 15;
             SendButton.Text = "Send";
             SendButton.UseVisualStyleBackColor = true;
+            SendButton.Click += SendButton_Click;
             // 
             // ConnectionWindow
             // 
