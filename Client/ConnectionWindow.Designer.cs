@@ -1,4 +1,6 @@
-﻿namespace Client
+﻿using System.Windows.Forms;
+
+namespace Client
 {
     partial class ConnectionWindow
     {
@@ -28,18 +30,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            connectButton = new System.Windows.Forms.Button();
-            ipLabel = new System.Windows.Forms.Label();
-            ipTextBox = new System.Windows.Forms.TextBox();
-            portTextBox = new System.Windows.Forms.TextBox();
-            portLabel = new System.Windows.Forms.Label();
-            registerButton = new System.Windows.Forms.Button();
-            loginButton = new System.Windows.Forms.Button();
-            passwordTextBox = new System.Windows.Forms.TextBox();
-            usernameTextBox = new System.Windows.Forms.TextBox();
-            usernameLabel = new System.Windows.Forms.Label();
-            passwordLabel = new System.Windows.Forms.Label();
-            disconnectButton = new System.Windows.Forms.Button();
+            connectButton = new Button();
+            ipLabel = new Label();
+            ipTextBox = new TextBox();
+            portTextBox = new TextBox();
+            portLabel = new Label();
+            registerButton = new Button();
+            loginButton = new Button();
+            passwordTextBox = new TextBox();
+            usernameTextBox = new TextBox();
+            usernameLabel = new Label();
+            passwordLabel = new Label();
+            disconnectButton = new Button();
+            ChatBox = new TextBox();
+            ChatLabel = new Label();
+            MessageTextBox = new TextBox();
+            SendButton = new Button();
             SuspendLayout();
             // 
             // connectButton
@@ -86,7 +92,7 @@
             // 
             // registerButton
             // 
-            registerButton.Location = new System.Drawing.Point(45, 88);
+            registerButton.Location = new System.Drawing.Point(486, 12);
             registerButton.Name = "registerButton";
             registerButton.Size = new System.Drawing.Size(100, 32);
             registerButton.TabIndex = 5;
@@ -96,7 +102,7 @@
             // 
             // loginButton
             // 
-            loginButton.Location = new System.Drawing.Point(45, 126);
+            loginButton.Location = new System.Drawing.Point(486, 50);
             loginButton.Name = "loginButton";
             loginButton.Size = new System.Drawing.Size(100, 32);
             loginButton.TabIndex = 6;
@@ -106,7 +112,7 @@
             // 
             // passwordTextBox
             // 
-            passwordTextBox.Location = new System.Drawing.Point(325, 131);
+            passwordTextBox.Location = new System.Drawing.Point(764, 50);
             passwordTextBox.Name = "passwordTextBox";
             passwordTextBox.PasswordChar = '*';
             passwordTextBox.Size = new System.Drawing.Size(150, 27);
@@ -114,7 +120,7 @@
             // 
             // usernameTextBox
             // 
-            usernameTextBox.Location = new System.Drawing.Point(160, 131);
+            usernameTextBox.Location = new System.Drawing.Point(592, 50);
             usernameTextBox.Name = "usernameTextBox";
             usernameTextBox.Size = new System.Drawing.Size(150, 27);
             usernameTextBox.TabIndex = 8;
@@ -122,7 +128,7 @@
             // usernameLabel
             // 
             usernameLabel.AutoSize = true;
-            usernameLabel.Location = new System.Drawing.Point(197, 100);
+            usernameLabel.Location = new System.Drawing.Point(627, 12);
             usernameLabel.Name = "usernameLabel";
             usernameLabel.Size = new System.Drawing.Size(75, 20);
             usernameLabel.TabIndex = 9;
@@ -131,13 +137,13 @@
             // passwordLabel
             // 
             passwordLabel.AutoSize = true;
-            passwordLabel.Location = new System.Drawing.Point(362, 100);
+            passwordLabel.Location = new System.Drawing.Point(803, 12);
             passwordLabel.Name = "passwordLabel";
             passwordLabel.Size = new System.Drawing.Size(70, 20);
             passwordLabel.TabIndex = 10;
             passwordLabel.Text = "Password";
             // 
-            // DisconnectButton
+            // disconnectButton
             // 
             disconnectButton.Location = new System.Drawing.Point(45, 50);
             disconnectButton.Name = "disconnectButton";
@@ -147,11 +153,50 @@
             disconnectButton.UseVisualStyleBackColor = true;
             disconnectButton.Click += DisconnectButton_Click;
             // 
+            // ChatBox
+            // 
+            ChatBox.Location = new System.Drawing.Point(1200, 50);
+            ChatBox.Multiline = true;
+            ChatBox.Name = "ChatBox";
+            ChatBox.ReadOnly = true;
+            ChatBox.ScrollBars = ScrollBars.Vertical;
+            ChatBox.Size = new System.Drawing.Size(350, 650);
+            ChatBox.TabIndex = 12;
+            // 
+            // ChatLabel
+            // 
+            ChatLabel.AutoSize = true;
+            ChatLabel.Location = new System.Drawing.Point(1350, 15);
+            ChatLabel.Name = "ChatLabel";
+            ChatLabel.Size = new System.Drawing.Size(39, 20);
+            ChatLabel.TabIndex = 13;
+            ChatLabel.Text = "Chat";
+            // 
+            // MessageTextBox
+            // 
+            MessageTextBox.Location = new System.Drawing.Point(1200, 715);
+            MessageTextBox.Name = "MessageTextBox";
+            MessageTextBox.Size = new System.Drawing.Size(300, 30);
+            MessageTextBox.TabIndex = 14;
+            // 
+            // SendButton
+            // 
+            SendButton.Location = new System.Drawing.Point(1500, 715);
+            SendButton.Name = "SendButton";
+            SendButton.Size = new System.Drawing.Size(50, 30);
+            SendButton.TabIndex = 15;
+            SendButton.Text = "Send";
+            SendButton.UseVisualStyleBackColor = true;
+            // 
             // ConnectionWindow
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(1200, 600);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(1600, 800);
+            Controls.Add(SendButton);
+            Controls.Add(MessageTextBox);
+            Controls.Add(ChatLabel);
+            Controls.Add(ChatBox);
             Controls.Add(disconnectButton);
             Controls.Add(passwordLabel);
             Controls.Add(usernameLabel);
@@ -184,5 +229,9 @@
         private System.Windows.Forms.Label usernameLabel;
         private System.Windows.Forms.Label passwordLabel;
         private System.Windows.Forms.Button disconnectButton;
+        private System.Windows.Forms.TextBox ChatBox;
+        private System.Windows.Forms.Label ChatLabel;
+        private System.Windows.Forms.TextBox MessageTextBox;
+        private System.Windows.Forms.Button SendButton;
     }
 }

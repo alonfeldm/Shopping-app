@@ -248,6 +248,8 @@ public class Client
         byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
         ChatBroadcastPayload? Payload = JsonSerializer.Deserialize<ChatBroadcastPayload>(DecryptedPayload);
         Messages.Add(Payload!.Message);
+        DisplayMessage?.Invoke(Payload.Message.SentBy, Payload.Message.Text);
+
     }
     public void HandleError(ProtocolFrame Frame)
     {
@@ -286,5 +288,18 @@ public class Client
         byte[] PayloadToSend = JsonSerializer.SerializeToUtf8Bytes(Payload);
         Send(new ProtocolFrame(ProtocolCommands.Login, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, PayloadToSend), true);
     }
+    public void CreateMessageFrame(string message)
+    {
+        ChatPostPayload Payload = new ChatPostPayload();
+        Message Message = new Message();
+        Message.Text = message;
+        Message.SentBy = Username;
+        Message.Timestamp = DateTime.Now;
+        Message.MessageId = null;
+        Payload.Message = Message;
+        byte[] PayloadToSend = JsonSerializer.SerializeToUtf8Bytes(Payload);
+        Send(new ProtocolFrame(ProtocolCommands.ChatPost, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, PayloadToSend), true);
+    }
+    public event Action<string, string>? DisplayMessage;
 
 }

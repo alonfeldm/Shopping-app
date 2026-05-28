@@ -1,5 +1,9 @@
 ﻿using Microsoft.VisualBasic.Logging;
+using System.Net;
 using System.Windows.Forms;
+using System;
+using System.Net.Sockets;
+using System.Net;
 
 namespace Server
 {
@@ -82,7 +86,7 @@ namespace Server
             IPLabel.Name = "IPLabel";
             IPLabel.Size = new System.Drawing.Size(104, 20);
             IPLabel.TabIndex = 4;
-            IPLabel.Text = "IP placeholder";
+            IPLabel.Text = Array.Find(Dns.GetHostAddresses(Dns.GetHostName()), ip => ip.AddressFamily == AddressFamily.InterNetwork)?.ToString() ?? "Not found";
             // 
             // textBox1
             // 
@@ -120,5 +124,6 @@ namespace Server
         private System.Windows.Forms.Button StopButton;
         private System.Windows.Forms.Label IPLabel;
         private System.Windows.Forms.TextBox LogBox;
+
     }
 }
