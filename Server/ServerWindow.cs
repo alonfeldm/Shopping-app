@@ -20,6 +20,11 @@ namespace Server
 
         private void StartButton_Click(object sender, EventArgs e)
         {
+            if(isRunning)
+            {
+                PrintMessage("The server is already running.");
+                return;
+            }
             try
             {
                 int portTry = int.Parse(PortTextBox.Text);
@@ -68,7 +73,7 @@ namespace Server
                 return;
             }
         }
-        private void PrintMessage(string message)
+        public void PrintMessage(string message)
         {
             LogBox.AppendText(message + Environment.NewLine);
         }

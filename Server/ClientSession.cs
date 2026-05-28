@@ -4,6 +4,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 using System.Security.Cryptography;
+using Server;
 
 namespace Server;
 
@@ -110,5 +111,8 @@ internal class ClientSession : IDisposable
         Disposed = true;
         networkStream.Close();
         tcpClient.Close();
+        Disconnected?.Invoke(this);
+        PrintOut?.Invoke("Client disconnected: " + (Username ?? RemoteEndpoint));
     }
+    public event Action<string>? PrintOut;
 }

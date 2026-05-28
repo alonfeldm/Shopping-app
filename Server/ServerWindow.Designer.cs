@@ -86,15 +86,14 @@ namespace Server
             // 
             // textBox1
             // 
-            LogBox.Location = new System.Drawing.Point(25, 206);
+            LogBox.Location = new System.Drawing.Point(25, 200);
             LogBox.Name = "LogBox";
-            LogBox.Size = new System.Drawing.Size(1144, 27);
+            LogBox.Size = new System.Drawing.Size(1150, 375);
             LogBox.TabIndex = 5;
             LogBox.ReadOnly = true;
             LogBox.Multiline = true;
             LogBox.ScrollBars = ScrollBars.Vertical;
-            
-            LogBox.Text = "Logs will appear here";  
+
             // 
             // ServerWindow
             // 

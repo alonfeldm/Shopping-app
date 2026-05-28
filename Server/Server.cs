@@ -99,12 +99,14 @@ internal sealed class Server : IDisposable
                 ClientSession clientSession = new ClientSession(ConnectedClient, Interlocked.Increment(ref NextClientId));
                 clientSession.FrameReceived += OnFrameReceived;
                 clientSession.Disconnected += OnDisconnected;
+                clientSession.PrintOut += message => PrintOut?.Invoke(message);
                 lock (ClientLock)
                 {
                     ConnectedClients[clientSession.ClientId] = clientSession;
                 }
                 clientSession.Start();
                 SendHello(clientSession);
+                PrintOut?.Invoke("Client connected: " + clientSession.RemoteEndpoint);
                 
             }
             catch (SocketException)
