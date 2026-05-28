@@ -1,4 +1,7 @@
-﻿namespace Server
+﻿using Microsoft.VisualBasic.Logging;
+using System.Windows.Forms;
+
+namespace Server
 {
     partial class ServerWindow
     {
@@ -33,6 +36,7 @@
             StartButton = new System.Windows.Forms.Button();
             StopButton = new System.Windows.Forms.Button();
             IPLabel = new System.Windows.Forms.Label();
+            LogBox = new System.Windows.Forms.TextBox();
             SuspendLayout();
             // 
             // PortTextBox
@@ -80,11 +84,24 @@
             IPLabel.TabIndex = 4;
             IPLabel.Text = "IP placeholder";
             // 
+            // textBox1
+            // 
+            LogBox.Location = new System.Drawing.Point(25, 206);
+            LogBox.Name = "LogBox";
+            LogBox.Size = new System.Drawing.Size(1144, 27);
+            LogBox.TabIndex = 5;
+            LogBox.ReadOnly = true;
+            LogBox.Multiline = true;
+            LogBox.ScrollBars = ScrollBars.Vertical;
+            
+            LogBox.Text = "Logs will appear here";  
+            // 
             // ServerWindow
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(982, 553);
+            ClientSize = new System.Drawing.Size(1200, 600);
+            Controls.Add(LogBox);
             Controls.Add(IPLabel);
             Controls.Add(StopButton);
             Controls.Add(StartButton);
@@ -103,5 +120,6 @@
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Button StopButton;
         private System.Windows.Forms.Label IPLabel;
+        private System.Windows.Forms.TextBox LogBox;
     }
 }

@@ -26,66 +26,51 @@ namespace Server
             }
             catch (FormatException)
             {
-                MessageBox.Show("Please enter a valid port number.");
+                PrintMessage("Please enter a valid port number.");
             }
             int port = int.Parse(PortTextBox.Text);
             if (port < 1 || port > 65535)
             {
-                MessageBox.Show("Please enter a valid port number (1-65535).");
+                PrintMessage("Please enter a valid port number (1-65535).");
                 return;
             }
             try
             {
                 Server.Start(port);
                 isRunning = true;
-                MessageBox.Show("Server started successfully.");
+                PrintMessage("Server started successfully.");
             }
             catch
             {
-                MessageBox.Show("Something went wrong while starting the server");
+                PrintMessage("Something went wrong while starting the server");
                 return;
             }
         }
         private void StopButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                int portTry = int.Parse(PortTextBox.Text);
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Please enter a valid port number.");
-            }
-            int port = int.Parse(PortTextBox.Text);
-            if (port < 1 || port > 65535)
-            {
-                MessageBox.Show("Please enter a valid port number (1-65535).");
-                return;
-            }
             if (isRunning)
             {
                 try
                 {
                     Server.Stop();
                     isRunning = false;
-                    MessageBox.Show("Server stopped successfully.");
+                    PrintMessage("Server stopped successfully.");
                 }
                 catch
                 {
-                    MessageBox.Show("Something went wrong while stopping the server");
+                    PrintMessage("Something went wrong while stopping the server");
                     return;
                 }
             }
             else
             {
-                MessageBox.Show("The server is not running.");
+                PrintMessage("The server is not running.");
                 return;
             }
         }
         private void PrintMessage(string message)
         {
-            MessageBox.Show(message);
-
+            LogBox.AppendText(message + Environment.NewLine);
+        }
     }
-}
 }
