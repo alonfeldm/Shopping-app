@@ -293,9 +293,9 @@ public class Client
         ChatPostPayload Payload = new ChatPostPayload();
         Message Message = new Message();
         Message.Text = message;
-        Message.SentBy = Username;
+        Message.SentBy = Username?? "Unknown";
         Message.Timestamp = DateTime.Now;
-        Message.MessageId = null;
+        Message.MessageId = 0.ToString(); //server will change this to a real id
         Payload.Message = Message;
         byte[] PayloadToSend = JsonSerializer.SerializeToUtf8Bytes(Payload);
         Send(new ProtocolFrame(ProtocolCommands.ChatPost, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, PayloadToSend), true);

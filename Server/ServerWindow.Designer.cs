@@ -3,7 +3,6 @@ using System.Net;
 using System.Windows.Forms;
 using System;
 using System.Net.Sockets;
-using System.Net;
 
 namespace Server
 {
