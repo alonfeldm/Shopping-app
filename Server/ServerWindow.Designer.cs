@@ -110,7 +110,7 @@ namespace Server
             Controls.Add(PortLabel);
             Controls.Add(PortTextBox);
             Name = "ServerWindow";
-            Text = "Form1";
+            Text = "Server";
             ResumeLayout(false);
             PerformLayout();
         }

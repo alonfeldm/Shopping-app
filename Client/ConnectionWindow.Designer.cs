@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using Microsoft.VisualBasic.Logging;
 
 namespace Client
 {
@@ -46,6 +47,28 @@ namespace Client
             ChatLabel = new Label();
             MessageTextBox = new TextBox();
             SendButton = new Button();
+            storeGrid = new DataGridView();
+            Name = new DataGridViewTextBoxColumn();
+            PriceColumn = new DataGridViewTextBoxColumn();
+            QuantityColumn = new DataGridViewTextBoxColumn();
+            TotalColumn = new DataGridViewTextBoxColumn();
+            addressBox = new TextBox();
+            creditCardBox = new TextBox();
+            monthBox = new TextBox();
+            yearBox = new TextBox();
+            firstNameBox = new TextBox();
+            CvvBox = new TextBox();
+            CvvLabel = new Label();
+            monthLabel = new Label();
+            yearLabel = new Label();
+            creditNumberLabel = new Label();
+            addressLabel = new Label();
+            firstNameLabel = new Label();
+            lastNameBox = new TextBox();
+            lastNameLabel = new Label();
+            orderButton = new Button();
+            logBox = new TextBox();
+            ((System.ComponentModel.ISupportInitialize)storeGrid).BeginInit();
             SuspendLayout();
             // 
             // connectButton
@@ -176,7 +199,7 @@ namespace Client
             // 
             MessageTextBox.Location = new System.Drawing.Point(1200, 715);
             MessageTextBox.Name = "MessageTextBox";
-            MessageTextBox.Size = new System.Drawing.Size(300, 30);
+            MessageTextBox.Size = new System.Drawing.Size(300, 27);
             MessageTextBox.TabIndex = 14;
             // 
             // SendButton
@@ -189,11 +212,201 @@ namespace Client
             SendButton.UseVisualStyleBackColor = true;
             SendButton.Click += SendButton_Click;
             // 
+            // storeGrid
+            // 
+            storeGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            storeGrid.Columns.AddRange(new DataGridViewColumn[] { Name, PriceColumn, QuantityColumn, TotalColumn });
+            storeGrid.Location = new System.Drawing.Point(45, 107);
+            storeGrid.Name = "storeGrid";
+            storeGrid.RowHeadersWidth = 51;
+            storeGrid.Size = new System.Drawing.Size(869, 635);
+            storeGrid.TabIndex = 16;
+            // 
+            // Name
+            // 
+            Name.HeaderText = "Name";
+            Name.MinimumWidth = 6;
+            Name.Name = "Name";
+            Name.ReadOnly = true;
+            Name.Width = 125;
+            // 
+            // PriceColumn
+            // 
+            PriceColumn.HeaderText = "Price";
+            PriceColumn.MinimumWidth = 6;
+            PriceColumn.Name = "PriceColumn";
+            PriceColumn.ReadOnly = true;
+            PriceColumn.Width = 125;
+            // 
+            // QuantityColumn
+            // 
+            QuantityColumn.HeaderText = "Quantity in cart";
+            QuantityColumn.MinimumWidth = 6;
+            QuantityColumn.Name = "QuantityColumn";
+            QuantityColumn.ReadOnly = true;
+            QuantityColumn.Width = 125;
+            // 
+            // TotalColumn
+            // 
+            TotalColumn.HeaderText = "Total";
+            TotalColumn.MinimumWidth = 6;
+            TotalColumn.Name = "TotalColumn";
+            TotalColumn.ReadOnly = true;
+            TotalColumn.Width = 125;
+            // 
+            // addressBox
+            // 
+            addressBox.Location = new System.Drawing.Point(932, 50);
+            addressBox.Name = "addressBox";
+            addressBox.Size = new System.Drawing.Size(232, 27);
+            addressBox.TabIndex = 17;
+            // 
+            // creditCardBox
+            // 
+            creditCardBox.Location = new System.Drawing.Point(932, 176);
+            creditCardBox.Name = "creditCardBox";
+            creditCardBox.Size = new System.Drawing.Size(232, 27);
+            creditCardBox.TabIndex = 18;
+            // 
+            // monthBox
+            // 
+            monthBox.Location = new System.Drawing.Point(994, 107);
+            monthBox.Name = "monthBox";
+            monthBox.Size = new System.Drawing.Size(80, 27);
+            monthBox.TabIndex = 19;
+            // 
+            // yearBox
+            // 
+            yearBox.Location = new System.Drawing.Point(1099, 107);
+            yearBox.Name = "yearBox";
+            yearBox.Size = new System.Drawing.Size(65, 27);
+            yearBox.TabIndex = 20;
+            // 
+            // firstNameBox
+            // 
+            firstNameBox.Location = new System.Drawing.Point(932, 242);
+            firstNameBox.Name = "firstNameBox";
+            firstNameBox.Size = new System.Drawing.Size(99, 27);
+            firstNameBox.TabIndex = 21;
+            // 
+            // CvvBox
+            // 
+            CvvBox.Location = new System.Drawing.Point(932, 107);
+            CvvBox.Name = "CvvBox";
+            CvvBox.Size = new System.Drawing.Size(36, 27);
+            CvvBox.TabIndex = 23;
+            // 
+            // CvvLabel
+            // 
+            CvvLabel.AutoSize = true;
+            CvvLabel.Location = new System.Drawing.Point(932, 84);
+            CvvLabel.Name = "CvvLabel";
+            CvvLabel.Size = new System.Drawing.Size(36, 20);
+            CvvLabel.TabIndex = 24;
+            CvvLabel.Text = "CVV";
+            // 
+            // monthLabel
+            // 
+            monthLabel.AutoSize = true;
+            monthLabel.Location = new System.Drawing.Point(994, 84);
+            monthLabel.Name = "monthLabel";
+            monthLabel.Size = new System.Drawing.Size(80, 20);
+            monthLabel.TabIndex = 25;
+            monthLabel.Text = "Exp month";
+            // 
+            // yearLabel
+            // 
+            yearLabel.AutoSize = true;
+            yearLabel.Location = new System.Drawing.Point(1099, 84);
+            yearLabel.Name = "yearLabel";
+            yearLabel.Size = new System.Drawing.Size(65, 20);
+            yearLabel.TabIndex = 26;
+            yearLabel.Text = "Exp year";
+            // 
+            // creditNumberLabel
+            // 
+            creditNumberLabel.AutoSize = true;
+            creditNumberLabel.Location = new System.Drawing.Point(981, 153);
+            creditNumberLabel.Name = "creditNumberLabel";
+            creditNumberLabel.Size = new System.Drawing.Size(137, 20);
+            creditNumberLabel.TabIndex = 27;
+            creditNumberLabel.Text = "Credit card number";
+            // 
+            // addressLabel
+            // 
+            addressLabel.AutoSize = true;
+            addressLabel.Location = new System.Drawing.Point(1012, 15);
+            addressLabel.Name = "addressLabel";
+            addressLabel.Size = new System.Drawing.Size(62, 20);
+            addressLabel.TabIndex = 28;
+            addressLabel.Text = "Address";
+            // 
+            // firstNameLabel
+            // 
+            firstNameLabel.AutoSize = true;
+            firstNameLabel.Location = new System.Drawing.Point(932, 219);
+            firstNameLabel.Name = "firstNameLabel";
+            firstNameLabel.Size = new System.Drawing.Size(77, 20);
+            firstNameLabel.TabIndex = 29;
+            firstNameLabel.Text = "First name";
+            // 
+            // lastNameBox
+            // 
+            lastNameBox.Location = new System.Drawing.Point(1065, 242);
+            lastNameBox.Name = "lastNameBox";
+            lastNameBox.Size = new System.Drawing.Size(99, 27);
+            lastNameBox.TabIndex = 30;
+            // 
+            // lastNameLabel
+            // 
+            lastNameLabel.AutoSize = true;
+            lastNameLabel.Location = new System.Drawing.Point(1065, 219);
+            lastNameLabel.Name = "lastNameLabel";
+            lastNameLabel.Size = new System.Drawing.Size(76, 20);
+            lastNameLabel.TabIndex = 31;
+            lastNameLabel.Text = "Last name";
+            // 
+            // orderButton
+            // 
+            orderButton.Location = new System.Drawing.Point(932, 287);
+            orderButton.Name = "orderButton";
+            orderButton.Size = new System.Drawing.Size(57, 31);
+            orderButton.TabIndex = 32;
+            orderButton.Text = "Order";
+            orderButton.UseVisualStyleBackColor = true;
+            // 
+            // logbox
+            // 
+            logBox.Location = new System.Drawing.Point(932, 324);
+            logBox.Name = "logBox";
+            logBox.Size = new System.Drawing.Size(227, 418);
+            logBox.TabIndex = 33;
+            logBox.Multiline = true;
+            logBox.ReadOnly = true;
+            logBox.ScrollBars = ScrollBars.Vertical;
+            // 
             // ConnectionWindow
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(1600, 800);
+            Controls.Add(logBox);
+            Controls.Add(orderButton);
+            Controls.Add(lastNameLabel);
+            Controls.Add(lastNameBox);
+            Controls.Add(firstNameLabel);
+            Controls.Add(addressLabel);
+            Controls.Add(creditNumberLabel);
+            Controls.Add(yearLabel);
+            Controls.Add(monthLabel);
+            Controls.Add(CvvLabel);
+            Controls.Add(CvvBox);
+            Controls.Add(firstNameBox);
+            Controls.Add(yearBox);
+            Controls.Add(monthBox);
+            Controls.Add(creditCardBox);
+            Controls.Add(addressBox);
+            Controls.Add(storeGrid);
             Controls.Add(SendButton);
             Controls.Add(MessageTextBox);
             Controls.Add(ChatLabel);
@@ -210,8 +423,9 @@ namespace Client
             Controls.Add(ipTextBox);
             Controls.Add(ipLabel);
             Controls.Add(connectButton);
-            Name = "ConnectionWindow";
-            Text = "Connect And Authenticate";
+            //Name = "ConnectionWindow";
+            Text = "Shopping app client";
+            ((System.ComponentModel.ISupportInitialize)storeGrid).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -234,5 +448,26 @@ namespace Client
         private System.Windows.Forms.Label ChatLabel;
         private System.Windows.Forms.TextBox MessageTextBox;
         private System.Windows.Forms.Button SendButton;
+        private DataGridView storeGrid;
+        private DataGridViewTextBoxColumn Name;
+        private DataGridViewTextBoxColumn PriceColumn;
+        private DataGridViewTextBoxColumn QuantityColumn;
+        private DataGridViewTextBoxColumn TotalColumn;
+        private TextBox addressBox;
+        private TextBox creditCardBox;
+        private TextBox monthBox;
+        private TextBox yearBox;
+        private TextBox firstNameBox;
+        private TextBox CvvBox;
+        private Label CvvLabel;
+        private Label monthLabel;
+        private Label yearLabel;
+        private Label creditNumberLabel;
+        private Label addressLabel;
+        private Label firstNameLabel;
+        private TextBox lastNameBox;
+        private Label lastNameLabel;
+        private Button orderButton;
+        private TextBox logBox;
     }
 }
