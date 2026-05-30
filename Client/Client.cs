@@ -215,10 +215,10 @@ public class Client
             PrintOut?.Invoke("Authenticated as " + Payload.Username);
             Products = Payload.Products;
             Messages = Payload.Messages;
-            clearStore?.Invoke();
+            ClearStore?.Invoke();
             for(int i = 0; i < Products.Count; i++)
             {
-            appendStore?.Invoke(Products[i]);
+            AppendStore?.Invoke(Products[i]);
             }
         }
         else
@@ -231,10 +231,10 @@ public class Client
         byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
         SendProductsPayload? Payload = JsonSerializer.Deserialize<SendProductsPayload>(DecryptedPayload);
         Products = Payload!.Products;
-        clearStore?.Invoke();
+        ClearStore?.Invoke();
         for(int i = 0; i < Products.Count; i++)
         {
-            appendStore?.Invoke(Products[i]);
+            AppendStore?.Invoke(Products[i]);
         }
     }
     public void HandleOrderResult(ProtocolFrame Frame)
@@ -265,10 +265,6 @@ public class Client
         PrintOut?.Invoke("Error from server: " + Payload!.ErrorMessage);
     }
     public event Action<string>? PrintOut;
-    public void RefreshScreen()
-    {
-        //displays new info, idk if needed
-    }
     public void CreateRegisterFrame(string Username, string Password)
     {
         if(SecureSessionConnected == false)
@@ -316,6 +312,6 @@ public class Client
         Send(new ProtocolFrame(ProtocolCommands.PlaceOrder, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, PayloadToSend), true);
     }
     public event Action<string, string>? DisplayMessage;
-    public event Action<ProductWithDetails>? appendStore;
-    public event Action? clearStore;
+    public event Action<ProductWithDetails>? AppendStore;
+    public event Action? ClearStore;
 }

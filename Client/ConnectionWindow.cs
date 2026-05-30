@@ -14,8 +14,8 @@ namespace Client
             InitializeComponent();
             Client.PrintOut += PrintMessage;
             Client.DisplayMessage += DisplayMessage;
-            Client.appendStore += appendProductToStoreGrid;
-            Client.clearStore += clearStore;
+            Client.AppendStore += appendProductToStoreGrid;
+            Client.ClearStore += clearStore;
         }
 
         private void connectButton_Click(object? sender, EventArgs e)
@@ -72,6 +72,11 @@ namespace Client
         }
         private void PrintMessage(string message)
         {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => MessageBox.Show(message)));
+                return;
+            }
             MessageBox.Show(message);
         }
 
@@ -199,7 +204,7 @@ namespace Client
             {
                 OrderDetails details = new OrderDetails()
                 {
-                    Username = Client.Username,
+                    Username = Client.Username ?? "",
                     FirstName = firstNameBox.Text.Trim(),
                     LastName = lastNameBox.Text.Trim(),
                     Address = addressBox.Text.Trim(),
@@ -235,17 +240,15 @@ namespace Client
             {
                 return; // if the click is not in the add to cart button ignore it
             }
-            try
+            string quantityText = storeGrid.Rows[e.RowIndex].Cells[2].Value?.ToString() ?? "";
+            string priceText = storeGrid.Rows[e.RowIndex].Cells[1].Value?.ToString() ?? "";
+            string productId = storeGrid.Rows[e.RowIndex].Cells[6].Value?.ToString() ?? "";
+            string name = storeGrid.Rows[e.RowIndex].Cells[0].Value?.ToString() ?? "";
+            if(!int.TryParse(quantityText, out int quantity) || !decimal.TryParse(priceText, out decimal price) || string.IsNullOrEmpty(productId) || string.IsNullOrEmpty(name))
             {
-                int quantityTest = int.Parse(storeGrid.Rows[e.RowIndex].Cells[2].Value.ToString());// try to turn the quantity to an int
-            }
-            catch (FormatException)
-            {
-                DisplayLog("Invalid quantity.");//if its not a number show the user an error log
+                DisplayLog("Invalid product information.");
                 return;
             }
-            int quantity = int.Parse(storeGrid.Rows[e.RowIndex].Cells[2].Value.ToString());
-            string productId = storeGrid.Rows[e.RowIndex].Cells[6].Value.ToString();//needs to add column 6
             if(quantity < 1)
             {
                 DisplayLog("Quantity must be at least 1.");
@@ -254,15 +257,15 @@ namespace Client
             ProductAndQuantity productAndQuantity = new ProductAndQuantity()
             {
                 ProductID = productId,
-                Name = storeGrid.Rows[e.RowIndex].Cells[0].Value.ToString(),
+                Name = name,
                 Description = "",
-                Price = decimal.Parse(storeGrid.Rows[e.RowIndex].Cells[1].Value.ToString()),
+                Price = price,
                 Quantity = quantity
             };
             int qtyInCart = 0;
             for(int i = 0; i < cart.Count; i++)
             {
-                if(storeGrid.Rows[e.RowIndex].Cells[6].Value.ToString() == cart[i].ProductID)
+                if(productId == cart[i].ProductID)
                 {
                     qtyInCart += cart[i].Quantity;
                     break;
@@ -271,12 +274,12 @@ namespace Client
             qtyInCart += quantity;
             for(int i = 0; i < cart.Count; i++)
             {
-                if(cart[i].ProductID == productAndQuantity.ProductID)
+                if(productId == cart[i].ProductID)
                 {
                     cart[i].Quantity += quantity;
                     DisplayLog($"Added {quantity} of {productAndQuantity.Name} to cart.");
                     updateCell(e.RowIndex, 5, qtyInCart.ToString());
-                    updateCell(e.RowIndex, 4, (qtyInCart * decimal.Parse(storeGrid.Rows[e.RowIndex].Cells[1].Value.ToString())).ToString());
+                    updateCell(e.RowIndex, 4, (qtyInCart * price).ToString());
                     updateCell(e.RowIndex, 2, "");
                     return;
                 }
@@ -285,7 +288,7 @@ namespace Client
             DisplayLog($"Added {quantity} of {productAndQuantity.Name} to cart.");
             updateCell(e.RowIndex, 2, "");
             updateCell(e.RowIndex, 5, qtyInCart.ToString());
-            updateCell(e.RowIndex, 4, (qtyInCart * decimal.Parse(storeGrid.Rows[e.RowIndex].Cells[1].Value.ToString())).ToString());
+            updateCell(e.RowIndex, 4, (qtyInCart * price).ToString());
 
         }
         private void updateCell(int row, int column, string value)
@@ -311,10 +314,20 @@ namespace Client
         }
         public void DisplayMessage(string username, string message)
         {
+            if(ChatBox.InvokeRequired)
+            {
+                ChatBox.Invoke(new Action(() => ChatBox.AppendText($"{username}: {message}" + Environment.NewLine)));
+                return;
+            }
             ChatBox.AppendText($"{username}: {message}" + Environment.NewLine);
         }
         public void DisplayLog(string log)
         {
+            if(logBox.InvokeRequired)
+            {
+                logBox.Invoke(new Action(() => logBox.AppendText($"{log}" + Environment.NewLine)));
+                return;
+            }
             logBox.AppendText($"{log}" + Environment.NewLine);
         }
 }
