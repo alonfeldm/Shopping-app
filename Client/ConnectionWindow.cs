@@ -14,8 +14,9 @@ namespace Client
             InitializeComponent();
             Client.PrintOut += PrintMessage;
             Client.DisplayMessage += DisplayMessage;
-            Client.AppendStore += appendProductToStoreGrid;
-            Client.ClearStore += clearStore;
+            Client.AppendStore += AppendProductToStoreGrid;
+            Client.ClearStore += ClearStore;
+            Client.ClearMessages += ClearMessages;
         }
 
         private void connectButton_Click(object? sender, EventArgs e)
@@ -221,7 +222,7 @@ namespace Client
                 DisplayLog($"Failed to place order: {ex.Message}");
             }
         }
-        public void clearStore()
+        public void ClearStore()
         {
             if(storeGrid.InvokeRequired)
             {
@@ -303,7 +304,7 @@ namespace Client
             }
             storeGrid.Rows[row].Cells[column].Value = value;
         }
-        public void appendProductToStoreGrid(ProductWithDetails product)
+        public void AppendProductToStoreGrid(ProductWithDetails product)
         {
             if(storeGrid.InvokeRequired)
             {
@@ -330,5 +331,14 @@ namespace Client
             }
             logBox.AppendText($"{log}" + Environment.NewLine);
         }
+        public void ClearMessages()
+        {
+            if(ChatBox.InvokeRequired)
+            {
+                ChatBox.Invoke(new Action(() => ChatBox.Clear()));
+                return;
+            }
+            ChatBox.Clear();
 }
+    }
 }

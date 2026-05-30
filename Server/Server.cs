@@ -339,7 +339,7 @@ internal sealed class Server : IDisposable
         // currently no order saving so the order details dont matter except for username validity
         lock (DatabaseLock)
         {
-            User? OrderingUser = Database.SelectUser(Payload!.Username);
+            User? OrderingUser = Database.SelectUser(Payload!.Details.Username);
             if(OrderingUser != null)
             {
                 OrderResultPayload ResponsePayload = new OrderResultPayload();

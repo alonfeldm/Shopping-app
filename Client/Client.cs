@@ -220,6 +220,11 @@ public class Client
             {
             AppendStore?.Invoke(Products[i]);
             }
+            ClearMessages?.Invoke();
+            for(int i = 0; i < Messages.Count; i++)
+            {
+                DisplayMessage?.Invoke(Messages[i].SentBy, Messages[i].Text);
+            }
         }
         else
         {
@@ -314,4 +319,5 @@ public class Client
     public event Action<string, string>? DisplayMessage;
     public event Action<ProductWithDetails>? AppendStore;
     public event Action? ClearStore;
+    public event Action? ClearMessages;
 }
