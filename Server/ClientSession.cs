@@ -1,10 +1,7 @@
 using System;
 using SharedLibraries;
-using System.IO;
 using System.Net.Sockets;
 using System.Threading;
-using System.Security.Cryptography;
-using Server;
 
 namespace Server;
 
@@ -13,7 +10,7 @@ internal class ClientSession : IDisposable
     private readonly TcpClient tcpClient;
     private readonly NetworkStream networkStream;
     private Thread? ReceiveThread;
-    private int DisconnectRaised;
+    public bool DisconnectRaised = false;
     private readonly object SendLock = new object();
     private bool Disposed;
     public event Action<ClientSession, ProtocolFrame>? FrameReceived;//change name
@@ -98,13 +95,13 @@ internal class ClientSession : IDisposable
         }
         catch (Exception)
         {
+            PrintOut?.Invoke("Error receiving data from client: " + (Username ?? RemoteEndpoint));
         }
-        DisconnectRaised = 1;
         Dispose();
     }
     public void Dispose()
-    {
-        if(DisconnectRaised == 0)
+    {   
+        if (Disposed)
         {
             return;
         }

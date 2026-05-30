@@ -9,8 +9,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Drawing.Text;
-using System.Data;
+using SharedLibraries.ValidationHelpers;
 
 namespace Server;
 
@@ -344,8 +343,13 @@ internal sealed class Server : IDisposable
             {
                 OrderResultPayload ResponsePayload = new OrderResultPayload();
                 ResponsePayload.Success = true;
+                if(!ValidationHelpers.ValidateNames(Payload.Details.FirstName) || !ValidationHelpers.ValidateNames(Payload.Details.LastName) || !ValidationHelpers.ValidateNames(Payload.Details.Address) || !ValidationHelpers.ValidateCreditCardNumber(Payload.Details.CreditCardNumber) || !ValidationHelpers.ValidateExpiration(Payload.Details.ExpirationMonth, Payload.Details.ExpirationYear) || !ValidationHelpers.ValidateCvv(Payload.Details.CVV))
+                {
+                    ResponsePayload.Success = false;
+                }
                 ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.OrderResult, ProtocolEncryptionFlags.Encrypted, client.RequestCounter, JsonSerializer.SerializeToUtf8Bytes(ResponsePayload));
                 client.Send(ResponseFrame, true);
+                Database.SaveFullOrder(new Order(){Details = Payload.Details, Products = Payload.Products});
             }
         }
 
@@ -390,5 +394,4 @@ internal sealed class Server : IDisposable
         Stop();
     }
     public event Action<string>? PrintOut;
-
 }

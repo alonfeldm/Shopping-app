@@ -2,6 +2,7 @@ using System;
 using System.Windows.Forms;
 using SharedLibraries.Payloads;
 using System.Collections.Generic;
+using SharedLibraries.ValidationHelpers;
 
 namespace Client
 {
@@ -175,30 +176,34 @@ namespace Client
                 DisplayLog("Please login or register first.");
                 return;
             }
-            if(string.IsNullOrEmpty(CvvBox.Text) || string.IsNullOrEmpty(creditCardBox.Text) || string.IsNullOrEmpty(yearBox.Text) || string.IsNullOrEmpty(monthBox.Text) || string.IsNullOrEmpty(firstNameBox.Text) || string.IsNullOrEmpty(lastNameBox.Text) || string.IsNullOrEmpty(addressBox.Text))
+            if(cart.Count == 0)
             {
-                DisplayLog("Information cannot be empty.");
+                DisplayLog("Cart is empty.");
                 return;
             }
-            try
-            {
-                int CreditNumberTest = int.Parse(creditCardBox.Text.Trim());
-                int CvvTest = int.Parse(CvvBox.Text.Trim());
-                int YearTest = int.Parse(yearBox.Text.Trim());
-                int MonthTest = int.Parse(monthBox.Text.Trim());
-            }
-            catch (FormatException)
+            if(!ValidationHelpers.ValidateCreditCardNumber(creditCardBox.Text.Trim()))
             {
                 DisplayLog("Invalid credit card number.");
                 return;
             }
-            int CreditNumber = int.Parse(creditCardBox.Text.Trim());
-            int Cvv = int.Parse(CvvBox.Text.Trim());
-            int Year = int.Parse(yearBox.Text.Trim());
-            int Month = int.Parse(monthBox.Text.Trim());
-            if (CreditNumber < 0 || Cvv < 0 || Year < 0 || Month < 1 || Month > 12 || CreditNumber.ToString().Length != 16 || Cvv.ToString().Length != 3)
+            if(!ValidationHelpers.ValidateExpiration(monthBox.Text.Trim(), yearBox.Text.Trim()))
             {
-                DisplayLog("Invalid credit card information.");
+                DisplayLog("Invalid expiration date.");
+                return;
+            }
+            if(!ValidationHelpers.ValidateCvv(CvvBox.Text.Trim()))
+            {
+                DisplayLog("Invalid CVV.");
+                return;
+            }
+            if(ValidationHelpers.ValidateNames(firstNameBox.Text.Trim()) || ValidationHelpers.ValidateNames(lastNameBox.Text.Trim()))
+            {
+                DisplayLog("Invalid first name or last name.");
+                return;
+            }
+            if(ValidationHelpers.ValidateNames(addressBox.Text.Trim()))
+            {
+                DisplayLog("Invalid address.");
                 return;
             }
             try

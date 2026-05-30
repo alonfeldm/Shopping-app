@@ -13,6 +13,7 @@ internal sealed class Database
     private static readonly string DbPath = Path.Combine(Application.StartupPath, "Database.db");
     private static readonly string ConnectionString = $"Data Source={DbPath};Pooling=True;";
 
+
     public static void InitializeDB()
     {
         if (!File.Exists(DbPath))
