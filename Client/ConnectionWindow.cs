@@ -1,16 +1,21 @@
 using System;
 using System.Windows.Forms;
+using SharedLibraries.Payloads;
+using System.Collections.Generic;
 
 namespace Client
 {
     public partial class ConnectionWindow : Form
     {
+        public List<ProductAndQuantity> cart = new List<ProductAndQuantity>();
         private Client Client { get; set; } = new Client();
         public ConnectionWindow()
         {
             InitializeComponent();
             Client.PrintOut += PrintMessage;
             Client.DisplayMessage += DisplayMessage;
+            Client.appendStore += appendProductToStoreGrid;
+            Client.clearStore += clearStore;
         }
 
         private void connectButton_Click(object? sender, EventArgs e)
@@ -152,9 +157,165 @@ namespace Client
                 MessageBox.Show($"Failed to send message: {ex.Message}");
             }
     }
+        private void orderButton_Click(object? sender, EventArgs e)
+        {
+            if (!Client.TcpConnected)
+            {
+                DisplayLog("Not connected to the server.");
+                return;
+            }
+            if(!Client.SecureSessionConnected)
+            {
+                DisplayLog("Please login or register first.");
+                return;
+            }
+            if(string.IsNullOrEmpty(CvvBox.Text) || string.IsNullOrEmpty(creditCardBox.Text) || string.IsNullOrEmpty(yearBox.Text) || string.IsNullOrEmpty(monthBox.Text) || string.IsNullOrEmpty(firstNameBox.Text) || string.IsNullOrEmpty(lastNameBox.Text) || string.IsNullOrEmpty(addressBox.Text))
+            {
+                DisplayLog("Information cannot be empty.");
+                return;
+            }
+            try
+            {
+                int CreditNumberTest = int.Parse(creditCardBox.Text.Trim());
+                int CvvTest = int.Parse(CvvBox.Text.Trim());
+                int YearTest = int.Parse(yearBox.Text.Trim());
+                int MonthTest = int.Parse(monthBox.Text.Trim());
+            }
+            catch (FormatException)
+            {
+                DisplayLog("Invalid credit card number.");
+                return;
+            }
+            int CreditNumber = int.Parse(creditCardBox.Text.Trim());
+            int Cvv = int.Parse(CvvBox.Text.Trim());
+            int Year = int.Parse(yearBox.Text.Trim());
+            int Month = int.Parse(monthBox.Text.Trim());
+            if (CreditNumber < 0 || Cvv < 0 || Year < 0 || Month < 1 || Month > 12 || CreditNumber.ToString().Length != 16 || Cvv.ToString().Length != 3)
+            {
+                DisplayLog("Invalid credit card information.");
+                return;
+            }
+            try
+            {
+                OrderDetails details = new OrderDetails()
+                {
+                    Username = Client.Username,
+                    FirstName = firstNameBox.Text.Trim(),
+                    LastName = lastNameBox.Text.Trim(),
+                    Address = addressBox.Text.Trim(),
+                    CreditCardNumber = creditCardBox.Text.Trim(),
+                    ExpirationMonth = monthBox.Text.Trim(),
+                    ExpirationYear = yearBox.Text.Trim(),
+                    CVV = CvvBox.Text.Trim()
+                };
+
+                Client.CreateOrderFrame(details, cart);
+            }
+            catch (Exception ex)
+            {
+                DisplayLog($"Failed to place order: {ex.Message}");
+            }
+        }
+        public void clearStore()
+        {
+            if(storeGrid.InvokeRequired)
+            {
+                storeGrid.Invoke(new Action(() => storeGrid.Rows.Clear()));
+                return;
+            }
+            storeGrid.Rows.Clear();
+        }
+        private void StoreGrid_CellContentClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex < 0 || e.ColumnIndex < 0)
+            {
+                return;// if the click is in an invalid area ignore its
+            }
+            if(e.ColumnIndex != 3)
+            {
+                return; // if the click is not in the add to cart button ignore it
+            }
+            try
+            {
+                int quantityTest = int.Parse(storeGrid.Rows[e.RowIndex].Cells[2].Value.ToString());// try to turn the quantity to an int
+            }
+            catch (FormatException)
+            {
+                DisplayLog("Invalid quantity.");//if its not a number show the user an error log
+                return;
+            }
+            int quantity = int.Parse(storeGrid.Rows[e.RowIndex].Cells[2].Value.ToString());
+            string productId = storeGrid.Rows[e.RowIndex].Cells[6].Value.ToString();//needs to add column 6
+            if(quantity < 1)
+            {
+                DisplayLog("Quantity must be at least 1.");
+                return;
+            }
+            ProductAndQuantity productAndQuantity = new ProductAndQuantity()
+            {
+                ProductID = productId,
+                Name = storeGrid.Rows[e.RowIndex].Cells[0].Value.ToString(),
+                Description = "",
+                Price = decimal.Parse(storeGrid.Rows[e.RowIndex].Cells[1].Value.ToString()),
+                Quantity = quantity
+            };
+            int qtyInCart = 0;
+            for(int i = 0; i < cart.Count; i++)
+            {
+                if(storeGrid.Rows[e.RowIndex].Cells[6].Value.ToString() == cart[i].ProductID)
+                {
+                    qtyInCart += cart[i].Quantity;
+                    break;
+                }
+            }
+            qtyInCart += quantity;
+            for(int i = 0; i < cart.Count; i++)
+            {
+                if(cart[i].ProductID == productAndQuantity.ProductID)
+                {
+                    cart[i].Quantity += quantity;
+                    DisplayLog($"Added {quantity} of {productAndQuantity.Name} to cart.");
+                    updateCell(e.RowIndex, 5, qtyInCart.ToString());
+                    updateCell(e.RowIndex, 4, (qtyInCart * decimal.Parse(storeGrid.Rows[e.RowIndex].Cells[1].Value.ToString())).ToString());
+                    updateCell(e.RowIndex, 2, "");
+                    return;
+                }
+            }
+            cart.Add(productAndQuantity);
+            DisplayLog($"Added {quantity} of {productAndQuantity.Name} to cart.");
+            updateCell(e.RowIndex, 2, "");
+            updateCell(e.RowIndex, 5, qtyInCart.ToString());
+            updateCell(e.RowIndex, 4, (qtyInCart * decimal.Parse(storeGrid.Rows[e.RowIndex].Cells[1].Value.ToString())).ToString());
+
+        }
+        private void updateCell(int row, int column, string value)
+        {
+            if(row < 0 || row >= storeGrid.Rows.Count || column < 0 || column >= storeGrid.Columns.Count)
+            {
+                return;// checks if the row and column that are being updated are valid
+            }
+            if(column == 3)
+            {
+                return; // you cant change the add to cart button
+            }
+            storeGrid.Rows[row].Cells[column].Value = value;
+        }
+        public void appendProductToStoreGrid(ProductWithDetails product)
+        {
+            if(storeGrid.InvokeRequired)
+            {
+                storeGrid.Invoke(new Action(() => storeGrid.Rows.Add(product.Name, product.Price, "", "Add to cart", 0, 0, product.ProductID)));
+                return;
+            }
+            storeGrid.Rows.Add(product.Name, product.Price, "", "Add to cart", 0, 0, product.ProductID);
+        }
         public void DisplayMessage(string username, string message)
         {
             ChatBox.AppendText($"{username}: {message}" + Environment.NewLine);
+        }
+        public void DisplayLog(string log)
+        {
+            logBox.AppendText($"{log}" + Environment.NewLine);
         }
 }
 }

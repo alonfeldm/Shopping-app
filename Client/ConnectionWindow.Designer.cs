@@ -48,10 +48,12 @@ namespace Client
             MessageTextBox = new TextBox();
             SendButton = new Button();
             storeGrid = new DataGridView();
-            Name = new DataGridViewTextBoxColumn();
+            NameColumn = new DataGridViewTextBoxColumn();
             PriceColumn = new DataGridViewTextBoxColumn();
-            QuantityColumn = new DataGridViewTextBoxColumn();
+            qtyToCartBoxColumn = new DataGridViewTextBoxColumn();
+            addToCartButtonColumn = new DataGridViewButtonColumn();
             TotalColumn = new DataGridViewTextBoxColumn();
+            QuantityColumn = new DataGridViewTextBoxColumn();
             addressBox = new TextBox();
             creditCardBox = new TextBox();
             monthBox = new TextBox();
@@ -68,6 +70,7 @@ namespace Client
             lastNameLabel = new Label();
             orderButton = new Button();
             logBox = new TextBox();
+            productIdColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)storeGrid).BeginInit();
             SuspendLayout();
             // 
@@ -215,20 +218,21 @@ namespace Client
             // storeGrid
             // 
             storeGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            storeGrid.Columns.AddRange(new DataGridViewColumn[] { Name, PriceColumn, QuantityColumn, TotalColumn });
+            storeGrid.Columns.AddRange(new DataGridViewColumn[] { NameColumn, PriceColumn, qtyToCartBoxColumn, addToCartButtonColumn, TotalColumn, QuantityColumn, productIdColumn });
             storeGrid.Location = new System.Drawing.Point(45, 107);
             storeGrid.Name = "storeGrid";
             storeGrid.RowHeadersWidth = 51;
             storeGrid.Size = new System.Drawing.Size(869, 635);
             storeGrid.TabIndex = 16;
+            storeGrid.CellContentClick += StoreGrid_CellContentClick;
             // 
-            // Name
+            // NameColumn
             // 
-            Name.HeaderText = "Name";
-            Name.MinimumWidth = 6;
-            Name.Name = "Name";
-            Name.ReadOnly = true;
-            Name.Width = 125;
+            NameColumn.HeaderText = "Name";
+            NameColumn.MinimumWidth = 6;
+            NameColumn.Name = "NameColumn";
+            NameColumn.ReadOnly = true;
+            NameColumn.Width = 125;
             // 
             // PriceColumn
             // 
@@ -238,13 +242,19 @@ namespace Client
             PriceColumn.ReadOnly = true;
             PriceColumn.Width = 125;
             // 
-            // QuantityColumn
+            // qtyToCartBoxColumn
             // 
-            QuantityColumn.HeaderText = "Quantity in cart";
-            QuantityColumn.MinimumWidth = 6;
-            QuantityColumn.Name = "QuantityColumn";
-            QuantityColumn.ReadOnly = true;
-            QuantityColumn.Width = 125;
+            qtyToCartBoxColumn.HeaderText = "Quantity to add to cart";
+            qtyToCartBoxColumn.MinimumWidth = 6;
+            qtyToCartBoxColumn.Name = "qtyToCartBoxColumn";
+            qtyToCartBoxColumn.Width = 125;
+            // 
+            // addToCartButtonColumn
+            // 
+            addToCartButtonColumn.HeaderText = "Add to cart";
+            addToCartButtonColumn.MinimumWidth = 6;
+            addToCartButtonColumn.Name = "addToCartButtonColumn";
+            addToCartButtonColumn.Width = 125;
             // 
             // TotalColumn
             // 
@@ -253,6 +263,14 @@ namespace Client
             TotalColumn.Name = "TotalColumn";
             TotalColumn.ReadOnly = true;
             TotalColumn.Width = 125;
+            // 
+            // QuantityColumn
+            // 
+            QuantityColumn.HeaderText = "Quantity in cart";
+            QuantityColumn.MinimumWidth = 6;
+            QuantityColumn.Name = "QuantityColumn";
+            QuantityColumn.ReadOnly = true;
+            QuantityColumn.Width = 125;
             // 
             // addressBox
             // 
@@ -374,16 +392,26 @@ namespace Client
             orderButton.TabIndex = 32;
             orderButton.Text = "Order";
             orderButton.UseVisualStyleBackColor = true;
+            orderButton.Click += orderButton_Click;
             // 
-            // logbox
+            // logBox
             // 
             logBox.Location = new System.Drawing.Point(932, 324);
-            logBox.Name = "logBox";
-            logBox.Size = new System.Drawing.Size(227, 418);
-            logBox.TabIndex = 33;
             logBox.Multiline = true;
+            logBox.Name = "logBox";
             logBox.ReadOnly = true;
             logBox.ScrollBars = ScrollBars.Vertical;
+            logBox.Size = new System.Drawing.Size(227, 418);
+            logBox.TabIndex = 33;
+            // 
+            // productIdColumn
+            // 
+            productIdColumn.HeaderText = "Product ID";
+            productIdColumn.MinimumWidth = 6;
+            productIdColumn.Name = "productIdColumn";
+            productIdColumn.ReadOnly = true;
+            productIdColumn.Visible = false;
+            productIdColumn.Width = 125;
             // 
             // ConnectionWindow
             // 
@@ -423,7 +451,7 @@ namespace Client
             Controls.Add(ipTextBox);
             Controls.Add(ipLabel);
             Controls.Add(connectButton);
-            //Name = "ConnectionWindow";
+            Name = "ConnectionWindow";
             Text = "Shopping app client";
             ((System.ComponentModel.ISupportInitialize)storeGrid).EndInit();
             ResumeLayout(false);
@@ -449,10 +477,6 @@ namespace Client
         private System.Windows.Forms.TextBox MessageTextBox;
         private System.Windows.Forms.Button SendButton;
         private DataGridView storeGrid;
-        private DataGridViewTextBoxColumn Name;
-        private DataGridViewTextBoxColumn PriceColumn;
-        private DataGridViewTextBoxColumn QuantityColumn;
-        private DataGridViewTextBoxColumn TotalColumn;
         private TextBox addressBox;
         private TextBox creditCardBox;
         private TextBox monthBox;
@@ -469,5 +493,12 @@ namespace Client
         private Label lastNameLabel;
         private Button orderButton;
         private TextBox logBox;
+        private DataGridViewTextBoxColumn NameColumn;
+        private DataGridViewTextBoxColumn PriceColumn;
+        private DataGridViewTextBoxColumn qtyToCartBoxColumn;
+        private DataGridViewButtonColumn addToCartButtonColumn;
+        private DataGridViewTextBoxColumn TotalColumn;
+        private DataGridViewTextBoxColumn QuantityColumn;
+        private DataGridViewTextBoxColumn productIdColumn;
     }
 }

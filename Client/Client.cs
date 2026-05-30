@@ -1,12 +1,10 @@
 using System;
 using System.Security.Cryptography;
 using System.Net.Sockets;
-using System.IO;
 using System.Threading;
 using SharedLibraries;
 using SharedLibraries.Payloads;
 using System.Text.Json;
-using System.Configuration;
 using System.Collections.Generic;
 
 namespace Client;
@@ -15,7 +13,7 @@ public class Client
 {
     private Aes? aes {get; set;}
     public bool SecureSessionConnected {get; set;} = false;
-    private string? Username {get; set;}
+    public string? Username {get; set;}
     private readonly object SendLock = new object();
     private NetworkStream? NetworkStream {get; set;}
     private TcpClient? TcpClient {get; set;}
@@ -25,7 +23,6 @@ public class Client
     private List<ProductWithDetails> Products {get; set;} = new List<ProductWithDetails>();
     private List<Message> Messages {get; set;} = new List<Message>();
     public bool TcpConnected {get; set;} = false;
-
     public void Start(string Ip,int Port)
     {
         if(!TcpConnected){
@@ -218,6 +215,11 @@ public class Client
             PrintOut?.Invoke("Authenticated as " + Payload.Username);
             Products = Payload.Products;
             Messages = Payload.Messages;
+            clearStore?.Invoke();
+            for(int i = 0; i < Products.Count; i++)
+            {
+            appendStore?.Invoke(Products[i]);
+            }
         }
         else
         {
@@ -228,7 +230,12 @@ public class Client
     {
         byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
         SendProductsPayload? Payload = JsonSerializer.Deserialize<SendProductsPayload>(DecryptedPayload);
-        //Refresh screen function
+        Products = Payload!.Products;
+        clearStore?.Invoke();
+        for(int i = 0; i < Products.Count; i++)
+        {
+            appendStore?.Invoke(Products[i]);
+        }
     }
     public void HandleOrderResult(ProtocolFrame Frame)
     {
@@ -300,6 +307,15 @@ public class Client
         byte[] PayloadToSend = JsonSerializer.SerializeToUtf8Bytes(Payload);
         Send(new ProtocolFrame(ProtocolCommands.ChatPost, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, PayloadToSend), true);
     }
+    public void CreateOrderFrame(OrderDetails details, List<ProductAndQuantity> cart)
+    {
+        PlaceOrderPayload Payload = new PlaceOrderPayload();
+        Payload.Products = cart;
+        Payload.Details = details;
+        byte[] PayloadToSend = JsonSerializer.SerializeToUtf8Bytes(Payload);
+        Send(new ProtocolFrame(ProtocolCommands.PlaceOrder, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, PayloadToSend), true);
+    }
     public event Action<string, string>? DisplayMessage;
-
+    public event Action<ProductWithDetails>? appendStore;
+    public event Action? clearStore;
 }
