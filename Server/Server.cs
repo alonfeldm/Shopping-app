@@ -43,6 +43,7 @@ internal sealed class Server : IDisposable
         {
             Messages = Database.GetAllMessages();
         }
+        MessageIdCounter = Messages.Count;
         Products = Database.GetAllProducts();
         KeyPair = RSA.Create(2048);
         ServerListener = new TcpListener(IPAddress.Any, Port);
@@ -258,6 +259,11 @@ internal sealed class Server : IDisposable
     {
         //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
         RegisterPayload? Payload = JsonSerializer.Deserialize<RegisterPayload>(frame.Payload);
+        if(Payload == null || !ValidationHelpers.ValidateUsername(Payload.Username) || !ValidationHelpers.ValidatePassword(Payload!.Password))
+        {
+            SendAuthenticationResult(client, false, string.Empty, false);
+            return;
+        }
         lock (DatabaseLock)
         {
             User? UserExists = Database.SelectUser(Payload!.Username);
@@ -346,9 +352,9 @@ internal sealed class Server : IDisposable
         // currently no order saving so the order details dont matter except for username validity
         OrderResultPayload ResponsePayload = new OrderResultPayload();
         ResponsePayload.Success = true;
-        if (!client.Authenticated || !ValidationHelpers.ValidateNames(Payload!.Details.FirstName) || !ValidationHelpers.ValidateNames(Payload.Details.LastName) || !ValidationHelpers.ValidateNames(Payload.Details.Address) || !ValidationHelpers.ValidateCreditCardNumber(Payload.Details.CreditCardNumber) || !ValidationHelpers.ValidateExpiration(Payload.Details.ExpirationMonth, Payload.Details.ExpirationYear) || !ValidationHelpers.ValidateCvv(Payload.Details.CVV) || ValidationHelpers.ValidateProducts(Payload.Products))
+        if (!client.Authenticated || !ValidationHelpers.ValidateNames(Payload!.Details.FirstName) || !ValidationHelpers.ValidateNames(Payload.Details.LastName) || !ValidationHelpers.ValidateNames(Payload.Details.Address) || !ValidationHelpers.ValidateCreditCardNumber(Payload.Details.CreditCardNumber) || !ValidationHelpers.ValidateExpiration(Payload.Details.ExpirationMonth, Payload.Details.ExpirationYear) || !ValidationHelpers.ValidateCvv(Payload.Details.CVV) || !ValidationHelpers.ValidateProducts(Payload.Products))
             ResponsePayload.Success = false;
-        foreach (var product in Payload.Products)
+        foreach (var product in Payload!.Products)
         {
             if (Database.ProductExists(product.ProductID) == false)
             {
@@ -357,7 +363,7 @@ internal sealed class Server : IDisposable
             }
             else
             {
-                product.Price = Database.GetItemPrice(int.Parse(product.ProductID));
+                product.Price = Database.GetItemPrice((product.ProductID));
             }
         }
         if (ResponsePayload.Success)
@@ -397,7 +403,8 @@ internal sealed class Server : IDisposable
         //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
         ChatPostPayload? Payload = JsonSerializer.Deserialize<ChatPostPayload>(frame.Payload);
         Message NewMessage = Payload!.Message;
-        if (!client.Authenticated || string.IsNullOrEmpty(NewMessage.Text) || string.IsNullOrEmpty(NewMessage.SentBy) || string.IsNullOrEmpty(NewMessage.Timestamp.ToString()))
+        NewMessage.SentBy = client.Username!;
+        if (!client.Authenticated || string.IsNullOrEmpty(NewMessage.Text) || string.IsNullOrEmpty(NewMessage.SentBy))
         {
             return;
         }

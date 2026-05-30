@@ -88,4 +88,20 @@ public class ValidationHelpers
         }
         return true;
     }
+    public static bool ValidateUsername(string username)
+    {
+        if(string.IsNullOrEmpty(username) || username.Length < 3 || username.Length > 20)
+        {
+            return false;
+        }
+        return true;
+    }
+    public static bool ValidatePassword(string password)
+    {
+        if (string.IsNullOrEmpty(password) || password.Length < 4 || password.Length > 25)
+        {
+            return false;
+        }
+        return true;
+    }
 }

@@ -191,7 +191,7 @@ internal sealed class Database
             ProductID = "01",
             Name = "Campus Laptop Sleeve",
             Description = "Protective 14-inch sleeve for school and office use.",
-            Price = 79.90m
+            Price = 80m
         });
 
         ProductList.Add(new ProductWithDetails
@@ -199,7 +199,7 @@ internal sealed class Database
             ProductID = "02",
             Name = "Mechanical Keyboard",
             Description = "Compact keyboard with a comfortable typing feel.",
-            Price = 229.00m
+            Price = 230m
         });
 
         ProductList.Add(new ProductWithDetails
@@ -207,56 +207,56 @@ internal sealed class Database
             ProductID = "03",
             Name = "USB-C Dock",
             Description = "Seven-port dock with HDMI, ethernet, and USB expansion.",
-            Price = 189.50m
+            Price = 185m
         });
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "04",
             Name = "Wireless Mouse",
             Description = "Ergonomic mouse with adjustable DPI settings.",
-            Price = 49.99m
+            Price = 50m
         });
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "05",
             Name = "Noise-Cancelling Headphones",
             Description = "Over-ear headphones with active noise cancellation.",
-            Price = 199.99m
+            Price = 200m
         });
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "06",
             Name = "4K 27in Monitor",
             Description = "27-inch monitor with stunning 4K resolution.",
-            Price = 349.99m
+            Price = 350m
         });
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "07",
             Name = "External SSD 1TB",
             Description = "Portable 1TB SSD with fast data transfer speeds.",
-            Price = 149.99m
+            Price = 150m
         });
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "08",
             Name = "Webcam with Microphone",
             Description = "1080p webcam with built-in microphone for clear video calls.",
-            Price = 89.99m
+            Price = 90m
         });
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "09",
             Name = "Laptop Stand",
             Description = "Adjustable stand to improve laptop ergonomics.",
-            Price = 39.99m
+            Price = 40m
         });
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "10",
             Name = "Bluetooth Speaker",
             Description = "Portable speaker with rich sound and long battery life.",
-            Price = 59.99m
+            Price = 60m
         });
 
         // Return the full list.
@@ -299,20 +299,22 @@ internal sealed class Database
             }
         }
     }
-    public static int GetItemPrice(int ProductId)
+    public static int GetItemPrice(string ProductId)
     {
-        for(int i = 0; i < GetAllProducts().Count; i++)
+        List<ProductWithDetails>? Allproducts = GetAllProducts();
+        for(int i = 0; i < Allproducts.Count; i++)
         {
-            if(GetAllProducts()[i].ProductID == ProductId.ToString())
+            if(Allproducts[i].ProductID == ProductId.ToString())
             {
-                return int.Parse(GetAllProducts()[i].Price.ToString());
+                return int.Parse(Allproducts[i].Price.ToString());
             }
         }
         return -1;
     }
     public static bool ProductExists(string ProductId)
     {
-        foreach (ProductWithDetails product in GetAllProducts())
+        List<ProductWithDetails>? Allproducts = GetAllProducts();
+        foreach (ProductWithDetails product in Allproducts)
         {
             if (product.ProductID == ProductId)
             {

@@ -41,8 +41,11 @@ public class Client
 
     public void Stop()
     {
-        ProtocolFrame DisconnectFrame = new ProtocolFrame(ProtocolCommands.Disconnect, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, Array.Empty<byte>());
-        Send(DisconnectFrame, true);
+        if(aes != null)
+        {
+            ProtocolFrame DisconnectFrame = new ProtocolFrame(ProtocolCommands.Disconnect, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, Array.Empty<byte>());
+            Send(DisconnectFrame, true);
+        }
         try
         {
             Disposed = true;
