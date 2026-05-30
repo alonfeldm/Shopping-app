@@ -32,6 +32,7 @@ namespace Server
             catch (FormatException)
             {
                 PrintMessage("Please enter a valid port number.");
+                return;
             }
             int port = int.Parse(PortTextBox.Text);
             if (port < 1 || port > 65535)
@@ -75,6 +76,11 @@ namespace Server
         }
         public void PrintMessage(string message)
         {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<string>(PrintMessage), message);
+                return;
+            }
             LogBox.AppendText(message + Environment.NewLine);
         }
     }

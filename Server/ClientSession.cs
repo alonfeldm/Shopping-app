@@ -19,7 +19,7 @@ internal class ClientSession : IDisposable
     public string? Username {get; set;}
     public bool Authenticated {get; set;}
     public System.Security.Cryptography.Aes? aes {get; set;}
-    public string RemoteEndpoint => tcpClient.Client.RemoteEndPoint?.ToString()??"Not known";
+    public string RemoteEndpoint => tcpClient.Client?.RemoteEndPoint?.ToString()??"Not known";
     public int RequestCounter {get; set;} = 0;
 
     public ClientSession(TcpClient tcpClient, int CliendId)
@@ -105,11 +105,12 @@ internal class ClientSession : IDisposable
         {
             return;
         }
+        string usernameOrEndpoint = Username ?? RemoteEndpoint;
         Disposed = true;
         networkStream.Close();
         tcpClient.Close();
         Disconnected?.Invoke(this);
-        PrintOut?.Invoke("Client disconnected: " + (Username ?? RemoteEndpoint));
+        PrintOut?.Invoke("Client disconnected: " + (usernameOrEndpoint));
     }
     public event Action<string>? PrintOut;
 }

@@ -39,7 +39,7 @@ internal sealed class Server : IDisposable
         }
         Port = port;
         Database.InitializeDB();
-        lock(DatabaseLock)
+        lock (DatabaseLock)
         {
             Messages = Database.GetAllMessages();
         }
@@ -48,30 +48,30 @@ internal sealed class Server : IDisposable
         ServerListener = new TcpListener(IPAddress.Any, Port);
         ServerListener.Start();
         IsRunning = true;
-        ListenThread = new Thread(ListenForClients){IsBackground = true};
+        ListenThread = new Thread(ListenForClients) { IsBackground = true };
         ListenThread.Start();
         ServerStateChanged?.Invoke();
     }
     public void Stop()
     {
-        if(!IsRunning)
+        if (!IsRunning)
         {
             return;
         }
         IsRunning = false;
         ServerListener?.Stop();
-        lock(ClientLock)
+        lock (ClientLock)
         {
             var Clients = ConnectedClients.Values.ToArray();
             ConnectedClients.Clear();
-            foreach(var Client in Clients)
+            foreach (var Client in Clients)
             {
                 Client.Dispose();
             }
         }
         try
         {
-            if(ListenThread != null && ListenThread.IsAlive)
+            if (ListenThread != null && ListenThread.IsAlive)
             {
                 ListenThread.Join(1000);
             }
@@ -81,7 +81,7 @@ internal sealed class Server : IDisposable
         }
         ServerListener = null;
         ListenThread = null;
-        if(KeyPair != null)
+        if (KeyPair != null)
         {
             KeyPair.Dispose();
             KeyPair = null;
@@ -106,7 +106,7 @@ internal sealed class Server : IDisposable
                 clientSession.Start();
                 SendHello(clientSession);
                 PrintOut?.Invoke("Client connected: " + clientSession.RemoteEndpoint);
-                
+
             }
             catch (SocketException)
             {
@@ -115,7 +115,7 @@ internal sealed class Server : IDisposable
                     break;
                 }
             }
-            catch(ObjectDisposedException)
+            catch (ObjectDisposedException)
             {
                 break;
             }
@@ -123,11 +123,11 @@ internal sealed class Server : IDisposable
     }
     public void SendHello(ClientSession client)
     {
-        if(KeyPair == null)
+        if (KeyPair == null)
         {
             return;
         }
-        HelloPayload Payload  = new HelloPayload();
+        HelloPayload Payload = new HelloPayload();
         Payload.PublicKey = KeyPair!.ExportRSAPublicKey();
         ProtocolFrame Frame = new ProtocolFrame(ProtocolCommands.Hello, ProtocolEncryptionFlags.UnEncrypted, client.RequestCounter, JsonSerializer.SerializeToUtf8Bytes(Payload));
         client.Send(Frame, false);
@@ -143,7 +143,7 @@ internal sealed class Server : IDisposable
                     {
                         HandleSecureSession(client, frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle secure session frame: " + ex.Message);
                     }
@@ -153,7 +153,7 @@ internal sealed class Server : IDisposable
                     {
                         HandleRegister(client, frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle register frame: " + ex.Message);
                     }
@@ -163,7 +163,7 @@ internal sealed class Server : IDisposable
                     {
                         HandleLogin(client, frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle login frame: " + ex.Message);
                     }
@@ -173,7 +173,7 @@ internal sealed class Server : IDisposable
                     {
                         HandleGetProducts(client, frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle get products frame: " + ex.Message);
                     }
@@ -183,7 +183,7 @@ internal sealed class Server : IDisposable
                     {
                         HandlePlaceOrder(client, frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle place order frame: " + ex.Message);
                     }
@@ -193,7 +193,7 @@ internal sealed class Server : IDisposable
                     {
                         HandleChatPost(client, frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle chat post frame: " + ex.Message);
                     }
@@ -201,9 +201,16 @@ internal sealed class Server : IDisposable
                 case ProtocolCommands.Disconnect:
                     try
                     {
-                        client.Dispose();
+                        try
+                        {
+                            client.Dispose();
+                        }
+                        catch (Exception ex)
+                        {
+                            PrintOut?.Invoke("Error disposing client: " + ex.Message);
+                        }
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle disconnect frame: " + ex.Message);
                     }
@@ -213,7 +220,7 @@ internal sealed class Server : IDisposable
                     {
                         HandleHeartbeat(client, frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle heartbeat frame: " + ex.Message);
                     }
@@ -223,14 +230,14 @@ internal sealed class Server : IDisposable
                     break;
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             PrintOut?.Invoke("Failed to handle frame: " + ex.Message);
         }
     }
     public void OnDisconnected(ClientSession client)
     {
-        lock(ClientLock)
+        lock (ClientLock)
         {
             ConnectedClients.Remove(client.ClientId);
             //maybe add invoke for a state changed
@@ -244,7 +251,7 @@ internal sealed class Server : IDisposable
         client.aes!.IV = Payload.AesIV;
         ConnectionSuccessPayload ResponsePayload = new ConnectionSuccessPayload();
         ResponsePayload.Success = true;
-        ProtocolFrame ResponseFrame  = new ProtocolFrame(ProtocolCommands.ConnectionSuccess, ProtocolEncryptionFlags.Encrypted, client.RequestCounter++, JsonSerializer.SerializeToUtf8Bytes(ResponsePayload));
+        ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.ConnectionSuccess, ProtocolEncryptionFlags.Encrypted, client.RequestCounter++, JsonSerializer.SerializeToUtf8Bytes(ResponsePayload));
         client.Send(ResponseFrame, true);
     }
     public void HandleRegister(ClientSession client, ProtocolFrame frame)
@@ -254,7 +261,7 @@ internal sealed class Server : IDisposable
         lock (DatabaseLock)
         {
             User? UserExists = Database.SelectUser(Payload!.Username);
-            if(UserExists == null)
+            if (UserExists == null)
             {
                 User NewUser = new User();
                 NewUser.Username = Payload.Username;
@@ -276,7 +283,7 @@ internal sealed class Server : IDisposable
         lock (DatabaseLock)
         {
             User? LoggingInUser = Database.SelectUser(Payload!.Username);
-            if(LoggingInUser != null && SecurityHelpers.VerifyPassword(Payload.Password, LoggingInUser.Salt, LoggingInUser.PasswordHash))
+            if (LoggingInUser != null && SecurityHelpers.VerifyPassword(Payload.Password, LoggingInUser.Salt, LoggingInUser.PasswordHash))
             {
                 client.Authenticated = true;
                 client.Username = Payload.Username;
@@ -292,9 +299,9 @@ internal sealed class Server : IDisposable
     public void SendAuthenticationResult(ClientSession client, bool Success, string Username, bool IsLogin)
     {
         AuthenticationResultPayload Payload = new AuthenticationResultPayload();
-        if(!Success)
+        if (!Success)
         {
-            if(IsLogin)
+            if (IsLogin)
             {
                 Payload.Message = "Username or password is incorrect";
             }
@@ -305,7 +312,7 @@ internal sealed class Server : IDisposable
         }
         else
         {
-            if(IsLogin)
+            if (IsLogin)
             {
                 Payload.Message = "Login successful";
             }
@@ -313,7 +320,7 @@ internal sealed class Server : IDisposable
             {
                 Payload.Message = "Registration successful";
             }
-            
+
             Payload.Messages = Messages;
             Payload.Products = Products;
         }
@@ -325,45 +332,80 @@ internal sealed class Server : IDisposable
     public void HandleGetProducts(ClientSession client, ProtocolFrame frame)
     {
         SendProductsPayload Payload = new SendProductsPayload();
-        lock(DatabaseLock)
+        lock (DatabaseLock)
         {
-            Payload.Products = Database.GetAllProducts();
+            Payload.Products = Products;
         }
         ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.SendProducts, ProtocolEncryptionFlags.Encrypted, client.RequestCounter, JsonSerializer.SerializeToUtf8Bytes(Payload));
         client.Send(ResponseFrame, true);
     }
-    public void HandlePlaceOrder(ClientSession client, ProtocolFrame frame){
+    public void HandlePlaceOrder(ClientSession client, ProtocolFrame frame)
+    {
         //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
         PlaceOrderPayload? Payload = JsonSerializer.Deserialize<PlaceOrderPayload>(frame.Payload);
         // currently no order saving so the order details dont matter except for username validity
-        lock (DatabaseLock)
+        OrderResultPayload ResponsePayload = new OrderResultPayload();
+        ResponsePayload.Success = true;
+        if (!client.Authenticated || !ValidationHelpers.ValidateNames(Payload!.Details.FirstName) || !ValidationHelpers.ValidateNames(Payload.Details.LastName) || !ValidationHelpers.ValidateNames(Payload.Details.Address) || !ValidationHelpers.ValidateCreditCardNumber(Payload.Details.CreditCardNumber) || !ValidationHelpers.ValidateExpiration(Payload.Details.ExpirationMonth, Payload.Details.ExpirationYear) || !ValidationHelpers.ValidateCvv(Payload.Details.CVV) || ValidationHelpers.ValidateProducts(Payload.Products))
+            ResponsePayload.Success = false;
+        foreach (var product in Payload.Products)
         {
-            User? OrderingUser = Database.SelectUser(Payload!.Details.Username);
-            if(OrderingUser != null)
+            if (Database.ProductExists(product.ProductID) == false)
             {
-                OrderResultPayload ResponsePayload = new OrderResultPayload();
-                ResponsePayload.Success = true;
-                if(!ValidationHelpers.ValidateNames(Payload.Details.FirstName) || !ValidationHelpers.ValidateNames(Payload.Details.LastName) || !ValidationHelpers.ValidateNames(Payload.Details.Address) || !ValidationHelpers.ValidateCreditCardNumber(Payload.Details.CreditCardNumber) || !ValidationHelpers.ValidateExpiration(Payload.Details.ExpirationMonth, Payload.Details.ExpirationYear) || !ValidationHelpers.ValidateCvv(Payload.Details.CVV))
-                {
-                    ResponsePayload.Success = false;
-                }
-                ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.OrderResult, ProtocolEncryptionFlags.Encrypted, client.RequestCounter, JsonSerializer.SerializeToUtf8Bytes(ResponsePayload));
-                client.Send(ResponseFrame, true);
-                Database.SaveFullOrder(new Order(){Details = Payload.Details, Products = Payload.Products});
+                ResponsePayload.Success = false;
+                break;
+            }
+            else
+            {
+                product.Price = Database.GetItemPrice(int.Parse(product.ProductID));
             }
         }
+        if (ResponsePayload.Success)
+        {
+            lock (DatabaseLock)
+                try
+                {
+                    OrderDetails verifiedDetails = new OrderDetails()
+                    {
+                        Username = client.Username!,
+                        FirstName = Payload.Details.FirstName,
+                        LastName = Payload.Details.LastName,
+                        Address = Payload.Details.Address,
+                        CreditCardNumber = Payload.Details.CreditCardNumber,
+                        ExpirationMonth = Payload.Details.ExpirationMonth,
+                        ExpirationYear = Payload.Details.ExpirationYear,
+                        CVV = Payload.Details.CVV,
+                        Timestamp = DateTime.Now
+                    };
+                    Database.SaveFullOrder(new Order() { OrderID = Guid.NewGuid().ToString(), Details = verifiedDetails, Products = Payload.Products });
+                }
+                catch (Exception ex)
+                {
+                    PrintOut?.Invoke("Error saving order: " + ex.Message);
+                    ResponsePayload.Success = false;
+                }
+        }
+
+        ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.OrderResult, ProtocolEncryptionFlags.Encrypted, client.RequestCounter, JsonSerializer.SerializeToUtf8Bytes(ResponsePayload));
+        client.Send(ResponseFrame, true);
+
 
     }
+
     public void HandleChatPost(ClientSession client, ProtocolFrame frame)
     {
         //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
         ChatPostPayload? Payload = JsonSerializer.Deserialize<ChatPostPayload>(frame.Payload);
         Message NewMessage = Payload!.Message;
-        NewMessage.MessageId = Interlocked.Increment(ref MessageIdCounter).ToString();
-        lock(DatabaseLock)
+        if (!client.Authenticated || string.IsNullOrEmpty(NewMessage.Text) || string.IsNullOrEmpty(NewMessage.SentBy) || string.IsNullOrEmpty(NewMessage.Timestamp.ToString()))
         {
-            User? PostingUser = Database.SelectUser(Payload!.Message.SentBy);
-            if(PostingUser != null)
+            return;
+        }
+        NewMessage.MessageId = Interlocked.Increment(ref MessageIdCounter).ToString();
+        lock (DatabaseLock)
+        {
+            User? PostingUser = Database.SelectUser(client.Username!);
+            if (PostingUser != null)
             {
                 Database.SaveMessage(NewMessage);
                 Messages.Add(NewMessage);
@@ -375,9 +417,9 @@ internal sealed class Server : IDisposable
     {
         ChatBroadcastPayload Payload = new ChatBroadcastPayload();
         Payload.Message = message;
-        lock(ClientLock)
+        lock (ClientLock)
         {
-            foreach(var client in ConnectedClients.Values)
+            foreach (var client in ConnectedClients.Values)
             {
                 ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.ChatBroadcast, ProtocolEncryptionFlags.Encrypted, client.RequestCounter, JsonSerializer.SerializeToUtf8Bytes(Payload));
                 client.Send(ResponseFrame, true);

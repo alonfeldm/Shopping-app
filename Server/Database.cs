@@ -139,9 +139,9 @@ internal sealed class Database
     {
         SaveOrderDetails(order);
 
-        for(int i = 0; i < order.Products.Count; i++)
+        for (int i = 0; i < order.Products.Count; i++)
         {
-            SaveOrderItem(order.OrderID,order.Products[i]);
+            SaveOrderItem(order.OrderID, order.Products[i]);
         }
     }
 
@@ -209,9 +209,116 @@ internal sealed class Database
             Description = "Seven-port dock with HDMI, ethernet, and USB expansion.",
             Price = 189.50m
         });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "04",
+            Name = "Wireless Mouse",
+            Description = "Ergonomic mouse with adjustable DPI settings.",
+            Price = 49.99m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "05",
+            Name = "Noise-Cancelling Headphones",
+            Description = "Over-ear headphones with active noise cancellation.",
+            Price = 199.99m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "06",
+            Name = "4K 27in Monitor",
+            Description = "27-inch monitor with stunning 4K resolution.",
+            Price = 349.99m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "07",
+            Name = "External SSD 1TB",
+            Description = "Portable 1TB SSD with fast data transfer speeds.",
+            Price = 149.99m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "08",
+            Name = "Webcam with Microphone",
+            Description = "1080p webcam with built-in microphone for clear video calls.",
+            Price = 89.99m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "09",
+            Name = "Laptop Stand",
+            Description = "Adjustable stand to improve laptop ergonomics.",
+            Price = 39.99m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "10",
+            Name = "Bluetooth Speaker",
+            Description = "Portable speaker with rich sound and long battery life.",
+            Price = 59.99m
+        });
 
         // Return the full list.
         return ProductList;
     }
+    public void ClearMessages()
+    {
+        string Query = "DELETE FROM Messages";
+        using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
+        {
+            using (SQLiteCommand Command = new SQLiteCommand(Query, connection))
+            {
+                connection.Open();
+                Command.ExecuteNonQuery();
+            }
+        }
+    }
+    public void ClearUsers()
+    {
+        string Query = "DELETE FROM Users";
+        using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
+        {
+            using (SQLiteCommand Command = new SQLiteCommand(Query, connection))
+            {
+                connection.Open();
+                Command.ExecuteNonQuery();
+            }
+        }
 
+    }
+    public void ClearOrders()
+    {
+        string Query = "DELETE FROM Orders";
+        using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
+        {
+            using (SQLiteCommand Command = new SQLiteCommand(Query, connection))
+            {
+                connection.Open();
+                Command.ExecuteNonQuery();
+            }
+        }
+    }
+    public static int GetItemPrice(int ProductId)
+    {
+        for(int i = 0; i < GetAllProducts().Count; i++)
+        {
+            if(GetAllProducts()[i].ProductID == ProductId.ToString())
+            {
+                return int.Parse(GetAllProducts()[i].Price.ToString());
+            }
+        }
+        return -1;
+    }
+    public static bool ProductExists(string ProductId)
+    {
+        foreach (ProductWithDetails product in GetAllProducts())
+        {
+            if (product.ProductID == ProductId)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

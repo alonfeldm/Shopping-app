@@ -1,18 +1,19 @@
-
+using SharedLibraries.Payloads;
+using System.Collections.Generic;
 namespace SharedLibraries.ValidationHelpers;
 
 public class ValidationHelpers
 {
     public static bool ValidateCreditCardNumber(string CreditCardNumber)
     {
-        if(CreditCardNumber.Length != 16 || string.IsNullOrEmpty(CreditCardNumber))
+        if (CreditCardNumber.Length != 16 || string.IsNullOrEmpty(CreditCardNumber))
         {
             return false;
         }
         try
         {
             long CreditCardNumberLong = long.Parse(CreditCardNumber);
-            if(CreditCardNumberLong < 0)
+            if (CreditCardNumberLong < 0)
             {
                 return false;
             }
@@ -25,7 +26,7 @@ public class ValidationHelpers
     }
     public static bool ValidateExpiration(string month, string year)
     {
-        if(month.Length != 2 || year.Length != 2 || string.IsNullOrEmpty(month) || string.IsNullOrEmpty(year))
+        if (month.Length != 2 || year.Length != 2 || string.IsNullOrEmpty(month) || string.IsNullOrEmpty(year))
         {
             return false;
         }
@@ -33,7 +34,7 @@ public class ValidationHelpers
         {
             int monthInt = int.Parse(month);
             int yearInt = int.Parse(year);
-            if(monthInt < 1 || monthInt > 12 || yearInt < 26 || yearInt > 99)
+            if (monthInt < 1 || monthInt > 12 || yearInt < 26 || yearInt > 99)
             {
                 return false;
             }
@@ -46,14 +47,14 @@ public class ValidationHelpers
     }
     public static bool ValidateCvv(string cvv)
     {
-        if(cvv.Length != 3 || string.IsNullOrEmpty(cvv))
+        if (cvv.Length != 3 || string.IsNullOrEmpty(cvv))
         {
             return false;
         }
         try
         {
             int cvvInt = int.Parse(cvv);
-            if(cvvInt < 0)
+            if (cvvInt < 0)
             {
                 return false;
             }
@@ -66,9 +67,24 @@ public class ValidationHelpers
     }
     public static bool ValidateNames(string text)
     {
-        if(string.IsNullOrEmpty(text))
+        if (string.IsNullOrEmpty(text))
         {
             return false;
+        }
+        return true;
+    }
+    public static bool ValidateProducts(List<ProductAndQuantity> products)
+    {
+        foreach (ProductAndQuantity product in products)
+        {
+            if (string.IsNullOrEmpty(product.ProductID))
+            {
+                return false;
+            }
+            if(product.Quantity < 1)
+            {
+                return false;
+            }
         }
         return true;
     }

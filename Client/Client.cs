@@ -11,51 +11,63 @@ namespace Client;
 
 public class Client
 {
-    private Aes? aes {get; set;}
-    public bool SecureSessionConnected {get; set;} = false;
-    public string? Username {get; set;}
+    private Aes? aes { get; set; }
+    public bool SecureSessionConnected { get; set; } = false;
+    public string? Username { get; set; }
     private readonly object SendLock = new object();
-    private NetworkStream? NetworkStream {get; set;}
-    private TcpClient? TcpClient {get; set;}
-    private Thread? ListenThread {get; set;}
-    private int NextRequestId {get; set;} = 0;
-    private bool Disposed {get; set;} = false;
-    private List<ProductWithDetails> Products {get; set;} = new List<ProductWithDetails>();
-    private List<Message> Messages {get; set;} = new List<Message>();
-    public bool TcpConnected {get; set;} = false;
-    public void Start(string Ip,int Port)
+    private NetworkStream? NetworkStream { get; set; }
+    private TcpClient? TcpClient { get; set; }
+    private Thread? ListenThread { get; set; }
+    private int NextRequestId { get; set; } = 0;
+    private bool Disposed { get; set; } = false;
+    private List<ProductWithDetails> Products { get; set; } = new List<ProductWithDetails>();
+    private List<Message> Messages { get; set; } = new List<Message>();
+    public bool TcpConnected { get; set; } = false;
+    public void Start(string Ip, int Port)
     {
-        if(!TcpConnected){
+        if (!TcpConnected)
+        {
             SecureSessionConnected = false;
             TcpClient = new TcpClient(Ip, Port);
             TcpClient!.NoDelay = true;
             NetworkStream = TcpClient.GetStream();
-            ListenThread = new Thread(Listen);{ListenThread.IsBackground = true;}
+            ListenThread = new Thread(Listen);
+            { ListenThread.IsBackground = true; }
             ListenThread.Start();
             Disposed = false;
             TcpConnected = true;
         }
     }
-    
+
     public void Stop()
     {
-        Disposed = true;
-        NetworkStream?.Close();
-        TcpClient?.Close();
-        SecureSessionConnected = false;
-        aes = null;
-        Username = null;
-        TcpConnected = false;
+        ProtocolFrame DisconnectFrame = new ProtocolFrame(ProtocolCommands.Disconnect, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, Array.Empty<byte>());
+        Send(DisconnectFrame, true);
+        try
+        {
+            Disposed = true;
+            NetworkStream?.Close();
+            TcpClient?.Close();
+            SecureSessionConnected = false;
+            aes = null;
+            Username = null;
+            TcpConnected = false;
+        }
+        catch (Exception ex)
+        {
+            PrintOut?.Invoke("Failed to handle disconnect frame: " + ex.Message);
+        }
     }
     public void Listen()
     {
-        if(TcpConnected){
+        if (TcpConnected)
+        {
             try
             {
                 while (!Disposed)
                 {
                     ProtocolFrame? Frame = Protocol.ReadFrame(NetworkStream!);
-                    if(Frame == null)
+                    if (Frame == null)
                     {
                         PrintOut?.Invoke("Frame couldn't be read, connection might be lost");
                         break;
@@ -63,11 +75,11 @@ public class Client
                     HandleFrame(Frame);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 PrintOut?.Invoke("Frame couldn't be read, connection might be lost: " + ex.Message);
             }
-    }
+        }
     }
     public void Send(ProtocolFrame Frame, bool Encrypted)
     {
@@ -75,15 +87,15 @@ public class Client
         ProtocolEncryptionFlags Flag = ProtocolEncryptionFlags.UnEncrypted;
         if (Encrypted)
         {
-            if(aes == null)
+            if (aes == null)
             {
                 throw new InvalidOperationException("doesn't have an aes key");
             }
             PayloadToSend = SecurityHelpers.EncryptWithSessionKey(PayloadToSend, aes);
             Flag = ProtocolEncryptionFlags.Encrypted;
-            
+
         }
-        
+
         lock (SendLock)
         {
             if (Disposed)
@@ -96,14 +108,16 @@ public class Client
     }
     public void HandleFrame(ProtocolFrame Frame)
     {
-        try{
-            switch(Frame.Command){
+        try
+        {
+            switch (Frame.Command)
+            {
                 case ProtocolCommands.Hello:
                     try
                     {
                         HandleHello(Frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle hello frame: " + ex.Message);
                     }
@@ -113,7 +127,7 @@ public class Client
                     {
                         HandleConnectionSuccess(Frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle connection success frame: " + ex.Message);
                     }
@@ -123,7 +137,7 @@ public class Client
                     {
                         HandleAuthenticationResult(Frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle authentication result frame: " + ex.Message);
                     }
@@ -133,7 +147,7 @@ public class Client
                     {
                         HandleSendProducts(Frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle send products frame: " + ex.Message);
                     }
@@ -143,7 +157,7 @@ public class Client
                     {
                         HandleOrderResult(Frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle order result frame: " + ex.Message);
                     }
@@ -153,7 +167,7 @@ public class Client
                     {
                         HandleChatBroadcast(Frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle chat broadcast frame: " + ex.Message);
                     }
@@ -163,17 +177,33 @@ public class Client
                     {
                         HandleError(Frame);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         PrintOut?.Invoke("Failed to handle error frame: " + ex.Message);
                     }
                     break;
+                // case ProtocolCommands.Disconnect:
+                //     try
+                //     {
+                //         Disposed = true;
+                //         NetworkStream?.Close();
+                //         TcpClient?.Close();
+                //         SecureSessionConnected = false;
+                //         aes = null;
+                //         Username = null;
+                //         TcpConnected = false;
+                //     }
+                //     catch (Exception ex)
+                //     {
+                //         PrintOut?.Invoke("Failed to handle disconnect frame: " + ex.Message);
+                //     }
+                //     break;
                 default:
                     PrintOut?.Invoke("Received unknown command: " + Frame.Command);
                     break;
+            }
         }
-        }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             PrintOut?.Invoke("Error occurred while handling frame: " + ex.Message);
 
@@ -181,7 +211,7 @@ public class Client
     }
     public void HandleHello(ProtocolFrame Frame)
     {
-        HelloPayload? Payload =JsonSerializer.Deserialize<HelloPayload>(Frame.Payload);
+        HelloPayload? Payload = JsonSerializer.Deserialize<HelloPayload>(Frame.Payload);
         RSA rsa = RSA.Create();
         rsa.ImportRSAPublicKey(Payload!.PublicKey, out _);
         aes = SecurityHelpers.CreateAes();
@@ -195,7 +225,7 @@ public class Client
     {
         byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
         ConnectionSuccessPayload? Payload = JsonSerializer.Deserialize<ConnectionSuccessPayload>(DecryptedPayload);
-        if(Payload!.Success)
+        if (Payload!.Success)
         {
             PrintOut?.Invoke("Connected");
             SecureSessionConnected = true;
@@ -209,19 +239,19 @@ public class Client
     {
         byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
         AuthenticationResultPayload? Payload = JsonSerializer.Deserialize<AuthenticationResultPayload>(DecryptedPayload);
-        if(Payload!.Success)
+        if (Payload!.Success)
         {
             Username = Payload.Username;
             PrintOut?.Invoke("Authenticated as " + Payload.Username);
             Products = Payload.Products;
             Messages = Payload.Messages;
             ClearStore?.Invoke();
-            for(int i = 0; i < Products.Count; i++)
+            for (int i = 0; i < Products.Count; i++)
             {
-            AppendStore?.Invoke(Products[i]);
+                AppendStore?.Invoke(Products[i]);
             }
             ClearMessages?.Invoke();
-            for(int i = 0; i < Messages.Count; i++)
+            for (int i = 0; i < Messages.Count; i++)
             {
                 DisplayMessage?.Invoke(Messages[i].SentBy, Messages[i].Text);
             }
@@ -237,7 +267,7 @@ public class Client
         SendProductsPayload? Payload = JsonSerializer.Deserialize<SendProductsPayload>(DecryptedPayload);
         Products = Payload!.Products;
         ClearStore?.Invoke();
-        for(int i = 0; i < Products.Count; i++)
+        for (int i = 0; i < Products.Count; i++)
         {
             AppendStore?.Invoke(Products[i]);
         }
@@ -246,7 +276,7 @@ public class Client
     {
         byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
         OrderResultPayload? Payload = JsonSerializer.Deserialize<OrderResultPayload>(DecryptedPayload);
-        if(Payload!.Success)
+        if (Payload!.Success)
         {
             PrintOut?.Invoke("Order successful");//maybe add to order list
         }
@@ -272,7 +302,7 @@ public class Client
     public event Action<string>? PrintOut;
     public void CreateRegisterFrame(string Username, string Password)
     {
-        if(SecureSessionConnected == false)
+        if (SecureSessionConnected == false)
         {
             PrintOut?.Invoke("Not connected to server");
             return;
@@ -285,7 +315,7 @@ public class Client
     }
     public void CreateLoginFrame(string Username, string Password)
     {
-        if(SecureSessionConnected == false)
+        if (SecureSessionConnected == false)
         {
             PrintOut?.Invoke("Not connected to server");
             return;
@@ -301,7 +331,7 @@ public class Client
         ChatPostPayload Payload = new ChatPostPayload();
         Message Message = new Message();
         Message.Text = message;
-        Message.SentBy = Username?? "Unknown";
+        Message.SentBy = Username ?? "Unknown";
         Message.Timestamp = DateTime.Now;
         Message.MessageId = 0.ToString(); //server will change this to a real id
         Payload.Message = Message;

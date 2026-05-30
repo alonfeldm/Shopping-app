@@ -224,6 +224,7 @@ namespace Client
             storeGrid.RowHeadersWidth = 51;
             storeGrid.Size = new System.Drawing.Size(869, 635);
             storeGrid.TabIndex = 16;
+            storeGrid.AllowUserToAddRows = false;
             storeGrid.CellContentClick += StoreGrid_CellContentClick;
             // 
             // NameColumn
