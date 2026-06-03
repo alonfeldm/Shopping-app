@@ -417,6 +417,7 @@ internal sealed class Server : IDisposable
         NewMessage.SentBy = client.Username!;
         if (!client.Authenticated || string.IsNullOrEmpty(NewMessage.Text) || string.IsNullOrEmpty(NewMessage.SentBy))
         {
+            //PrintOut("boo");
             return;
         }
         NewMessage.MessageId = Interlocked.Increment(ref MessageIdCounter).ToString();
@@ -468,14 +469,22 @@ internal sealed class Server : IDisposable
     {
         try
         {
-            History.Add(new Content
+            List<Content> TempHistory = new List<Content>();
+            TempHistory.Add(History[0]);
+            TempHistory.Add(new Content
             {
                 Role = "user",
                 Parts = new List<Part> { new Part { Text = text } }
             });
+
+            // History.Add(new Content
+            // {
+            //     Role = "user",
+            //     Parts = new List<Part> { new Part { Text = text } }
+            // });
             var response = await AIClient!.Models.GenerateContentAsync(
             model: "gemini-2.5-flash",
-            contents: History
+            contents: TempHistory
             );
             if (!bool.TryParse(response.Text, out bool boolResponse))
             {
