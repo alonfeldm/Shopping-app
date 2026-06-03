@@ -23,6 +23,7 @@ public class Client
     private List<ProductWithDetails> Products { get; set; } = new List<ProductWithDetails>();
     private List<Message> Messages { get; set; } = new List<Message>();
     public bool TcpConnected { get; set; } = false;
+    public bool LoggedIn { get; set; } = false;
     public void Start(string Ip, int Port)
     {
         if (!TcpConnected)
@@ -58,7 +59,7 @@ public class Client
         }
         catch (Exception ex)
         {
-            PrintOut?.Invoke("Failed to handle disconnect frame: " + ex.Message);
+            DisplayLog?.Invoke("Failed to handle disconnect frame: " + ex.Message);
         }
     }
     public void Listen()
@@ -72,7 +73,7 @@ public class Client
                     ProtocolFrame? Frame = Protocol.ReadFrame(NetworkStream!);
                     if (Frame == null)
                     {
-                        PrintOut?.Invoke("Frame couldn't be read, connection might be lost");
+                        DisplayLog?.Invoke("Frame couldn't be read, connection might be lost");
                         break;
                     }
                     HandleFrame(Frame);
@@ -80,7 +81,7 @@ public class Client
             }
             catch (Exception ex)
             {
-                PrintOut?.Invoke("Frame couldn't be read, connection might be lost: " + ex.Message);
+                DisplayLog?.Invoke("Frame couldn't be read, connection might be lost: " + ex.Message);
             }
         }
     }
@@ -122,7 +123,7 @@ public class Client
                     }
                     catch (Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle hello frame: " + ex.Message);
+                        DisplayLog?.Invoke("Failed to handle hello frame: " + ex.Message);
                     }
                     break;
                 case ProtocolCommands.ConnectionSuccess:
@@ -132,7 +133,7 @@ public class Client
                     }
                     catch (Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle connection success frame: " + ex.Message);
+                        DisplayLog?.Invoke("Failed to handle connection success frame: " + ex.Message);
                     }
                     break;
                 case ProtocolCommands.AuthenticationResult:
@@ -142,7 +143,7 @@ public class Client
                     }
                     catch (Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle authentication result frame: " + ex.Message);
+                        DisplayLog?.Invoke("Failed to handle authentication result frame: " + ex.Message);
                     }
                     break;
                 case ProtocolCommands.SendProducts:
@@ -152,7 +153,7 @@ public class Client
                     }
                     catch (Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle send products frame: " + ex.Message);
+                        DisplayLog?.Invoke("Failed to handle send products frame: " + ex.Message);
                     }
                     break;
                 case ProtocolCommands.OrderResult:
@@ -162,7 +163,7 @@ public class Client
                     }
                     catch (Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle order result frame: " + ex.Message);
+                        DisplayLog?.Invoke("Failed to handle order result frame: " + ex.Message);
                     }
                     break;
                 case ProtocolCommands.ChatBroadcast:
@@ -172,7 +173,7 @@ public class Client
                     }
                     catch (Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle chat broadcast frame: " + ex.Message);
+                        DisplayLog?.Invoke("Failed to handle chat broadcast frame: " + ex.Message);
                     }
                     break;
                 case ProtocolCommands.Error:
@@ -182,7 +183,7 @@ public class Client
                     }
                     catch (Exception ex)
                     {
-                        PrintOut?.Invoke("Failed to handle error frame: " + ex.Message);
+                        DisplayLog?.Invoke("Failed to handle error frame: " + ex.Message);
                     }
                     break;
                 // case ProtocolCommands.Disconnect:
@@ -198,18 +199,17 @@ public class Client
                 //     }
                 //     catch (Exception ex)
                 //     {
-                //         PrintOut?.Invoke("Failed to handle disconnect frame: " + ex.Message);
+                //         DisplayLog?.Invoke("Failed to handle disconnect frame: " + ex.Message);
                 //     }
                 //     break;
                 default:
-                    PrintOut?.Invoke("Received unknown command: " + Frame.Command);
+                    DisplayLog?.Invoke("Received unknown command: " + Frame.Command);
                     break;
             }
         }
         catch (Exception ex)
         {
-            PrintOut?.Invoke("Error occurred while handling frame: " + ex.Message);
-
+            DisplayLog?.Invoke("Error occurred while handling frame: " + ex.Message);
         }
     }
     public void HandleHello(ProtocolFrame Frame)
@@ -230,12 +230,12 @@ public class Client
         ConnectionSuccessPayload? Payload = JsonSerializer.Deserialize<ConnectionSuccessPayload>(DecryptedPayload);
         if (Payload!.Success)
         {
-            PrintOut?.Invoke("Connected");
+            DisplayLog?.Invoke("Connected");
             SecureSessionConnected = true;
         }
         else
         {
-            PrintOut?.Invoke("Failed to connect, try again");
+            DisplayLog?.Invoke("Failed to connect, try again");
         }
     }
     public void HandleAuthenticationResult(ProtocolFrame Frame)
@@ -245,7 +245,8 @@ public class Client
         if (Payload!.Success)
         {
             Username = Payload.Username;
-            PrintOut?.Invoke("Authenticated as " + Payload.Username);
+            DisplayLog?.Invoke("Authenticated as " + Payload.Username);
+            LoggedIn = true;
             Products = Payload.Products;
             Messages = Payload.Messages;
             ClearStore?.Invoke();
@@ -261,7 +262,7 @@ public class Client
         }
         else
         {
-            PrintOut?.Invoke("Authentication failed");
+            DisplayLog?.Invoke("Authentication failed");
         }
     }
     public void HandleSendProducts(ProtocolFrame Frame)
@@ -281,11 +282,11 @@ public class Client
         OrderResultPayload? Payload = JsonSerializer.Deserialize<OrderResultPayload>(DecryptedPayload);
         if (Payload!.Success)
         {
-            PrintOut?.Invoke("Order successful");//maybe add to order list
+            DisplayLog?.Invoke("Order successful");//maybe add to order list
         }
         else
         {
-            PrintOut?.Invoke("Order failed ");
+            DisplayLog?.Invoke("Order failed ");
         }
     }
     public void HandleChatBroadcast(ProtocolFrame Frame)
@@ -300,14 +301,15 @@ public class Client
     {
         byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(Frame.Payload, aes!);
         ErrorPayload? Payload = JsonSerializer.Deserialize<ErrorPayload>(DecryptedPayload);
-        PrintOut?.Invoke("Error from server: " + Payload!.ErrorMessage);
+        DisplayLog?.Invoke("Error from server: " + Payload!.ErrorMessage);
     }
     public event Action<string>? PrintOut;
+    public event Action<string>? DisplayLog;
     public void CreateRegisterFrame(string Username, string Password)
     {
         if (SecureSessionConnected == false)
         {
-            PrintOut?.Invoke("Not connected to server");
+            DisplayLog?.Invoke("Not connected to server");
             return;
         }
         RegisterPayload Payload = new RegisterPayload();
@@ -320,7 +322,7 @@ public class Client
     {
         if (SecureSessionConnected == false)
         {
-            PrintOut?.Invoke("Not connected to server");
+            DisplayLog?.Invoke("Not connected to server");
             return;
         }
         LoginPayload Payload = new LoginPayload();

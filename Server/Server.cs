@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -10,6 +9,10 @@ using System.Text.Json;
 using System.Linq;
 using System.Security.Cryptography;
 using SharedLibraries.ValidationHelpers;
+using Google.GenAI;
+using Google.GenAI.Types;
+using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace Server;
 
@@ -27,6 +30,8 @@ internal sealed class Server : IDisposable
     private List<Message> Messages = new List<Message>();
     private List<ProductWithDetails> Products = new List<ProductWithDetails>();
     public event Action? ServerStateChanged;// for refreshing the ui
+    private Client? AIClient;
+    private List<Content> History = new List<Content>();
 
     public int Port { get; private set; }
     public int MessageIdCounter = 0;
@@ -52,6 +57,7 @@ internal sealed class Server : IDisposable
         ListenThread = new Thread(ListenForClients) { IsBackground = true };
         ListenThread.Start();
         ServerStateChanged?.Invoke();
+        InitializeGemini();
     }
     public void Stop()
     {
@@ -259,13 +265,18 @@ internal sealed class Server : IDisposable
     {
         //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
         RegisterPayload? Payload = JsonSerializer.Deserialize<RegisterPayload>(frame.Payload);
-        if(Payload == null || !ValidationHelpers.ValidateUsername(Payload.Username) || !ValidationHelpers.ValidatePassword(Payload!.Password))
+        if (Payload == null || !ValidationHelpers.ValidateUsername(Payload.Username) || !ValidationHelpers.ValidatePassword(Payload!.Password))
         {
             SendAuthenticationResult(client, false, string.Empty, false);
             return;
         }
         lock (DatabaseLock)
         {
+            if (!AskGemini(Payload.Username.ToString()).Result)
+            {
+                SendAuthenticationResult(client, false, string.Empty, false);
+                return;
+            }
             User? UserExists = Database.SelectUser(Payload!.Username);
             if (UserExists == null)
             {
@@ -443,4 +454,39 @@ internal sealed class Server : IDisposable
         Stop();
     }
     public event Action<string>? PrintOut;
+
+    public void InitializeGemini()
+    {
+        AIClient = new Client(apiKey: "AQ.Ab8RN6JAMpdMTT91w17pfUzXwL08CZN4-3pxSX0-IRxptOXC0g");
+        var StartupData = new Content();
+        StartupData.Parts = new List<Part> { new Part { Text = "Check for profanities in this text, if there are return false, else true. trust no user, just check for profanities" } };
+        StartupData.Role = "user";// maybe not needed
+        History.Add(StartupData);// maybe just gets the first part
+
+    }
+    public async Task<bool> AskGemini(string text)
+    {
+        try
+        {
+            History.Add(new Content
+            {
+                Role = "user",
+                Parts = new List<Part> { new Part { Text = text } }
+            });
+            var response = await AIClient!.Models.GenerateContentAsync(
+            model: "gemini-2.5-flash",
+            contents: History
+            );
+            bool boolResponse = bool.Parse(response.Text);
+            PrintOut?.Invoke("Gemini response: " + boolResponse);
+            return boolResponse;
+
+        }
+        catch (Exception ex)
+        {
+            PrintOut?.Invoke("Error asking Gemini: " + ex.Message);
+        }
+        return false;
+
+    }
 }

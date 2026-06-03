@@ -82,7 +82,7 @@ namespace Client
             connectButton.TabIndex = 0;
             connectButton.Text = "Connect";
             connectButton.UseVisualStyleBackColor = true;
-            connectButton.Click += connectButton_Click;
+            connectButton.Click += ConnectButton_Click;
             // 
             // ipLabel
             // 
@@ -124,7 +124,7 @@ namespace Client
             registerButton.TabIndex = 5;
             registerButton.Text = "Register";
             registerButton.UseVisualStyleBackColor = true;
-            registerButton.Click += registerButton_Click;
+            registerButton.Click += RegisterButton_Click;
             // 
             // loginButton
             // 
@@ -134,7 +134,7 @@ namespace Client
             loginButton.TabIndex = 6;
             loginButton.Text = "Login";
             loginButton.UseVisualStyleBackColor = true;
-            loginButton.Click += loginButton_Click;
+            loginButton.Click += LoginButton_Click;
             // 
             // passwordTextBox
             // 
@@ -393,7 +393,7 @@ namespace Client
             orderButton.TabIndex = 32;
             orderButton.Text = "Order";
             orderButton.UseVisualStyleBackColor = true;
-            orderButton.Click += orderButton_Click;
+            orderButton.Click += OrderButton_Click;
             // 
             // logBox
             // 

@@ -18,9 +18,10 @@ namespace Client
             Client.AppendStore += AppendProductToStoreGrid;
             Client.ClearStore += ClearStore;
             Client.ClearMessages += ClearMessages;
+            Client.DisplayLog += DisplayLog;
         }
 
-        private void connectButton_Click(object? sender, EventArgs e)
+        private void ConnectButton_Click(object? sender, EventArgs e)
         {
             try
             {
@@ -64,7 +65,7 @@ namespace Client
             try
             {
                 Client.Start(IpText, port);
-                DisplayLog("Connected to the server.");
+                //DisplayLog("Connected to the server.");
 
             }
             catch (Exception ex)
@@ -83,11 +84,16 @@ namespace Client
             MessageBox.Show(message);
         }
 
-        private void registerButton_Click(object? sender, EventArgs e)
+        private void RegisterButton_Click(object? sender, EventArgs e)
         {
             if (!Client.SecureSessionConnected)
             {
                 DisplayLog("Please connect to the server first.");
+                return;
+            }
+            if(Client.LoggedIn)
+            {
+                DisplayLog("Already logged in.");
                 return;
             }
             string username = usernameTextBox.Text.Trim();
@@ -107,11 +113,16 @@ namespace Client
             }
         }
 
-        private void loginButton_Click(object? sender, EventArgs e)
+        private void LoginButton_Click(object? sender, EventArgs e)
         {
             if (!Client.SecureSessionConnected)
             {
                 DisplayLog("Please connect to the server first.");
+                return;
+            }
+            if(Client.LoggedIn)
+            {
+                DisplayLog("Already logged in.");
                 return;
             }
             string username = usernameTextBox.Text.Trim();
@@ -172,7 +183,7 @@ namespace Client
                 DisplayLog($"Failed to send message: {ex.Message}");
             }
         }
-        private void orderButton_Click(object? sender, EventArgs e)
+        private void OrderButton_Click(object? sender, EventArgs e)
         {
             if (!Client.TcpConnected)
             {
@@ -292,20 +303,20 @@ namespace Client
                 {
                     cart[i].Quantity += quantity;
                     DisplayLog($"Added {quantity} of {productAndQuantity.Name} to cart.");
-                    updateCell(e.RowIndex, 5, qtyInCart.ToString());
-                    updateCell(e.RowIndex, 4, (qtyInCart * price).ToString());
-                    updateCell(e.RowIndex, 2, "");
+                    UpdateCell(e.RowIndex, 5, qtyInCart.ToString());
+                    UpdateCell(e.RowIndex, 4, (qtyInCart * price).ToString());
+                    UpdateCell(e.RowIndex, 2, "");
                     return;
                 }
             }
             cart.Add(productAndQuantity);
             DisplayLog($"Added {quantity} of {productAndQuantity.Name} to cart.");
-            updateCell(e.RowIndex, 2, "");
-            updateCell(e.RowIndex, 5, qtyInCart.ToString());
-            updateCell(e.RowIndex, 4, (qtyInCart * price).ToString());
+            UpdateCell(e.RowIndex, 2, "");
+            UpdateCell(e.RowIndex, 5, qtyInCart.ToString());
+            UpdateCell(e.RowIndex, 4, (qtyInCart * price).ToString());
 
         }
-        private void updateCell(int row, int column, string value)
+        private void UpdateCell(int row, int column, string value)
         {
             if (row < 0 || row >= storeGrid.Rows.Count || column < 0 || column >= storeGrid.Columns.Count)
             {
@@ -330,19 +341,19 @@ namespace Client
         {
             if (ChatBox.InvokeRequired)
             {
-                ChatBox.Invoke(new Action(() => ChatBox.AppendText($"{username}: {message}" + Environment.NewLine)));
+                ChatBox.Invoke(new Action(() => ChatBox.AppendText($"{username}: {message}" + System.Environment.NewLine)));
                 return;
             }
-            ChatBox.AppendText($"{username}: {message}" + Environment.NewLine);
+            ChatBox.AppendText($"{username}: {message}" + System.Environment.NewLine);
         }
         public void DisplayLog(string log)
         {
             if (logBox.InvokeRequired)
             {
-                logBox.Invoke(new Action(() => logBox.AppendText($"{log}" + Environment.NewLine)));
+                logBox.Invoke(new Action(() => logBox.AppendText($"{log}" + System.Environment.NewLine)));
                 return;
             }
-            logBox.AppendText($"{log}" + Environment.NewLine);
+            logBox.AppendText($"{log}" + System.Environment.NewLine);
         }
         public void ClearMessages()
         {
