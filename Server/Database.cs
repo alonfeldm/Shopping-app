@@ -262,7 +262,7 @@ internal sealed class Database
         // Return the full list.
         return ProductList;
     }
-    public void ClearMessages()
+    public static void ClearMessages()
     {
         string Query = "DELETE FROM Messages";
         using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
@@ -274,7 +274,7 @@ internal sealed class Database
             }
         }
     }
-    public void ClearUsers()
+    public static void ClearUsers()
     {
         string Query = "DELETE FROM Users";
         using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
@@ -287,12 +287,18 @@ internal sealed class Database
         }
 
     }
-    public void ClearOrders()
+    public static void ClearOrders()
     {
-        string Query = "DELETE FROM Orders";
+        string OrderQuery = "DELETE FROM Orders";
+        string OrderItemsQuery = "DELETE FROM OrderItems";
         using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
         {
-            using (SQLiteCommand Command = new SQLiteCommand(Query, connection))
+            using (SQLiteCommand Command = new SQLiteCommand(OrderQuery, connection))
+            {
+                connection.Open();
+                Command.ExecuteNonQuery();
+            }
+            using (SQLiteCommand Command = new SQLiteCommand(OrderItemsQuery, connection))
             {
                 connection.Open();
                 Command.ExecuteNonQuery();

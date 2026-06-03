@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
+using System.Net;
+using System.Net.Sockets;
 using System.Windows.Forms;
 
 namespace Server
@@ -16,11 +13,13 @@ namespace Server
         {
             InitializeComponent();
             Server.PrintOut += PrintMessage;
+            var IPv4 = Array.Find(Dns.GetHostAddresses(Dns.GetHostName()), x => x.AddressFamily == AddressFamily.InterNetwork);
+            IPLabel.Text = IPv4?.ToString() ?? "No IPv4 address found";
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
-            if(isRunning)
+            if (isRunning)
             {
                 PrintMessage("The server is already running.");
                 return;
@@ -72,6 +71,42 @@ namespace Server
             {
                 PrintMessage("The server is not running.");
                 return;
+            }
+        }
+        private void ClearUsersButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Database.ClearUsers();
+                PrintMessage("Users successfully cleared.");
+            }
+            catch(Exception ex)
+            {
+                PrintMessage("Error clearing the users table:" + ex.Message);
+            }
+        }
+        private void ClearMessagesButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Database.ClearMessages();
+                PrintMessage("Messages successfully cleared.");
+            }
+            catch(Exception ex)
+            {
+                PrintMessage("Error clearing the messages table:" + ex.Message);
+            }
+        }
+        private void ClearOrdersButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Database.ClearOrders();
+                PrintMessage("Orders successfully cleared.");
+            }
+            catch (Exception ex)
+            {
+                PrintMessage("Error clearing the orders table:" + ex.Message);
             }
         }
         public void PrintMessage(string message)

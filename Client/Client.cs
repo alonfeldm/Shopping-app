@@ -54,6 +54,7 @@ public class Client
             Aes = null; // wipes the aes, now a new connection will have a new aes
             Username = null; // now a new user can login
             TcpConnected = false;// now the client is not tcp connected
+            LoggedIn = false; // not the client is not logged in
         }
         catch (Exception ex)// if failed to disconnect properly, log it but dont crash
         {
