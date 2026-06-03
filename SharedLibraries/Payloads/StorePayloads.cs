@@ -58,7 +58,6 @@ public sealed partial class SendProductsPayload
 public sealed partial class PlaceOrderPayload
 {
     public List<ProductAndQuantity> Products { get; set; } = new List<ProductAndQuantity>();
-    public string Username { get; set; } = string.Empty;
     public OrderDetails Details { get; set; } = new OrderDetails();
 }
 

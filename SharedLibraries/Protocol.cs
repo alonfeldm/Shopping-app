@@ -46,7 +46,7 @@ public sealed class ProtocolFrame
 }
 public static class Protocol
 {
-    private static readonly byte[] HeaderBuffer = new byte[] { (byte)'L', (byte)'N', (byte)'S', (byte)'P' };
+    private static readonly byte[] HeaderBuffer = new byte[] { (byte)'I', (byte)'N', (byte)'S', (byte)'P' };
     public const int HeaderSize = 16;
     public const byte ProtocolVersion = 1;
     public const int MaxPayloadSize = 64 * 1024;

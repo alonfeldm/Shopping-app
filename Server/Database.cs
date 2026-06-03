@@ -13,6 +13,7 @@ internal sealed class Database
     private static readonly string DbPath = Path.Combine(Application.StartupPath, "Database.db");
     private static readonly string ConnectionString = $"Data Source={DbPath};Pooling=True;";
 
+
     public static void InitializeDB()
     {
         if (!File.Exists(DbPath))
@@ -138,9 +139,9 @@ internal sealed class Database
     {
         SaveOrderDetails(order);
 
-        for(int i = 0; i < order.Products.Count; i++)
+        for (int i = 0; i < order.Products.Count; i++)
         {
-            SaveOrderItem(order.OrderID,order.Products[i]);
+            SaveOrderItem(order.OrderID, order.Products[i]);
         }
     }
 
@@ -190,7 +191,7 @@ internal sealed class Database
             ProductID = "01",
             Name = "Campus Laptop Sleeve",
             Description = "Protective 14-inch sleeve for school and office use.",
-            Price = 79.90m
+            Price = 80m
         });
 
         ProductList.Add(new ProductWithDetails
@@ -198,7 +199,7 @@ internal sealed class Database
             ProductID = "02",
             Name = "Mechanical Keyboard",
             Description = "Compact keyboard with a comfortable typing feel.",
-            Price = 229.00m
+            Price = 230m
         });
 
         ProductList.Add(new ProductWithDetails
@@ -206,11 +207,126 @@ internal sealed class Database
             ProductID = "03",
             Name = "USB-C Dock",
             Description = "Seven-port dock with HDMI, ethernet, and USB expansion.",
-            Price = 189.50m
+            Price = 185m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "04",
+            Name = "Wireless Mouse",
+            Description = "Ergonomic mouse with adjustable DPI settings.",
+            Price = 50m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "05",
+            Name = "Noise-Cancelling Headphones",
+            Description = "Over-ear headphones with active noise cancellation.",
+            Price = 200m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "06",
+            Name = "4K 27in Monitor",
+            Description = "27-inch monitor with stunning 4K resolution.",
+            Price = 350m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "07",
+            Name = "External SSD 1TB",
+            Description = "Portable 1TB SSD with fast data transfer speeds.",
+            Price = 150m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "08",
+            Name = "Webcam with Microphone",
+            Description = "1080p webcam with built-in microphone for clear video calls.",
+            Price = 90m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "09",
+            Name = "Laptop Stand",
+            Description = "Adjustable stand to improve laptop ergonomics.",
+            Price = 40m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "10",
+            Name = "Bluetooth Speaker",
+            Description = "Portable speaker with rich sound and long battery life.",
+            Price = 60m
         });
 
         // Return the full list.
         return ProductList;
     }
+    public static void ClearMessages()
+    {
+        string Query = "DELETE FROM Messages";
+        using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
+        {
+            using (SQLiteCommand Command = new SQLiteCommand(Query, connection))
+            {
+                connection.Open();
+                Command.ExecuteNonQuery();
+            }
+        }
+    }
+    public static void ClearUsers()
+    {
+        string Query = "DELETE FROM Users";
+        using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
+        {
+            using (SQLiteCommand Command = new SQLiteCommand(Query, connection))
+            {
+                connection.Open();
+                Command.ExecuteNonQuery();
+            }
+        }
 
+    }
+    public static void ClearOrders()
+    {
+        string OrderQuery = "DELETE FROM Orders";
+        string OrderItemsQuery = "DELETE FROM OrderItems";
+        using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
+        {
+            using (SQLiteCommand Command = new SQLiteCommand(OrderItemsQuery, connection))
+            {
+                connection.Open();
+                Command.ExecuteNonQuery();
+                connection.Close();            }
+            using (SQLiteCommand Command = new SQLiteCommand(OrderQuery, connection))
+            {
+                connection.Open();
+                Command.ExecuteNonQuery();
+            }
+        }
+    }
+    public static int GetItemPrice(string ProductId)
+    {
+        List<ProductWithDetails>? Allproducts = GetAllProducts();
+        for(int i = 0; i < Allproducts.Count; i++)
+        {
+            if(Allproducts[i].ProductID == ProductId.ToString())
+            {
+                return int.Parse(Allproducts[i].Price.ToString());
+            }
+        }
+        return -1;
+    }
+    public static bool ProductExists(string ProductId)
+    {
+        List<ProductWithDetails>? Allproducts = GetAllProducts();
+        foreach (ProductWithDetails product in Allproducts)
+        {
+            if (product.ProductID == ProductId)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

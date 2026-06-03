@@ -1,9 +1,7 @@
 using System;
 using SharedLibraries;
-using System.IO;
 using System.Net.Sockets;
 using System.Threading;
-using System.Security.Cryptography;
 
 namespace Server;
 
@@ -12,17 +10,17 @@ internal class ClientSession : IDisposable
     private readonly TcpClient tcpClient;
     private readonly NetworkStream networkStream;
     private Thread? ReceiveThread;
-    private int DisconnectRaised;
-    private readonly object SendLock = new object();
+    public bool DisconnectRaised = false;
+    private readonly object sendLock = new object();
     private bool Disposed;
     public event Action<ClientSession, ProtocolFrame>? FrameReceived;//change name
     public event Action<ClientSession>? Disconnected;
-    public int ClientId {get;}
-    public string? Username {get; set;}
-    public bool Authenticated {get; set;}
-    public System.Security.Cryptography.Aes? aes {get; set;}
-    public string RemoteEndpoint => tcpClient.Client.RemoteEndPoint?.ToString()??"Not known";
-    public int RequestCounter {get; set;} = 0;
+    public int ClientId { get; }
+    public string? Username { get; set; }
+    public bool Authenticated { get; set; }
+    public System.Security.Cryptography.Aes? aes { get; set; }
+    public string RemoteEndpoint => tcpClient.Client?.RemoteEndPoint?.ToString() ?? "Not known";
+    public int RequestCounter { get; set; } = 0;
 
     public ClientSession(TcpClient tcpClient, int CliendId)
     {
@@ -47,16 +45,16 @@ internal class ClientSession : IDisposable
         ProtocolEncryptionFlags Flag = ProtocolEncryptionFlags.UnEncrypted;
         if (Encrypted)
         {
-            if(aes == null)
+            if (aes == null)
             {
                 throw new InvalidOperationException("doesn't have an aes key");
             }
             PayloadToSend = SecurityHelpers.EncryptWithSessionKey(PayloadToSend, aes);
             Flag = ProtocolEncryptionFlags.Encrypted;
-            
+
         }
-        
-        lock (SendLock)
+
+        lock (sendLock)
         {
             if (Disposed)
             {
@@ -74,12 +72,12 @@ internal class ClientSession : IDisposable
             while (true)
             {
                 ProtocolFrame? ReadFrame = Protocol.ReadFrame(networkStream);
-                if(ReadFrame == null)
+                if (ReadFrame == null)
                 {
                     break;
                 }
                 byte[] SentPayload = ReadFrame.Payload;
-                if(ReadFrame.Flags == ProtocolEncryptionFlags.Encrypted)
+                if (ReadFrame.Flags == ProtocolEncryptionFlags.Encrypted)
                 {
                     if (aes != null)
                     {
@@ -90,25 +88,29 @@ internal class ClientSession : IDisposable
                         throw new InvalidOperationException("no aes key for decryption");
                     }
                 }
-                ProtocolFrame NewFrame = new ProtocolFrame(ReadFrame.Command, ReadFrame.Flags, RequestCounter++, SentPayload);
+                ProtocolFrame NewFrame = new ProtocolFrame(ReadFrame.Command, ProtocolEncryptionFlags.UnEncrypted, RequestCounter++, SentPayload);
                 FrameReceived?.Invoke(this, NewFrame);
 
             }
         }
         catch (Exception)
         {
+            PrintOut?.Invoke("Error receiving data from client: " + (Username ?? RemoteEndpoint));
         }
-        DisconnectRaised = 1;
         Dispose();
     }
     public void Dispose()
     {
-        if(DisconnectRaised == 0)
+        if (Disposed)
         {
             return;
         }
+        string usernameOrEndpoint = Username ?? RemoteEndpoint;
         Disposed = true;
         networkStream.Close();
         tcpClient.Close();
+        Disconnected?.Invoke(this);
+        PrintOut?.Invoke("Client disconnected: " + (usernameOrEndpoint));
     }
+    public event Action<string>? PrintOut;
 }

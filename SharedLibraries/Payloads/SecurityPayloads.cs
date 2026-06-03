@@ -18,6 +18,16 @@ public sealed partial class HelloPayload
 
 public sealed partial class SecureSessionPayload
 {
+    // public SecureSessionPayload(byte[] aesKey, byte[] aesIV)
+    // {
+    //     AesKey = aesKey;
+    //     AesIV = aesIV;
+    // }
+    public SecureSessionPayload()
+    {
+        AesKey = Array.Empty<byte>();
+        AesIV = Array.Empty<byte>();
+    }
     public SecureSessionPayload(Aes aes)
     {
         AesKey = aes.Key;
