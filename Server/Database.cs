@@ -293,12 +293,12 @@ internal sealed class Database
         string OrderItemsQuery = "DELETE FROM OrderItems";
         using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
         {
-            using (SQLiteCommand Command = new SQLiteCommand(OrderQuery, connection))
+            using (SQLiteCommand Command = new SQLiteCommand(OrderItemsQuery, connection))
             {
                 connection.Open();
                 Command.ExecuteNonQuery();
-            }
-            using (SQLiteCommand Command = new SQLiteCommand(OrderItemsQuery, connection))
+                connection.Close();            }
+            using (SQLiteCommand Command = new SQLiteCommand(OrderQuery, connection))
             {
                 connection.Open();
                 Command.ExecuteNonQuery();
