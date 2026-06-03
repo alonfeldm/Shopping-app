@@ -85,7 +85,7 @@ namespace Server
             IPLabel.Name = "IPLabel";
             IPLabel.Size = new System.Drawing.Size(104, 20);
             IPLabel.TabIndex = 4;
-            IPLabel.Text = Array.Find(Dns.GetHostAddresses(Dns.GetHostName()), ip => ip.AddressFamily == AddressFamily.InterNetwork)?.ToString() ?? "Not found";
+            IPLabel.Text = Array.Find(Dns.GetHostAddresses(Dns.GetHostName()), ip => ip.AddressFamily == AddressFamily.InterNetwork).ToString() ?? "Not found";
             // 
             // textBox1
             // 

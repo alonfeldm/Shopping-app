@@ -11,16 +11,16 @@ internal class ClientSession : IDisposable
     private readonly NetworkStream networkStream;
     private Thread? ReceiveThread;
     public bool DisconnectRaised = false;
-    private readonly object SendLock = new object();
+    private readonly object sendLock = new object();
     private bool Disposed;
     public event Action<ClientSession, ProtocolFrame>? FrameReceived;//change name
     public event Action<ClientSession>? Disconnected;
-    public int ClientId {get;}
-    public string? Username {get; set;}
-    public bool Authenticated {get; set;}
-    public System.Security.Cryptography.Aes? aes {get; set;}
-    public string RemoteEndpoint => tcpClient.Client?.RemoteEndPoint?.ToString()??"Not known";
-    public int RequestCounter {get; set;} = 0;
+    public int ClientId { get; }
+    public string? Username { get; set; }
+    public bool Authenticated { get; set; }
+    public System.Security.Cryptography.Aes? aes { get; set; }
+    public string RemoteEndpoint => tcpClient.Client?.RemoteEndPoint?.ToString() ?? "Not known";
+    public int RequestCounter { get; set; } = 0;
 
     public ClientSession(TcpClient tcpClient, int CliendId)
     {
@@ -45,16 +45,16 @@ internal class ClientSession : IDisposable
         ProtocolEncryptionFlags Flag = ProtocolEncryptionFlags.UnEncrypted;
         if (Encrypted)
         {
-            if(aes == null)
+            if (aes == null)
             {
                 throw new InvalidOperationException("doesn't have an aes key");
             }
             PayloadToSend = SecurityHelpers.EncryptWithSessionKey(PayloadToSend, aes);
             Flag = ProtocolEncryptionFlags.Encrypted;
-            
+
         }
-        
-        lock (SendLock)
+
+        lock (sendLock)
         {
             if (Disposed)
             {
@@ -72,12 +72,12 @@ internal class ClientSession : IDisposable
             while (true)
             {
                 ProtocolFrame? ReadFrame = Protocol.ReadFrame(networkStream);
-                if(ReadFrame == null)
+                if (ReadFrame == null)
                 {
                     break;
                 }
                 byte[] SentPayload = ReadFrame.Payload;
-                if(ReadFrame.Flags == ProtocolEncryptionFlags.Encrypted)
+                if (ReadFrame.Flags == ProtocolEncryptionFlags.Encrypted)
                 {
                     if (aes != null)
                     {
@@ -100,7 +100,7 @@ internal class ClientSession : IDisposable
         Dispose();
     }
     public void Dispose()
-    {   
+    {
         if (Disposed)
         {
             return;

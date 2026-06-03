@@ -477,7 +477,12 @@ internal sealed class Server : IDisposable
             model: "gemini-2.5-flash",
             contents: History
             );
-            bool boolResponse = bool.Parse(response.Text);
+            if (!bool.TryParse(response.Text, out bool boolResponse))
+            {
+                PrintOut?.Invoke("Gemini response was invalid");
+                return false;
+            }
+            boolResponse = bool.Parse(response.Text);
             PrintOut?.Invoke("Gemini response: " + boolResponse);
             return boolResponse;
 
