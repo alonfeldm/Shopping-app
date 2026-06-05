@@ -69,7 +69,7 @@ namespace Server
             StartButton.TabIndex = 2;
             StartButton.Text = "Start";
             StartButton.UseVisualStyleBackColor = true;
-            StartButton.Click += StartButton_Click;
+            StartButton.Click += StartButton_Click;//wired to corresponding event
             // 
             // StopButton
             // 
@@ -79,7 +79,7 @@ namespace Server
             StopButton.TabIndex = 3;
             StopButton.Text = "Stop";
             StopButton.UseVisualStyleBackColor = true;
-            StopButton.Click += StopButton_Click;
+            StopButton.Click += StopButton_Click;//wired to corresponding event
             // 
             // IPLabel
             // 
@@ -88,7 +88,7 @@ namespace Server
             IPLabel.Name = "IPLabel";
             IPLabel.Size = new System.Drawing.Size(85, 20);
             IPLabel.TabIndex = 4;
-            IPLabel.Text = "IP loading...";
+            IPLabel.Text = "IP loading...";// will be replaced by the ip when its found
             // 
             // LogBox
             // 
@@ -108,7 +108,7 @@ namespace Server
             ClearUsersButton.TabIndex = 6;
             ClearUsersButton.Text = "Clear user database";
             ClearUsersButton.UseVisualStyleBackColor = true;
-            ClearUsersButton.Click += ClearUsersButton_Click;
+            ClearUsersButton.Click += ClearUsersButton_Click;//wired to corresponding event
             // 
             // ClearOrdersButton
             // 
@@ -118,7 +118,7 @@ namespace Server
             ClearOrdersButton.TabIndex = 7;
             ClearOrdersButton.Text = "Clear order database";
             ClearOrdersButton.UseVisualStyleBackColor = true;
-            ClearOrdersButton.Click += ClearOrdersButton_Click;
+            ClearOrdersButton.Click += ClearOrdersButton_Click;//wired to corresponding event
             // 
             // ClearMessagesButton
             // 
@@ -128,7 +128,7 @@ namespace Server
             ClearMessagesButton.TabIndex = 8;
             ClearMessagesButton.Text = "Clear message database";
             ClearMessagesButton.UseVisualStyleBackColor = true;
-            ClearMessagesButton.Click += ClearMessagesButton_Click;
+            ClearMessagesButton.Click += ClearMessagesButton_Click;//wired to corresponding event
             // 
             // ServerWindow
             // 
@@ -148,11 +148,6 @@ namespace Server
             Text = "Server";
             ResumeLayout(false);
             PerformLayout();
-        }
-
-        private void ClearMessagesButton_Click1(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
