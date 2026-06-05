@@ -34,6 +34,7 @@ internal sealed class Server : IDisposable
     private List<Content> History = new List<Content>();// used for giving gemini the prompt and username to check
     public int Port { get; private set; }// the port used by the server
     public int MessageIdCounter = 0;// used to give messages unique ids
+    public string Pepper {private set; get;}
 
     public void Start(int port)
     {
@@ -57,6 +58,7 @@ internal sealed class Server : IDisposable
         ListenThread.Start();// listening for frames
         ServerStateChanged?.Invoke();
         InitializeGemini();// starts gemini with the prompt
+        Pepper = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
     }
     public void Stop()
     {
@@ -84,7 +86,7 @@ internal sealed class Server : IDisposable
         }
         catch (Exception ex)
         {
-            PrintOut.Invoke("failed to stop: " + ex);
+            PrintOut?.Invoke("failed to stop: " + ex);
         }
         ServerListener = null;
         ListenThread = null;
@@ -282,7 +284,7 @@ internal sealed class Server : IDisposable
                 User NewUser = new User();
                 NewUser.Username = Payload.Username;
                 NewUser.Salt = SecurityHelpers.CreateSalt();// generate a salt for more secure password storing
-                NewUser.PasswordHash = SecurityHelpers.HashPassword(Payload.Password, NewUser.Salt);// hashes the password to not keep it in plain text
+                NewUser.PasswordHash = SecurityHelpers.HashPassword(Payload.Password, NewUser.Salt, Pepper);// hashes the password to not keep it in plain text
                 Database.SaveUser(NewUser);// saves the user
                 SendAuthenticationResult(client, true, Payload.Username, false);
             }
@@ -299,7 +301,7 @@ internal sealed class Server : IDisposable
         lock (DatabaseLock)// to stop at once work
         {
             User? LoggingInUser = Database.SelectUser(Payload!.Username);
-            if (LoggingInUser != null && SecurityHelpers.VerifyPassword(Payload.Password, LoggingInUser.Salt, LoggingInUser.PasswordHash))
+            if (LoggingInUser != null && SecurityHelpers.VerifyPassword(Payload.Password, LoggingInUser.Salt, Pepper, LoggingInUser.PasswordHash))
             // checks the password and if the username is taken, if yes it returns a positive authentication result
             {
                 client.Authenticated = true;
