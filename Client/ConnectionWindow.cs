@@ -84,14 +84,14 @@ namespace Client
                 return;
             }
         }
-        private void PrintMessage(string message)//this if used to display with the messagebox
+        private void PrintMessage(string Message)//this if used to display with the messagebox
         {
             if (InvokeRequired)
             {
-                Invoke(new Action(() => MessageBox.Show(message)));
+                Invoke(new Action(() => MessageBox.Show(Message)));
                 return;// if the call is from a different thread we invoke it with the UI thread
             }
-            MessageBox.Show(message);
+            MessageBox.Show(Message);
         }
 
         private void RegisterButton_Click(object? sender, EventArgs e)
@@ -158,11 +158,6 @@ namespace Client
                 DisplayLog("Not connected to the server.");
                 return;
             }
-            // if(!Client.SecureSessionConnected)
-            // {
-            //     DisplayLog("Not fully connected, try again later.");
-            //     return;
-            // }
             Client.Stop();
             ClearLogs();
             ClearMessages();

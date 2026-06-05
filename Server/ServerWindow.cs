@@ -109,14 +109,14 @@ namespace Server
                 PrintMessage("Error clearing the orders table:" + ex.Message);// log it
             }
         }
-        public void PrintMessage(string message)// used for logging
+        public void PrintMessage(string Message)// used for logging
         {
             if (InvokeRequired)// if the ui thread isnt the one calling it switch to it so theres only one thread doing ui and no work of multiple ones at once
             {
-                Invoke(new Action<string>(PrintMessage), message);
+                Invoke(new Action<string>(PrintMessage), Message);
                 return;
             }
-            LogBox.AppendText(message + Environment.NewLine);// log it
+            LogBox.AppendText(Message + Environment.NewLine);// log it
         }
     }
 }

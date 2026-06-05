@@ -12,7 +12,6 @@ using SharedLibraries.ValidationHelpers;
 using Google.GenAI;
 using Google.GenAI.Types;
 using System.Threading.Tasks;
-using System.Net.Mail;
 
 namespace Server;
 
@@ -24,7 +23,7 @@ internal sealed class Server : IDisposable
     private bool IsRunning = false;// to know if the server is running for some tasks
     private readonly object DatabaseLock = new object();// to stop multiple threads from accessing the database at once
     private readonly object ClientLock = new object();// to stop multiple threads from altering/using the client list
-    //no product lock because products are changed in the code not while running.
+    //no product lock because products are not changed in the code while running.
     private readonly Dictionary<int, ClientSession> ConnectedClients = new Dictionary<int, ClientSession>();// holds the clients+
     private int NextClientId = 0;// used to have unique client ids
     private List<Message> Messages = new List<Message>();// holds the messages out of the database for easy use
