@@ -54,6 +54,7 @@ namespace Client
             addToCartButtonColumn = new DataGridViewButtonColumn();
             TotalColumn = new DataGridViewTextBoxColumn();
             QuantityColumn = new DataGridViewTextBoxColumn();
+            productIdColumn = new DataGridViewTextBoxColumn();
             addressBox = new TextBox();
             creditCardBox = new TextBox();
             monthBox = new TextBox();
@@ -70,15 +71,14 @@ namespace Client
             lastNameLabel = new Label();
             orderButton = new Button();
             logBox = new TextBox();
-            productIdColumn = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)storeGrid).BeginInit();
             SuspendLayout();
             // 
             // connectButton
             // 
-            connectButton.Location = new System.Drawing.Point(45, 12);
+            connectButton.Location = new System.Drawing.Point(20, 20);
             connectButton.Name = "connectButton";
-            connectButton.Size = new System.Drawing.Size(100, 32);
+            connectButton.Size = new System.Drawing.Size(100, 30);
             connectButton.TabIndex = 0;
             connectButton.Text = "Connect";
             connectButton.UseVisualStyleBackColor = true;
@@ -89,7 +89,7 @@ namespace Client
             ipLabel.AutoSize = true;
             ipLabel.Location = new System.Drawing.Point(227, 12);
             ipLabel.Name = "ipLabel";
-            ipLabel.Size = new System.Drawing.Size(21, 20);
+            ipLabel.Size = new System.Drawing.Size(20, 30);
             ipLabel.TabIndex = 1;
             ipLabel.Text = "IP";
             // 
@@ -97,22 +97,24 @@ namespace Client
             // 
             ipTextBox.Location = new System.Drawing.Point(160, 50);
             ipTextBox.Name = "ipTextBox";
-            ipTextBox.Size = new System.Drawing.Size(150, 27);
+            ipTextBox.Size = new System.Drawing.Size(150, 30);
             ipTextBox.TabIndex = 2;
+            ipTextBox.Multiline = true;
             // 
             // portTextBox
             // 
             portTextBox.Location = new System.Drawing.Point(325, 50);
             portTextBox.Name = "portTextBox";
-            portTextBox.Size = new System.Drawing.Size(150, 27);
+            portTextBox.Size = new System.Drawing.Size(150, 30);
             portTextBox.TabIndex = 3;
+            portTextBox.Multiline = true;
             // 
             // portLabel
             // 
             portLabel.AutoSize = true;
             portLabel.Location = new System.Drawing.Point(379, 9);
             portLabel.Name = "portLabel";
-            portLabel.Size = new System.Drawing.Size(35, 20);
+            portLabel.Size = new System.Drawing.Size(30, 30);
             portLabel.TabIndex = 4;
             portLabel.Text = "Port";
             // 
@@ -120,7 +122,7 @@ namespace Client
             // 
             registerButton.Location = new System.Drawing.Point(486, 12);
             registerButton.Name = "registerButton";
-            registerButton.Size = new System.Drawing.Size(100, 32);
+            registerButton.Size = new System.Drawing.Size(100, 30);
             registerButton.TabIndex = 5;
             registerButton.Text = "Register";
             registerButton.UseVisualStyleBackColor = true;
@@ -130,7 +132,7 @@ namespace Client
             // 
             loginButton.Location = new System.Drawing.Point(486, 50);
             loginButton.Name = "loginButton";
-            loginButton.Size = new System.Drawing.Size(100, 32);
+            loginButton.Size = new System.Drawing.Size(100, 30);
             loginButton.TabIndex = 6;
             loginButton.Text = "Login";
             loginButton.UseVisualStyleBackColor = true;
@@ -141,22 +143,24 @@ namespace Client
             passwordTextBox.Location = new System.Drawing.Point(764, 50);
             passwordTextBox.Name = "passwordTextBox";
             passwordTextBox.PasswordChar = '*';
-            passwordTextBox.Size = new System.Drawing.Size(150, 27);
+            passwordTextBox.Size = new System.Drawing.Size(150, 30);
             passwordTextBox.TabIndex = 7;
+            passwordTextBox.Multiline = true;
             // 
             // usernameTextBox
             // 
             usernameTextBox.Location = new System.Drawing.Point(592, 50);
             usernameTextBox.Name = "usernameTextBox";
-            usernameTextBox.Size = new System.Drawing.Size(150, 27);
+            usernameTextBox.Size = new System.Drawing.Size(150, 30);
             usernameTextBox.TabIndex = 8;
+            usernameTextBox.Multiline = true;
             // 
             // usernameLabel
             // 
             usernameLabel.AutoSize = true;
             usernameLabel.Location = new System.Drawing.Point(627, 12);
             usernameLabel.Name = "usernameLabel";
-            usernameLabel.Size = new System.Drawing.Size(75, 20);
+            usernameLabel.Size = new System.Drawing.Size(75, 30);
             usernameLabel.TabIndex = 9;
             usernameLabel.Text = "Username";
             // 
@@ -165,15 +169,15 @@ namespace Client
             passwordLabel.AutoSize = true;
             passwordLabel.Location = new System.Drawing.Point(803, 12);
             passwordLabel.Name = "passwordLabel";
-            passwordLabel.Size = new System.Drawing.Size(70, 20);
+            passwordLabel.Size = new System.Drawing.Size(70, 30);
             passwordLabel.TabIndex = 10;
             passwordLabel.Text = "Password";
             // 
             // disconnectButton
             // 
-            disconnectButton.Location = new System.Drawing.Point(45, 50);
+            disconnectButton.Location = new System.Drawing.Point(20, 60);
             disconnectButton.Name = "disconnectButton";
-            disconnectButton.Size = new System.Drawing.Size(100, 32);
+            disconnectButton.Size = new System.Drawing.Size(100, 30);
             disconnectButton.TabIndex = 11;
             disconnectButton.Text = "Disconnect";
             disconnectButton.UseVisualStyleBackColor = true;
@@ -194,7 +198,7 @@ namespace Client
             ChatLabel.AutoSize = true;
             ChatLabel.Location = new System.Drawing.Point(1350, 15);
             ChatLabel.Name = "ChatLabel";
-            ChatLabel.Size = new System.Drawing.Size(39, 20);
+            ChatLabel.Size = new System.Drawing.Size(39, 30);
             ChatLabel.TabIndex = 13;
             ChatLabel.Text = "Chat";
             // 
@@ -202,8 +206,9 @@ namespace Client
             // 
             MessageTextBox.Location = new System.Drawing.Point(1200, 715);
             MessageTextBox.Name = "MessageTextBox";
-            MessageTextBox.Size = new System.Drawing.Size(300, 27);
+            MessageTextBox.Size = new System.Drawing.Size(300, 30);
             MessageTextBox.TabIndex = 14;
+            MessageTextBox.Multiline = true;
             // 
             // SendButton
             // 
@@ -217,14 +222,14 @@ namespace Client
             // 
             // storeGrid
             // 
+            storeGrid.AllowUserToAddRows = false;
             storeGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             storeGrid.Columns.AddRange(new DataGridViewColumn[] { NameColumn, PriceColumn, qtyToCartBoxColumn, addToCartButtonColumn, TotalColumn, QuantityColumn, productIdColumn });
             storeGrid.Location = new System.Drawing.Point(45, 107);
             storeGrid.Name = "storeGrid";
             storeGrid.RowHeadersWidth = 51;
-            storeGrid.Size = new System.Drawing.Size(869, 635);
+            storeGrid.Size = new System.Drawing.Size(850, 650);
             storeGrid.TabIndex = 16;
-            storeGrid.AllowUserToAddRows = false;
             storeGrid.CellContentClick += StoreGrid_CellContentClick;
             // 
             // NameColumn
@@ -273,54 +278,69 @@ namespace Client
             QuantityColumn.ReadOnly = true;
             QuantityColumn.Width = 125;
             // 
+            // productIdColumn
+            // 
+            productIdColumn.HeaderText = "Product ID";
+            productIdColumn.MinimumWidth = 6;
+            productIdColumn.Name = "productIdColumn";
+            productIdColumn.ReadOnly = true;
+            productIdColumn.Visible = false;
+            productIdColumn.Width = 125;
+            // 
             // addressBox
             // 
             addressBox.Location = new System.Drawing.Point(932, 50);
             addressBox.Name = "addressBox";
-            addressBox.Size = new System.Drawing.Size(232, 27);
+            addressBox.Size = new System.Drawing.Size(200, 30);
             addressBox.TabIndex = 17;
+            addressBox.Multiline = true;
             // 
             // creditCardBox
             // 
             creditCardBox.Location = new System.Drawing.Point(932, 176);
             creditCardBox.Name = "creditCardBox";
-            creditCardBox.Size = new System.Drawing.Size(232, 27);
+            creditCardBox.Size = new System.Drawing.Size(200, 30);
             creditCardBox.TabIndex = 18;
+            creditCardBox.Multiline = true;
             // 
             // monthBox
             // 
             monthBox.Location = new System.Drawing.Point(994, 107);
             monthBox.Name = "monthBox";
-            monthBox.Size = new System.Drawing.Size(80, 27);
+            monthBox.Size = new System.Drawing.Size(80, 30);
             monthBox.TabIndex = 19;
+            monthBox.Multiline = true;
             // 
             // yearBox
             // 
             yearBox.Location = new System.Drawing.Point(1099, 107);
             yearBox.Name = "yearBox";
-            yearBox.Size = new System.Drawing.Size(65, 27);
+            yearBox.Size = new System.Drawing.Size(65, 30);
             yearBox.TabIndex = 20;
+            yearBox.Multiline = true;
             // 
             // firstNameBox
             // 
             firstNameBox.Location = new System.Drawing.Point(932, 242);
             firstNameBox.Name = "firstNameBox";
-            firstNameBox.Size = new System.Drawing.Size(99, 27);
+            firstNameBox.Size = new System.Drawing.Size(100, 30);
             firstNameBox.TabIndex = 21;
+            firstNameBox.Multiline = true;
             // 
             // CvvBox
             // 
             CvvBox.Location = new System.Drawing.Point(932, 107);
             CvvBox.Name = "CvvBox";
-            CvvBox.Size = new System.Drawing.Size(36, 27);
+            CvvBox.Size = new System.Drawing.Size(30, 30);
             CvvBox.TabIndex = 23;
+            CvvBox.Multiline = true;
             // 
             // CvvLabel
             // 
             CvvLabel.AutoSize = true;
             CvvLabel.Location = new System.Drawing.Point(932, 84);
             CvvLabel.Name = "CvvLabel";
-            CvvLabel.Size = new System.Drawing.Size(36, 20);
+            CvvLabel.Size = new System.Drawing.Size(30, 30);
             CvvLabel.TabIndex = 24;
             CvvLabel.Text = "CVV";
             // 
@@ -329,7 +349,7 @@ namespace Client
             monthLabel.AutoSize = true;
             monthLabel.Location = new System.Drawing.Point(994, 84);
             monthLabel.Name = "monthLabel";
-            monthLabel.Size = new System.Drawing.Size(80, 20);
+            monthLabel.Size = new System.Drawing.Size(80, 30);
             monthLabel.TabIndex = 25;
             monthLabel.Text = "Exp month";
             // 
@@ -338,7 +358,7 @@ namespace Client
             yearLabel.AutoSize = true;
             yearLabel.Location = new System.Drawing.Point(1099, 84);
             yearLabel.Name = "yearLabel";
-            yearLabel.Size = new System.Drawing.Size(65, 20);
+            yearLabel.Size = new System.Drawing.Size(60, 30);
             yearLabel.TabIndex = 26;
             yearLabel.Text = "Exp year";
             // 
@@ -347,7 +367,7 @@ namespace Client
             creditNumberLabel.AutoSize = true;
             creditNumberLabel.Location = new System.Drawing.Point(981, 153);
             creditNumberLabel.Name = "creditNumberLabel";
-            creditNumberLabel.Size = new System.Drawing.Size(137, 20);
+            creditNumberLabel.Size = new System.Drawing.Size(125, 30);
             creditNumberLabel.TabIndex = 27;
             creditNumberLabel.Text = "Credit card number";
             // 
@@ -356,7 +376,7 @@ namespace Client
             addressLabel.AutoSize = true;
             addressLabel.Location = new System.Drawing.Point(1012, 15);
             addressLabel.Name = "addressLabel";
-            addressLabel.Size = new System.Drawing.Size(62, 20);
+            addressLabel.Size = new System.Drawing.Size(60, 30);
             addressLabel.TabIndex = 28;
             addressLabel.Text = "Address";
             // 
@@ -365,7 +385,7 @@ namespace Client
             firstNameLabel.AutoSize = true;
             firstNameLabel.Location = new System.Drawing.Point(932, 219);
             firstNameLabel.Name = "firstNameLabel";
-            firstNameLabel.Size = new System.Drawing.Size(77, 20);
+            firstNameLabel.Size = new System.Drawing.Size(60, 30);
             firstNameLabel.TabIndex = 29;
             firstNameLabel.Text = "First name";
             // 
@@ -373,15 +393,16 @@ namespace Client
             // 
             lastNameBox.Location = new System.Drawing.Point(1065, 242);
             lastNameBox.Name = "lastNameBox";
-            lastNameBox.Size = new System.Drawing.Size(99, 27);
+            lastNameBox.Size = new System.Drawing.Size(100, 30);
             lastNameBox.TabIndex = 30;
+            lastNameBox.Multiline = true;
             // 
             // lastNameLabel
             // 
             lastNameLabel.AutoSize = true;
             lastNameLabel.Location = new System.Drawing.Point(1065, 219);
             lastNameLabel.Name = "lastNameLabel";
-            lastNameLabel.Size = new System.Drawing.Size(76, 20);
+            lastNameLabel.Size = new System.Drawing.Size(60, 30);
             lastNameLabel.TabIndex = 31;
             lastNameLabel.Text = "Last name";
             // 
@@ -389,7 +410,7 @@ namespace Client
             // 
             orderButton.Location = new System.Drawing.Point(932, 287);
             orderButton.Name = "orderButton";
-            orderButton.Size = new System.Drawing.Size(57, 31);
+            orderButton.Size = new System.Drawing.Size(60, 30);
             orderButton.TabIndex = 32;
             orderButton.Text = "Order";
             orderButton.UseVisualStyleBackColor = true;
@@ -402,17 +423,8 @@ namespace Client
             logBox.Name = "logBox";
             logBox.ReadOnly = true;
             logBox.ScrollBars = ScrollBars.Vertical;
-            logBox.Size = new System.Drawing.Size(227, 418);
+            logBox.Size = new System.Drawing.Size(225, 450);
             logBox.TabIndex = 33;
-            // 
-            // productIdColumn
-            // 
-            productIdColumn.HeaderText = "Product ID";
-            productIdColumn.MinimumWidth = 6;
-            productIdColumn.Name = "productIdColumn";
-            productIdColumn.ReadOnly = true;
-            productIdColumn.Visible = false;
-            productIdColumn.Width = 125;
             // 
             // ConnectionWindow
             // 
