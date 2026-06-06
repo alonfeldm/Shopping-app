@@ -28,12 +28,12 @@ internal sealed class Server : IDisposable
     private int NextClientId = 0;// used to have unique client ids
     private List<Message> Messages = new List<Message>();// holds the messages out of the database for easy use
     private List<ProductWithDetails> Products = new List<ProductWithDetails>();// holds the Products out of the database for easy use
-    public event Action? ServerStateChanged;// for refreshing the ui// maybe not needed
+    public event Action<Dictionary<int, ClientSession>>? ServerStateChanged;// for refreshing the connected clients 
     private Client? AIClient;// used for username verification with gemini
     private List<Content> History = new List<Content>();// used for giving gemini the prompt and username to check
     public int Port { get; private set; }// the port used by the server
     public int MessageIdCounter = 0;// used to give messages unique ids
-    public string Pepper {private set; get;}
+    public string Pepper {private set; get;} = "";
 
     public void Start(int port)
     {
@@ -55,7 +55,6 @@ internal sealed class Server : IDisposable
         IsRunning = true;// to let other functions know the server is running
         ListenThread = new Thread(ListenForClients) { IsBackground = true };
         ListenThread.Start();// listening for frames
-        ServerStateChanged?.Invoke();
         InitializeGemini();// starts gemini with the prompt
         Pepper = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
     }
@@ -94,7 +93,6 @@ internal sealed class Server : IDisposable
             KeyPair.Dispose();
             KeyPair = null;
         }
-        ServerStateChanged?.Invoke();
     }
     public void ListenForClients()// listening for client connections
     {
@@ -110,6 +108,7 @@ internal sealed class Server : IDisposable
                 lock (ClientLock)// to stop other new client acceptences from working at once
                 {
                     ConnectedClients[clientSession.ClientId] = clientSession;
+                    ServerStateChanged!.Invoke(ConnectedClients);
                 }
                 clientSession.Start();// starts handling the user with a unique thread
                 SendHello(clientSession);// starts the encryption with the user
@@ -260,6 +259,7 @@ internal sealed class Server : IDisposable
         ResponsePayload.Success = true;// because the server got the aes key it sends a connection success payload
         ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.ConnectionSuccess, ProtocolEncryptionFlags.Encrypted, client.RequestCounter++, JsonSerializer.SerializeToUtf8Bytes(ResponsePayload));
         client.Send(ResponseFrame, true);// sends the payload encrypted with the new aes key and iv
+
     }
     public void HandleRegister(ClientSession client, ProtocolFrame frame)// handles a register payload from the user
     {
@@ -286,6 +286,8 @@ internal sealed class Server : IDisposable
                 NewUser.PasswordHash = SecurityHelpers.HashPassword(Payload.Password, NewUser.Salt, Pepper);// hashes the password to not keep it in plain text
                 Database.SaveUser(NewUser);// saves the user
                 SendAuthenticationResult(client, true, Payload.Username, false);
+                client.Username = Payload.Username;
+                ServerStateChanged!.Invoke(ConnectedClients);
             }
             else// if else triggers then the username is taken and the user cant register that username
             {
@@ -306,6 +308,7 @@ internal sealed class Server : IDisposable
                 client.Authenticated = true;
                 client.Username = Payload.Username;
                 SendAuthenticationResult(client, true, Payload.Username, true);
+                ServerStateChanged!.Invoke(ConnectedClients);
             }
             else// if else triggers then the username isnt taken
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Windows.Forms;
@@ -13,6 +14,8 @@ namespace Server
         {
             InitializeComponent();// initializes all buttons so they work
             Server.PrintOut += PrintMessage;// connects an event with a function
+            Server.ServerStateChanged += RefreshConnections;
+            ConnectedClientsGrid.Rows.Clear();
             var IPv4 = Array.Find(Dns.GetHostAddresses(Dns.GetHostName()), x => x.AddressFamily == AddressFamily.InterNetwork);// gets the ip of the server inside the LAN
             IPLabel.Text = IPv4?.ToString() ?? "No IPv4 address found";// sets the iplabel to the ip address if its a string, if its null then to no address found
         }
@@ -80,7 +83,7 @@ namespace Server
                 Database.ClearUsers();// tries to clear the users with a premade function, if an error rises its caught
                 PrintMessage("Users successfully cleared.");// log it
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 PrintMessage("Error clearing the users table:" + ex.Message);// log it
             }
@@ -92,7 +95,7 @@ namespace Server
                 Database.ClearMessages();// tries to clear the messages with a premade function, if an error rises its caught
                 PrintMessage("Messages successfully cleared.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 PrintMessage("Error clearing the messages table:" + ex.Message);// log it
             }
@@ -117,6 +120,29 @@ namespace Server
                 return;
             }
             LogBox.AppendText(Message + Environment.NewLine);// log it
+        }
+        private void RefreshConnections(Dictionary<int, ClientSession> ConnectedClients)
+        {
+            if (InvokeRequired)// if the ui thread isnt the one calling it switch to it so theres only one thread doing ui and no work of multiple ones at once
+            {
+                Invoke(new Action<Dictionary<int, ClientSession>>(RefreshConnections), ConnectedClients);
+                return;
+            }
+            ConnectedClientsGrid.Rows.Clear();// first clears the grid
+
+            foreach (var ConnectedClient in ConnectedClients)//goes over each connected client
+            {
+                ClientSession clientSession = ConnectedClient.Value;
+                if (string.IsNullOrEmpty(clientSession.Username))// if the username is null or empty then theres no username to display
+                {
+                    ConnectedClientsGrid.Rows.Add("Not logged in yet", clientSession.RemoteEndpoint);
+                }
+                else
+                {
+                    ConnectedClientsGrid.Rows.Add(clientSession.Username, clientSession.RemoteEndpoint);
+                }
+            }
+
         }
     }
 }

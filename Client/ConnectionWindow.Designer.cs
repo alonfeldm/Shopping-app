@@ -152,7 +152,6 @@ namespace Client
             usernameTextBox.Name = "usernameTextBox";
             usernameTextBox.Size = new System.Drawing.Size(150, 30);
             usernameTextBox.TabIndex = 8;
-            usernameTextBox.TextChanged += usernameTextBox_TextChanged;
             // 
             // usernameLabel
             // 

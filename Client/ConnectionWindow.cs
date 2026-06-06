@@ -373,15 +373,5 @@ namespace Client
             }
             logBox.Clear();
         }
-
-        private void ipLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void usernameTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
