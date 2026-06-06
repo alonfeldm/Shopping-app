@@ -43,11 +43,15 @@ namespace Server
             ClearUsersButton = new Button();
             ClearOrdersButton = new Button();
             ClearMessagesButton = new Button();
+            ConnectedClientsGrid = new DataGridView();
+            UsernameColumn = new DataGridViewTextBoxColumn();
+            IPColumn = new DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)ConnectedClientsGrid).BeginInit();
             SuspendLayout();
             // 
             // PortTextBox
             // 
-            PortTextBox.Location = new System.Drawing.Point(150, 100);
+            PortTextBox.Location = new System.Drawing.Point(130, 60);
             PortTextBox.Name = "PortTextBox";
             PortTextBox.Size = new System.Drawing.Size(100, 27);
             PortTextBox.TabIndex = 0;
@@ -55,7 +59,7 @@ namespace Server
             // PortLabel
             // 
             PortLabel.AutoSize = true;
-            PortLabel.Location = new System.Drawing.Point(180, 65);
+            PortLabel.Location = new System.Drawing.Point(160, 20);
             PortLabel.Name = "PortLabel";
             PortLabel.Size = new System.Drawing.Size(35, 20);
             PortLabel.TabIndex = 1;
@@ -63,7 +67,7 @@ namespace Server
             // 
             // StartButton
             // 
-            StartButton.Location = new System.Drawing.Point(25, 71);
+            StartButton.Location = new System.Drawing.Point(20, 20);
             StartButton.Name = "StartButton";
             StartButton.Size = new System.Drawing.Size(100, 30);
             StartButton.TabIndex = 2;
@@ -73,7 +77,7 @@ namespace Server
             // 
             // StopButton
             // 
-            StopButton.Location = new System.Drawing.Point(25, 129);
+            StopButton.Location = new System.Drawing.Point(20, 60);
             StopButton.Name = "StopButton";
             StopButton.Size = new System.Drawing.Size(100, 30);
             StopButton.TabIndex = 3;
@@ -84,7 +88,7 @@ namespace Server
             // IPLabel
             // 
             IPLabel.AutoSize = true;
-            IPLabel.Location = new System.Drawing.Point(280, 100);
+            IPLabel.Location = new System.Drawing.Point(240, 60);
             IPLabel.Name = "IPLabel";
             IPLabel.Size = new System.Drawing.Size(85, 20);
             IPLabel.TabIndex = 4;
@@ -92,17 +96,17 @@ namespace Server
             // 
             // LogBox
             // 
-            LogBox.Location = new System.Drawing.Point(25, 200);
+            LogBox.Location = new System.Drawing.Point(20, 100);
             LogBox.Multiline = true;
             LogBox.Name = "LogBox";
             LogBox.ReadOnly = true;
             LogBox.ScrollBars = ScrollBars.Vertical;
-            LogBox.Size = new System.Drawing.Size(1150, 375);
+            LogBox.Size = new System.Drawing.Size(475, 640);
             LogBox.TabIndex = 5;
             // 
             // ClearUsersButton
             // 
-            ClearUsersButton.Location = new System.Drawing.Point(387, 100);
+            ClearUsersButton.Location = new System.Drawing.Point(335, 60);
             ClearUsersButton.Name = "ClearUsersButton";
             ClearUsersButton.Size = new System.Drawing.Size(200, 27);
             ClearUsersButton.TabIndex = 6;
@@ -112,7 +116,7 @@ namespace Server
             // 
             // ClearOrdersButton
             // 
-            ClearOrdersButton.Location = new System.Drawing.Point(799, 100);
+            ClearOrdersButton.Location = new System.Drawing.Point(755, 60);
             ClearOrdersButton.Name = "ClearOrdersButton";
             ClearOrdersButton.Size = new System.Drawing.Size(200, 27);
             ClearOrdersButton.TabIndex = 7;
@@ -122,7 +126,7 @@ namespace Server
             // 
             // ClearMessagesButton
             // 
-            ClearMessagesButton.Location = new System.Drawing.Point(593, 100);
+            ClearMessagesButton.Location = new System.Drawing.Point(545, 60);
             ClearMessagesButton.Name = "ClearMessagesButton";
             ClearMessagesButton.Size = new System.Drawing.Size(200, 27);
             ClearMessagesButton.TabIndex = 8;
@@ -130,11 +134,39 @@ namespace Server
             ClearMessagesButton.UseVisualStyleBackColor = true;
             ClearMessagesButton.Click += ClearMessagesButton_Click;
             // 
+            // ConnectedClientsGrid
+            // 
+            ConnectedClientsGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            ConnectedClientsGrid.Columns.AddRange(new DataGridViewColumn[] { UsernameColumn, IPColumn });
+            ConnectedClientsGrid.Location = new System.Drawing.Point(505, 100);
+            ConnectedClientsGrid.Name = "dataGridView1";
+            ConnectedClientsGrid.RowHeadersWidth = 51;
+            ConnectedClientsGrid.Size = new System.Drawing.Size(450, 640);
+            ConnectedClientsGrid.TabIndex = 9;
+            ConnectedClientsGrid.AllowUserToAddRows = false;
+            // 
+            // UsernameColumn
+            // 
+            UsernameColumn.HeaderText = "Username";
+            UsernameColumn.MinimumWidth = 6;
+            UsernameColumn.Name = "UsernameColumn";
+            UsernameColumn.ReadOnly = true;
+            UsernameColumn.Width = 175;
+            // 
+            // IPColumn
+            // 
+            IPColumn.HeaderText = "IP";
+            IPColumn.MinimumWidth = 6;
+            IPColumn.Name = "IPColumn";
+            IPColumn.ReadOnly = true;
+            IPColumn.Width = 250;
+            // 
             // ServerWindow
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(1200, 600);
+            ClientSize = new System.Drawing.Size(1000, 800);
+            Controls.Add(ConnectedClientsGrid);
             Controls.Add(ClearMessagesButton);
             Controls.Add(ClearOrdersButton);
             Controls.Add(ClearUsersButton);
@@ -146,13 +178,9 @@ namespace Server
             Controls.Add(PortTextBox);
             Name = "ServerWindow";
             Text = "Server";
+            ((System.ComponentModel.ISupportInitialize)ConnectedClientsGrid).EndInit();
             ResumeLayout(false);
             PerformLayout();
-        }
-
-        private void ClearMessagesButton_Click1(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -166,5 +194,8 @@ namespace Server
         private System.Windows.Forms.Button ClearUsersButton;
         private System.Windows.Forms.Button ClearOrdersButton;
         private System.Windows.Forms.Button ClearMessagesButton;
+        private System.Windows.Forms.DataGridView ConnectedClientsGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UsernameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IPColumn;
     }
 }

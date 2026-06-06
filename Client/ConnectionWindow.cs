@@ -84,14 +84,14 @@ namespace Client
                 return;
             }
         }
-        private void PrintMessage(string message)//this if used to display with the messagebox
+        private void PrintMessage(string Message)//this if used to display with the messagebox
         {
             if (InvokeRequired)
             {
-                Invoke(new Action(() => MessageBox.Show(message)));
+                Invoke(new Action(() => MessageBox.Show(Message)));
                 return;// if the call is from a different thread we invoke it with the UI thread
             }
-            MessageBox.Show(message);
+            MessageBox.Show(Message);
         }
 
         private void RegisterButton_Click(object? sender, EventArgs e)
@@ -158,11 +158,6 @@ namespace Client
                 DisplayLog("Not connected to the server.");
                 return;
             }
-            // if(!Client.SecureSessionConnected)
-            // {
-            //     DisplayLog("Not fully connected, try again later.");
-            //     return;
-            // }
             Client.Stop();
             ClearLogs();
             ClearMessages();
@@ -346,19 +341,19 @@ namespace Client
         {
             if (ChatBox.InvokeRequired)
             {
-                ChatBox.Invoke(new Action(() => ChatBox.AppendText($"{username}: {message}" + System.Environment.NewLine)));
+                Invoke(new Action<string, string>(DisplayMessage), username, message);
                 return;// if the call is from a different thread we invoke it with the UI thread
             }
-            ChatBox.AppendText($"{username}: {message}" + System.Environment.NewLine);
+            ChatBox.AppendText("(" + DateTime.Now.Hour +":"+ DateTime.Now.Minute +":"+ DateTime.Now.Second +"): "+ username + ": " +message+ System.Environment.NewLine);
         }
         public void DisplayLog(string log)// adds a log to the log box
         {
             if (logBox.InvokeRequired)
             {
-                logBox.Invoke(new Action(() => logBox.AppendText($"{log}" + System.Environment.NewLine)));
+                Invoke(new Action<string>(DisplayLog),log);
                 return;// if the call is from a different thread we invoke it with the UI thread
             }
-            logBox.AppendText($"{log}" + System.Environment.NewLine);
+            logBox.AppendText("(" + DateTime.Now.Hour +":"+ DateTime.Now.Minute +":"+ DateTime.Now.Second +"): " + log + System.Environment.NewLine);
         }
         public void ClearMessages()// clears the chatbox
         {

@@ -3,32 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\alonf\\Documents\\Shopping app\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|c:\\users\\alonf\\documents\\shopping app\\server\\serverwindow.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|solutionrelative:server\\serverwindow.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|c:\\users\\alonf\\documents\\shopping app\\server\\serverwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|solutionrelative:server\\serverwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|C:\\Users\\alonf\\Documents\\Shopping app\\server\\serverwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|solutionrelative:server\\serverwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|c:\\users\\alonf\\documents\\shopping app\\server\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|solutionrelative:server\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|c:\\users\\alonf\\documents\\shopping app\\client\\connectionwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|solutionrelative:client\\connectionwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|C:\\Users\\alonf\\Documents\\Shopping app\\client\\connectionwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|solutionrelative:client\\connectionwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|c:\\users\\alonf\\documents\\shopping app\\client\\connectionwindow.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|solutionrelative:client\\connectionwindow.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|C:\\Users\\alonf\\Documents\\Shopping app\\client\\connectionwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|solutionrelative:client\\connectionwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|c:\\users\\alonf\\documents\\shopping app\\client\\connectionwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|solutionrelative:client\\connectionwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|C:\\Users\\alonf\\Documents\\Shopping app\\server\\serverwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|solutionrelative:server\\serverwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|c:\\users\\alonf\\documents\\shopping app\\server\\serverwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|solutionrelative:server\\serverwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|c:\\users\\alonf\\documents\\shopping app\\server\\serverwindow.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|solutionrelative:server\\serverwindow.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|c:\\users\\alonf\\documents\\shopping app\\server\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CE8A5B03-105B-5E13-2ABA-C3965CE12F3E}|Server\\Server.csproj|solutionrelative:server\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4D85991D-493C-4C5B-BD9F-072243775D15}|Client\\Client.csproj|c:\\users\\alonf\\documents\\shopping app\\client\\client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -50,45 +50,42 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Database.cs",
-              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\Database.cs",
-              "RelativeDocumentMoniker": "Server\\Database.cs",
-              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\Database.cs",
-              "RelativeToolTip": "Server\\Database.cs",
-              "ViewState": "AgIAAB8BAAAAAAAAAAAIwDABAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-03T16:19:09.488Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "ServerWindow.cs [Design]",
               "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\ServerWindow.cs",
               "RelativeDocumentMoniker": "Server\\ServerWindow.cs",
               "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\ServerWindow.cs [Design]",
               "RelativeToolTip": "Server\\ServerWindow.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-03T16:04:16.423Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2026-06-06T15:48:34.165Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ConnectionWindow.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.cs",
+              "RelativeDocumentMoniker": "Client\\ConnectionWindow.cs",
+              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.cs [Design]",
+              "RelativeToolTip": "Client\\ConnectionWindow.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-20T14:31:36.999Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "ServerWindow.Designer.cs",
               "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\ServerWindow.Designer.cs",
               "RelativeDocumentMoniker": "Server\\ServerWindow.Designer.cs",
               "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\ServerWindow.Designer.cs",
               "RelativeToolTip": "Server\\ServerWindow.Designer.cs",
-              "ViewState": "AgIAAGgAAAAAAAAAAAAAAG4AAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAAI8AAAAAAAAAAAAewK4AAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-21T09:42:44.721Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-21T09:42:44.721Z"
             },
             {
               "$type": "Document",
@@ -104,52 +101,52 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "ConnectionWindow.Designer.cs",
               "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.Designer.cs",
               "RelativeDocumentMoniker": "Client\\ConnectionWindow.Designer.cs",
               "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.Designer.cs",
               "RelativeToolTip": "Client\\ConnectionWindow.Designer.cs",
-              "ViewState": "AgIAAHIBAAAAAAAAAAAYwMUBAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAANUAAAAAAAAAAAAYwBkAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T09:49:21.64Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ServerWindow.cs",
-              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\ServerWindow.cs",
-              "RelativeDocumentMoniker": "Server\\ServerWindow.cs",
-              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\ServerWindow.cs",
-              "RelativeToolTip": "Server\\ServerWindow.cs",
-              "ViewState": "AgIAAEcAAAAAAAAAAAAiwAcAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-20T15:47:27.849Z",
+              "WhenOpened": "2026-05-18T09:49:21.64Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "ServerWindow.cs",
+              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\ServerWindow.cs",
+              "RelativeDocumentMoniker": "Server\\ServerWindow.cs",
+              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\ServerWindow.cs",
+              "RelativeToolTip": "Server\\ServerWindow.cs",
+              "ViewState": "AgIAAGQAAAAAAAAAAAAowI4AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-20T15:47:27.849Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Database.cs",
+              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\Database.cs",
+              "RelativeDocumentMoniker": "Server\\Database.cs",
+              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Server\\Database.cs",
+              "RelativeToolTip": "Server\\Database.cs",
+              "ViewState": "AgIAAB8BAAAAAAAAAAAIwDABAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-03T16:19:09.488Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "ConnectionWindow.cs",
               "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.cs",
               "RelativeDocumentMoniker": "Client\\ConnectionWindow.cs",
               "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.cs",
               "RelativeToolTip": "Client\\ConnectionWindow.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAcAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAowAgAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-18T09:49:32.37Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ConnectionWindow.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.cs",
-              "RelativeDocumentMoniker": "Client\\ConnectionWindow.cs",
-              "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.cs [Design]*",
-              "RelativeToolTip": "Client\\ConnectionWindow.cs [Design]*",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-20T14:31:36.999Z"
+              "WhenOpened": "2026-05-18T09:49:32.37Z"
             },
             {
               "$type": "Document",
@@ -160,7 +157,8 @@
               "ToolTip": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\ConnectionWindow.resx",
               "RelativeToolTip": "Client\\ConnectionWindow.resx",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2026-05-18T09:49:30.212Z"
+              "WhenOpened": "2026-05-18T09:49:30.212Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

@@ -10,15 +10,15 @@ namespace Server;
 
 internal sealed class Database
 {
-    private static readonly string DbPath = Path.Combine(Application.StartupPath, "Database.db");
+    private static readonly string DbPath = Path.Combine(Application.StartupPath, "Database.db");// the path to where the database exists
     private static readonly string ConnectionString = $"Data Source={DbPath};Pooling=True;";
 
 
-    public static void InitializeDB()
+    public static void InitializeDB()// the builder
     {
         if (!File.Exists(DbPath))
         {
-            SQLiteConnection.CreateFile(DbPath);
+            SQLiteConnection.CreateFile(DbPath);// if theres no db file in the path then a new file is created
         }
         string CreateTablesQuery =
             "create table if not exists Users (" +
@@ -50,16 +50,16 @@ internal sealed class Database
             "PRODUCTID text," +
             "QUANTITY integer," +
             "PRICE real," +
-            "foreign key (ORDERID) references Orders(ORDERID));";
+            "foreign key (ORDERID) references Orders(ORDERID));";// the query to create the tables, if a file exists it wont destroy the stored data
         using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
         using (SQLiteCommand command = new SQLiteCommand(CreateTablesQuery, connection))
         {
-            connection.Open();
-            command.ExecuteNonQuery();
+            connection.Open();// opens the connection
+            command.ExecuteNonQuery();// executes the query and automatically closes the connection
         }
 
     }
-    public static User? SelectUser(string username)
+    public static User? SelectUser(string username)// used to find if a user is valid and for its details
     {
         using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
         using (SQLiteCommand Command = new SQLiteCommand("select * from Users where USERNAME=@username", Connection))
@@ -67,20 +67,20 @@ internal sealed class Database
             Command.Parameters.AddWithValue("@username", username);
             Connection.Open();
 
-            using (SQLiteDataReader Reader = Command.ExecuteReader())
+            using (SQLiteDataReader Reader = Command.ExecuteReader())// executes the command and reads the data 
             {
                 if (Reader.Read())
                 {
-                    User user = new User();
+                    User user = new User();// creates a new user to fill with the new data
                     user.Username = Reader["USERNAME"].ToString() ?? "";
                     user.PasswordHash = Reader["PASSWORDHASH"].ToString() ?? "";
                     user.Salt = Reader["SALT"].ToString() ?? "";
-                    return user;
+                    return user;// returns the new user
                 }
             }
         }
 
-        return null;
+        return null;//if the reader couldnt find data that matches the query then the user doesnt exist and returns null
     }
     public static void SaveUser(User user)
     {
@@ -88,29 +88,28 @@ internal sealed class Database
         using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
         using (SQLiteCommand Command = new SQLiteCommand(Query, Connection))
         {
-            Command.Parameters.AddWithValue("@username", user.Username);
+            Command.Parameters.AddWithValue("@username", user.Username);// fills the query with the users fields 
             Command.Parameters.AddWithValue("@passwordHash", user.PasswordHash);
             Command.Parameters.AddWithValue("@salt", user.Salt);
-            Connection.Open();
-            Command.ExecuteNonQuery();
+            Connection.Open();// opens the connection
+            Command.ExecuteNonQuery();// executes the query and automatically closes the connection
         }
     }
-    public static void SaveOrderItem(string OrderId, ProductAndQuantity product)
+    public static void SaveOrderItem(string OrderId, ProductAndQuantity product)// sued to save to the order table
     {
         string Query = "insert into OrderItems (ORDERID, PRODUCTID, QUANTITY, PRICE)" + "values (@orderId, @productId, @quantity, @price)";
         using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
         using (SQLiteCommand Command = new SQLiteCommand(Query, Connection))
         {
-            Command.Parameters.AddWithValue("@orderId", OrderId);
+            Command.Parameters.AddWithValue("@orderId", OrderId);// fills the query with the orders fields 
             Command.Parameters.AddWithValue("@productId", product.ProductID);
             Command.Parameters.AddWithValue("@quantity", product.Quantity);
             Command.Parameters.AddWithValue("@price", product.Price);
-
-            Connection.Open();
-            Command.ExecuteNonQuery();
+            Connection.Open();// opens the connection
+            Command.ExecuteNonQuery();// executes the query and automatically closes the connection
         }
     }
-    public static void SaveOrderDetails(Order order)
+    public static void SaveOrderDetails(Order order)// used to save to the orderDetails table
     {
         string Query =
             "insert into Orders " +
@@ -120,7 +119,7 @@ internal sealed class Database
         using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
         using (SQLiteCommand Command = new SQLiteCommand(Query, Connection))
         {
-            Command.Parameters.AddWithValue("@orderId", order.OrderID);
+            Command.Parameters.AddWithValue("@orderId", order.OrderID);// fills the query with the orders fields 
             Command.Parameters.AddWithValue("@username", order.Details.Username);
             Command.Parameters.AddWithValue("@firstName", order.Details.FirstName);
             Command.Parameters.AddWithValue("@lastName", order.Details.LastName);
@@ -130,12 +129,11 @@ internal sealed class Database
             Command.Parameters.AddWithValue("@expirationYear", order.Details.ExpirationYear);
             Command.Parameters.AddWithValue("@cvv", order.Details.CVV);
             Command.Parameters.AddWithValue("@timestamp", order.Details.Timestamp);
-
-            Connection.Open();
-            Command.ExecuteNonQuery();
+            Connection.Open();// opens the connection
+            Command.ExecuteNonQuery();// executes the query and automatically closes the connection
         }
     }
-    public static void SaveFullOrder(Order order)
+    public static void SaveFullOrder(Order order)// loops the saveorderitem function on the order
     {
         SaveOrderDetails(order);
 
@@ -145,47 +143,46 @@ internal sealed class Database
         }
     }
 
-    public static void SaveMessage(SharedLibraries.Payloads.Message message)
+    public static void SaveMessage(SharedLibraries.Payloads.Message message)//used to save to the messages table
     {
         string Query = "insert into Messages (MESSAGEID, USERNAME, CONTENT, TIMESTAMP)" + "values (@messageId, @username, @content, @timestamp)";
         using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
         using (SQLiteCommand Command = new SQLiteCommand(Query, Connection))
         {
-            Command.Parameters.AddWithValue("@messageId", message.MessageId);
+            Command.Parameters.AddWithValue("@messageId", message.MessageId);// fills the query with the orders fields 
             Command.Parameters.AddWithValue("@username", message.SentBy);
             Command.Parameters.AddWithValue("@content", message.Text);
             Command.Parameters.AddWithValue("@timestamp", message.Timestamp);
-
-            Connection.Open();
-            Command.ExecuteNonQuery();
+            Connection.Open();// opens the connection
+            Command.ExecuteNonQuery();// executes the query and automatically closes the connection
         }
     }
-    public static List<SharedLibraries.Payloads.Message> GetAllMessages()
+    public static List<SharedLibraries.Payloads.Message> GetAllMessages()// used to get all of the messages stored in the messages table
     {
-        List<SharedLibraries.Payloads.Message> messages = new List<SharedLibraries.Payloads.Message>();
+        List<SharedLibraries.Payloads.Message> messages = new List<SharedLibraries.Payloads.Message>();// create a list to hold all of the messages
         using (SQLiteConnection Connection = new SQLiteConnection(ConnectionString))
         using (SQLiteCommand Command = new SQLiteCommand("select * from Messages", Connection))
         {
             Connection.Open();
             using (SQLiteDataReader Reader = Command.ExecuteReader())
             {
-                while (Reader.Read())
+                while (Reader.Read())// if the reader could read anything
                 {
                     SharedLibraries.Payloads.Message message = new SharedLibraries.Payloads.Message();
-                    message.MessageId = Reader["MESSAGEID"].ToString() ?? "";
+                    message.MessageId = Reader["MESSAGEID"].ToString() ?? "";// input all of the read data
                     message.SentBy = Reader["USERNAME"].ToString() ?? "";
                     message.Text = Reader["CONTENT"].ToString() ?? "";
                     DateTime.TryParse(Reader["TIMESTAMP"].ToString(), out DateTime time);
                     message.Timestamp = time;
-                    messages.Add(message);
+                    messages.Add(message);// add the message to the list
                 }
             }
         }
-        return messages;
+        return messages;// return the messages found, if none were found then the list is already empty
     }
-    public static List<ProductWithDetails> GetAllProducts()
+    public static List<ProductWithDetails> GetAllProducts()// function that creates and returns the product list
     {
-        List<ProductWithDetails> ProductList = new List<ProductWithDetails>();
+        List<ProductWithDetails> ProductList = new List<ProductWithDetails>();// hard coded product list, arbitrary pricing
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "01",
@@ -259,74 +256,74 @@ internal sealed class Database
             Price = 60m
         });
 
-        // Return the full list.
-        return ProductList;
+        return ProductList;// returns the product list
     }
-    public static void ClearMessages()
+    public static void ClearMessages()//to allow the server host to wipe sent messages
     {
-        string Query = "DELETE FROM Messages";
+        string Query = "DELETE FROM Messages";// the query to delete values in the messages table
         using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
         {
             using (SQLiteCommand Command = new SQLiteCommand(Query, connection))
             {
-                connection.Open();
-                Command.ExecuteNonQuery();
+                connection.Open(); // opens a connection to the database
+                Command.ExecuteNonQuery();// executes the query to delete, automatically closes the connection after
             }
         }
     }
-    public static void ClearUsers()
+    public static void ClearUsers()// to allow the server host to wipe the users
     {
-        string Query = "DELETE FROM Users";
+        string Query = "DELETE FROM Users";// the query to delete values in the users table
         using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
         {
             using (SQLiteCommand Command = new SQLiteCommand(Query, connection))
             {
-                connection.Open();
-                Command.ExecuteNonQuery();
+                connection.Open();// opens a connection to the database
+                Command.ExecuteNonQuery();// executes the query to delete, automatically closes the connection after
             }
         }
 
     }
-    public static void ClearOrders()
+    public static void ClearOrders()// to allow the server host to wipe the orders(the order table and order items tables)
     {
-        string OrderQuery = "DELETE FROM Orders";
-        string OrderItemsQuery = "DELETE FROM OrderItems";
+        string OrderQuery = "DELETE FROM Orders";// the query to delete values in the orders table
+        string OrderItemsQuery = "DELETE FROM OrderItems"; // the query to delete values in the orderitems table
         using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
         {
             using (SQLiteCommand Command = new SQLiteCommand(OrderItemsQuery, connection))
             {
-                connection.Open();
-                Command.ExecuteNonQuery();
-                connection.Close();            }
+                connection.Open();// opens a connection to the database
+                Command.ExecuteNonQuery();// executes the command to wipe orderitems
+                connection.Close();// because there is a second query with the same connection i need to close the connection and reopen for the next query
+            }
             using (SQLiteCommand Command = new SQLiteCommand(OrderQuery, connection))
             {
-                connection.Open();
-                Command.ExecuteNonQuery();
+                connection.Open();// opens a connection to the database
+                Command.ExecuteNonQuery();// executes the command to wipe orders, automatically closes the connection
             }
         }
     }
     public static int GetItemPrice(string ProductId)
     {
         List<ProductWithDetails>? Allproducts = GetAllProducts();
-        for(int i = 0; i < Allproducts.Count; i++)
+        for(int i = 0; i < Allproducts.Count; i++)// loops on the products
         {
-            if(Allproducts[i].ProductID == ProductId.ToString())
+            if(Allproducts[i].ProductID == ProductId.ToString())// checks if a product with a matching productID exists
             {
-                return int.Parse(Allproducts[i].Price.ToString());
+                return int.Parse(Allproducts[i].Price.ToString());// returns the price of the item with a matching productID
             }
         }
-        return -1;
+        return -1;// if the item doesnt exist returns a price that is obviousley invalid as the store wont sell in negative prices
     }
-    public static bool ProductExists(string ProductId)
+    public static bool ProductExists(string ProductId)// to check if the productID send by the user is valid
     {
         List<ProductWithDetails>? Allproducts = GetAllProducts();
-        foreach (ProductWithDetails product in Allproducts)
+        foreach (ProductWithDetails product in Allproducts)// checks if a product exists with the same productID as the one sent by the user
         {
             if (product.ProductID == ProductId)
             {
                 return true;
             }
         }
-        return false;
+        return false;// if a matching productID wasnt found in the loop, that means the productID sent by the user was invalid
     }
 }
