@@ -233,7 +233,7 @@ namespace Client
             NameColumn.MinimumWidth = 6;
             NameColumn.Name = "NameColumn";
             NameColumn.ReadOnly = true;
-            NameColumn.Width = 125;
+            NameColumn.Width = 250;
             // 
             // PriceColumn
             // 
@@ -241,7 +241,7 @@ namespace Client
             PriceColumn.MinimumWidth = 6;
             PriceColumn.Name = "PriceColumn";
             PriceColumn.ReadOnly = true;
-            PriceColumn.Width = 125;
+            PriceColumn.Width = 100;
             // 
             // qtyToCartBoxColumn
             // 
@@ -255,7 +255,7 @@ namespace Client
             addToCartButtonColumn.HeaderText = "Add to cart";
             addToCartButtonColumn.MinimumWidth = 6;
             addToCartButtonColumn.Name = "addToCartButtonColumn";
-            addToCartButtonColumn.Width = 125;
+            addToCartButtonColumn.Width = 100;
             // 
             // TotalColumn
             // 
@@ -271,7 +271,7 @@ namespace Client
             QuantityColumn.MinimumWidth = 6;
             QuantityColumn.Name = "QuantityColumn";
             QuantityColumn.ReadOnly = true;
-            QuantityColumn.Width = 125;
+            QuantityColumn.Width = 100;
             // 
             // productIdColumn
             // 

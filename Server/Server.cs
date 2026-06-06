@@ -287,6 +287,7 @@ internal sealed class Server : IDisposable
                 Database.SaveUser(NewUser);// saves the user
                 SendAuthenticationResult(client, true, Payload.Username, false);
                 client.Username = Payload.Username;
+                client.Authenticated = true;
                 ServerStateChanged!.Invoke(ConnectedClients);
             }
             else// if else triggers then the username is taken and the user cant register that username
