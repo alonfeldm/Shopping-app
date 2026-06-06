@@ -241,7 +241,6 @@ namespace Client
             PriceColumn.MinimumWidth = 6;
             PriceColumn.Name = "PriceColumn";
             PriceColumn.ReadOnly = true;
-            PriceColumn.Width = 100;
             // 
             // qtyToCartBoxColumn
             // 
@@ -255,7 +254,6 @@ namespace Client
             addToCartButtonColumn.HeaderText = "Add to cart";
             addToCartButtonColumn.MinimumWidth = 6;
             addToCartButtonColumn.Name = "addToCartButtonColumn";
-            addToCartButtonColumn.Width = 100;
             // 
             // TotalColumn
             // 
@@ -271,7 +269,6 @@ namespace Client
             QuantityColumn.MinimumWidth = 6;
             QuantityColumn.Name = "QuantityColumn";
             QuantityColumn.ReadOnly = true;
-            QuantityColumn.Width = 100;
             // 
             // productIdColumn
             // 
@@ -292,10 +289,10 @@ namespace Client
             // 
             // creditCardBox
             // 
-            creditCardBox.Location = new System.Drawing.Point(920, 140);
+            creditCardBox.Location = new System.Drawing.Point(940, 140);
             creditCardBox.Multiline = true;
             creditCardBox.Name = "creditCardBox";
-            creditCardBox.Size = new System.Drawing.Size(200, 30);
+            creditCardBox.Size = new System.Drawing.Size(180, 30);
             creditCardBox.TabIndex = 18;
             // 
             // monthBox
@@ -327,12 +324,12 @@ namespace Client
             CvvBox.Location = new System.Drawing.Point(880, 140);
             CvvBox.Multiline = true;
             CvvBox.Name = "CvvBox";
-            CvvBox.Size = new System.Drawing.Size(30, 30);
+            CvvBox.Size = new System.Drawing.Size(50, 30);
             CvvBox.TabIndex = 23;
             // 
             // CvvLabel
             // 
-            CvvLabel.Location = new System.Drawing.Point(880, 100);
+            CvvLabel.Location = new System.Drawing.Point(885, 100);
             CvvLabel.Name = "CvvLabel";
             CvvLabel.Size = new System.Drawing.Size(40, 30);
             CvvLabel.TabIndex = 24;
@@ -356,7 +353,7 @@ namespace Client
             // 
             // creditNumberLabel
             // 
-            creditNumberLabel.Location = new System.Drawing.Point(950, 100);
+            creditNumberLabel.Location = new System.Drawing.Point(960, 100);
             creditNumberLabel.Name = "creditNumberLabel";
             creditNumberLabel.Size = new System.Drawing.Size(140, 30);
             creditNumberLabel.TabIndex = 27;
