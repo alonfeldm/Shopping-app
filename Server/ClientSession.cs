@@ -20,6 +20,7 @@ internal class ClientSession : IDisposable// this represents one client connecte
     public System.Security.Cryptography.Aes? aes { get; set; }// the aes object used for encryption
     public string RemoteEndpoint => tcpClient.Client?.RemoteEndPoint?.ToString() ?? "Not known"; // the ip of the user
     public int RequestCounter { get; set; } = 0; // counter 
+    public int loginCounter {get; set;} = 0;//used to know how many times the client has tried to login
 
     public ClientSession(TcpClient tcpClient, int CliendId)// creates a new client session object and sets fields
     {

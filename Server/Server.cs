@@ -33,7 +33,7 @@ internal sealed class Server : IDisposable
     private List<Content> History = new List<Content>();// used for giving gemini the prompt and username to check
     public int Port { get; private set; }// the port used by the server
     public int MessageIdCounter = 0;// used to give messages unique ids
-    public string Pepper {private set; get;} = "";
+    public string Pepper { private set; get; } = "";
 
     public void Start(int port)
     {
@@ -247,6 +247,7 @@ internal sealed class Server : IDisposable
         lock (ClientLock)
         {
             ConnectedClients.Remove(client.ClientId);// removes the client after locking so no threads work at once
+            ServerStateChanged!.Invoke(ConnectedClients);
         }
     }
     public void HandleSecureSession(ClientSession client, ProtocolFrame frame)// handles the aes key sent by the user
@@ -263,8 +264,22 @@ internal sealed class Server : IDisposable
     }
     public void HandleRegister(ClientSession client, ProtocolFrame frame)// handles a register payload from the user
     {
-        //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
         RegisterPayload? Payload = JsonSerializer.Deserialize<RegisterPayload>(frame.Payload);
+        if (client.loginCounter >= 10)
+        {
+            SendAuthenticationResult(client, false, Payload!.Username, true);// return false
+            lock (ClientLock)
+            {
+                ConnectedClients.Remove(client.ClientId);// removes the client after locking so no threads work at once
+                ServerStateChanged!.Invoke(ConnectedClients);
+            }
+            client.Dispose();
+            return;
+        }
+        else
+        {
+            client.loginCounter += 1;
+        }
         if (Payload == null || !ValidationHelpers.ValidateUsername(Payload.Username) || !ValidationHelpers.ValidatePassword(Payload!.Password))
         {
             SendAuthenticationResult(client, false, string.Empty, false);// checks if the payload is empty and if the password and username are valid if not sends a failed result
@@ -285,9 +300,9 @@ internal sealed class Server : IDisposable
                 NewUser.Salt = SecurityHelpers.CreateSalt();// generate a salt for more secure password storing
                 NewUser.PasswordHash = SecurityHelpers.HashPassword(Payload.Password, NewUser.Salt, Pepper);// hashes the password to not keep it in plain text
                 Database.SaveUser(NewUser);// saves the user
-                SendAuthenticationResult(client, true, Payload.Username, false);
                 client.Username = Payload.Username;
                 client.Authenticated = true;
+                SendAuthenticationResult(client, true, Payload.Username, false);
                 ServerStateChanged!.Invoke(ConnectedClients);
             }
             else// if else triggers then the username is taken and the user cant register that username
@@ -300,9 +315,32 @@ internal sealed class Server : IDisposable
     {
         //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
         LoginPayload? Payload = JsonSerializer.Deserialize<LoginPayload>(frame.Payload);
+        if (client.loginCounter >= 10)
+        {
+            SendAuthenticationResult(client, false, Payload!.Username, true);// return false
+            lock (ClientLock)
+            {
+                ConnectedClients.Remove(client.ClientId);// removes the client after locking so no threads work at once
+                ServerStateChanged!.Invoke(ConnectedClients);
+            }
+            client.Dispose();
+            return;
+        }
+        else
+        {
+            client.loginCounter += 1;
+        }
         lock (DatabaseLock)// to stop at once work
         {
             User? LoggingInUser = Database.SelectUser(Payload!.Username);
+            foreach (var ClientSession in ConnectedClients)// goes over all of the connected clients to check if the user isnt already logged in
+            {
+                if (Payload.Username == ClientSession.Value.Username)// if a user with the same username is already connected
+                {
+                    SendAuthenticationResult(client, false, Payload.Username, true);// return false
+                    return;
+                }
+            }
             if (LoggingInUser != null && SecurityHelpers.VerifyPassword(Payload.Password, LoggingInUser.Salt, Pepper, LoggingInUser.PasswordHash))
             // checks the password and if the username is taken, if yes it returns a positive authentication result
             {
@@ -427,7 +465,7 @@ internal sealed class Server : IDisposable
         {
             lock (DatabaseLock)// to not let other threads write to the database at once
             {
-            Database.SaveMessage(NewMessage);//saves it in the database
+                Database.SaveMessage(NewMessage);//saves it in the database
             }
             Messages.Add(NewMessage);// adds it to the quick use list
             BroadCastChatMessage(NewMessage);// broadcasts it
@@ -477,7 +515,7 @@ internal sealed class Server : IDisposable
                 Role = "user",
                 Parts = new List<Part> { new Part { Text = text } }
             });
-            var response = await AIClient!.Models.GenerateContentAsync(model: "gemini-2.5-flash",contents: TempHistory);
+            var response = await AIClient!.Models.GenerateContentAsync(model: "gemini-2.5-flash", contents: TempHistory);
             if (!bool.TryParse(response.Text, out bool boolResponse))//tries to parse the answer, if cant returns false but logs it
             {
                 PrintOut?.Invoke("Gemini response was invalid");

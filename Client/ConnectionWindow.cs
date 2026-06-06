@@ -30,6 +30,7 @@ namespace Client
             monthBox.Clear();
             yearBox.Clear();
             CvvBox.Clear();
+            ClearStoreColumns();
             cart = new List<ProductAndQuantity>();
         }
 
@@ -372,6 +373,20 @@ namespace Client
                 return;// if the call is from a different thread we invoke it with the UI thread
             }
             logBox.Clear();
+        }
+        public void ClearStoreColumns()
+        {
+            if (InvokeRequired)// if the call is from a different thread we invoke it with the UI thread
+            {
+                Invoke(new Action(ClearStoreColumns));
+                return;
+            }
+            foreach(DataGridViewRow row in storeGrid.Rows)// goes over all of the rows
+            {
+                row.Cells[2].Value = "";// resets the amount to add to cart
+                row.Cells[4].Value = 0;// resets the total
+                row.Cells[5].Value = 0;// resets the quantity in cart
+            }
         }
     }
 }

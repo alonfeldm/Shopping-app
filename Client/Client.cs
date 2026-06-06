@@ -246,7 +246,7 @@ public class Client
         }
         else
         {
-            DisplayLog?.Invoke("Authentication failed");
+            DisplayLog?.Invoke("Authentication failed" + Payload.Message);
             // if the payload was false then the authentication failed and there are no products or messages to display
         }
     }
