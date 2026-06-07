@@ -36,7 +36,7 @@ internal sealed class Server : IDisposable
     //private Client? AIClient;// used for username verification with gemini
     //private List<Content> History = new List<Content>();// used for giving gemini the prompt and username to check
     private readonly HttpClient OpenRouterClient = new HttpClient();//used for sending to and receiving data from the openRouter API
-    private string APIKey {get; set;} = string.Empty;// API key used for requests
+    private string APIKey { get; set; } = string.Empty;// API key used for requests
     public int Port { get; private set; }// the port used by the server
     public int MessageIdCounter = 0;// used to give messages unique ids
     public string Pepper { private set; get; } = "";

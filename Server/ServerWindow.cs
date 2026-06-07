@@ -48,7 +48,7 @@ namespace Server
             }
             try
             {
-                Server.Start(port, KeyTextBox.Text);// try to start the server, contain error and log them but not crash
+                Server.Start(port, KeyTextBox.Text.Trim());// try to start the server, contain error and log them but not crash
                 isRunning = true;
                 PrintMessage("Server started successfully.");// log it
             }
