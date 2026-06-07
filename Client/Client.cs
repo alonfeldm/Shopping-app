@@ -246,7 +246,7 @@ public class Client
         }
         else
         {
-            DisplayLog?.Invoke("Authentication failed" + Payload.Message);
+            DisplayLog?.Invoke("Authentication failed: " + Payload.Message);
             // if the payload was false then the authentication failed and there are no products or messages to display
         }
     }
@@ -289,7 +289,7 @@ public class Client
         ErrorPayload? Payload = JsonSerializer.Deserialize<ErrorPayload>(DecryptedPayload);
         DisplayLog?.Invoke("Error from server: " + Payload!.ErrorMessage);// logs the error message sent by the server
     }
-    public event Action<string>? PrintOut;
+    //public event Action<string>? PrintOut;// might get used so im not deleting it
     // used for messagebox.show, opens a small window with the error, less user friendly than the log but might be needed for important messages
     public event Action<string>? DisplayLog;
     //used for the log, more user friendly than printout but might not be noticed

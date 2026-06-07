@@ -13,7 +13,7 @@ namespace Client
         public ConnectionWindow()
         {
             InitializeComponent();
-            Client.PrintOut += PrintMessage;// wires the functions to the events in client.cs
+            //Client.PrintOut += PrintMessage;// wires the functions to the events in client.cs
             Client.DisplayMessage += DisplayMessage;
             Client.AppendStore += AppendProductToStoreGrid;
             Client.ClearStore += ClearStore;
