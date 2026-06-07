@@ -9,7 +9,7 @@ namespace Server
     public partial class ServerWindow : Form
     {
         Server Server = new Server();
-        private bool isRunning { get; set; } = false;
+        private bool IsRunning { get; set; } = false;
         public ServerWindow()
         {
             InitializeComponent();// initializes all buttons so they work
@@ -22,7 +22,7 @@ namespace Server
 
         private void StartButton_Click(object sender, EventArgs e)
         {
-            if (isRunning)// cant run the server if its already running
+            if (IsRunning)// cant run the server if its already running
             {
                 PrintMessage("The server is already running.");// log it
                 return;
@@ -45,11 +45,22 @@ namespace Server
             if (string.IsNullOrEmpty(KeyTextBox.Text))
             {
                 PrintMessage("Please enter a valid API key");
+                return;
+            }
+            char[] KeyHeaderToCheck = KeyTextBox.Text.Trim().ToCharArray();
+            char[] KeyHeader = "sk-or-v1-".ToCharArray();
+            for(int i = 0; i < KeyHeader.Length; i++)// the openRouter api keys all start with "sk-or-v1-", goes over those first letters and checks
+            {
+                if(KeyHeader[i] != KeyHeaderToCheck[i])
+                {
+                    PrintMessage("Please enter a valid API key");
+                    return;
+                }
             }
             try
             {
                 Server.Start(port, KeyTextBox.Text.Trim());// try to start the server, contain error and log them but not crash
-                isRunning = true;
+                IsRunning = true;
                 PrintMessage("Server started successfully.");// log it
             }
             catch
@@ -60,12 +71,12 @@ namespace Server
         }
         private void StopButton_Click(object sender, EventArgs e)
         {
-            if (isRunning)
+            if (IsRunning)
             {
                 try
                 {
                     Server.Stop();// try and stop it, contain the error so it doesnt go up and crash
-                    isRunning = false;
+                    IsRunning = false;
                     PrintMessage("Server stopped successfully.");// log it
                 }
                 catch
@@ -82,6 +93,11 @@ namespace Server
         }
         private void ClearUsersButton_Click(object sender, EventArgs e)//used for resetting the servers users
         {
+            if (IsRunning)
+            {
+                PrintMessage("Stop the server first");//makes sure it doesnt wipe the database while users are connected
+                return;
+            }
             try
             {
                 Database.ClearUsers();// tries to clear the users with a premade function, if an error rises its caught
@@ -94,6 +110,11 @@ namespace Server
         }
         private void ClearMessagesButton_Click(object sender, EventArgs e)//used for resetting the servers messages
         {
+            if (IsRunning)
+            {
+                PrintMessage("Stop the server first");//makes sure it doesnt wipe the database while users are connected
+                return;
+            }
             try
             {
                 Database.ClearMessages();// tries to clear the messages with a premade function, if an error rises its caught
@@ -106,6 +127,11 @@ namespace Server
         }
         private void ClearOrdersButton_Click(object sender, EventArgs e)//used for resetting the orders users
         {
+            if (IsRunning)
+            {
+                PrintMessage("Stop the server first");//makes sure it doesnt wipe the database while users are connected
+                return;
+            }
             try
             {
                 Database.ClearOrders();// tries to clear the orders with a premade function, if an error rises its caught

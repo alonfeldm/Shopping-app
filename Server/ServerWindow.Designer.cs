@@ -169,7 +169,7 @@ namespace Server
             KeyTextBox.Name = "KeyTextBox";
             KeyTextBox.Size = new System.Drawing.Size(715, 30);
             KeyTextBox.TabIndex = 10;
-            KeyTextBox.Text = "sk-or-v1-";
+            KeyTextBox.PlaceholderText = "Enter API key here:";
             // 
             // ServerWindow
             // 
