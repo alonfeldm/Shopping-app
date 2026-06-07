@@ -64,10 +64,6 @@
             "System.Data.SQLite": {
               "target": "Package",
               "version": "[1.0.118, )"
-            },
-            "System.Data.SqlClient": {
-              "target": "Package",
-              "version": "[4.9.1, )"
             }
           },
           "imports": [
