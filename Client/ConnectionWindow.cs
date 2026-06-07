@@ -160,9 +160,6 @@ namespace Client
                 return;
             }
             Client.Stop();
-            ClearLogs();
-            ClearMessages();
-            ClearStore();
             DisplayLog("Disconnected from the server.");
         }
         private void SendButton_Click(object? sender, EventArgs e)

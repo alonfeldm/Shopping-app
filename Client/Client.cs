@@ -55,6 +55,10 @@ public class Client
             Username = null; // now a new user can login
             TcpConnected = false;// now the client is not tcp connected
             LoggedIn = false; // not the client is not logged in
+            ClearLogs!();
+            ClearMessages!();
+            ClearStore!();
+
         }
         catch (Exception ex)// if failed to disconnect properly, log it but dont crash
         {
