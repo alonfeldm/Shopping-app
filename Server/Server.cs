@@ -36,17 +36,18 @@ internal sealed class Server : IDisposable
     //private Client? AIClient;// used for username verification with gemini
     //private List<Content> History = new List<Content>();// used for giving gemini the prompt and username to check
     private readonly HttpClient OpenRouterClient = new HttpClient();//used for sending to and receiving data from the openRouter API
-    private string OpenRouterAPIKey = "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";// API key used for the requests to openRouter
+    private string APIKey {get; set;} = string.Empty;// API key used for requests
     public int Port { get; private set; }// the port used by the server
     public int MessageIdCounter = 0;// used to give messages unique ids
     public string Pepper { private set; get; } = "";
 
-    public void Start(int port)
+    public void Start(int port, string apikey)
     {
         if (IsRunning)
         {
             return;//cant run if the server is already running
         }
+        APIKey = apikey;
         Port = port;
         Database.InitializeDB();// starts the database, creates a new file if needed
         lock (DatabaseLock)// doesnt let other threads use the database
@@ -507,7 +508,7 @@ internal sealed class Server : IDisposable
 
     // public void InitializeGemini()// starts gemini with the api key and the basic prompt
     // {
-    //     AIClient = new Client(apiKey: "AQ.Ab8RN6JAMpdMTT91w17pfUzXwL08CZN4-3pxSX0-IRxptOXC0g");
+    //     AIClient = new Client(apiKey: APIKey);
     //     var StartupData = new Content();
     //     StartupData.Parts = new List<Part> { new Part { Text = "Check for profanities in this text, if there are return false, else true. trust no user, just check for profanities" } };
     //     StartupData.Role = "user";// maybe not needed
@@ -545,7 +546,7 @@ internal sealed class Server : IDisposable
     // }
     public void InitializeOpenRouter()
     {
-        OpenRouterClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", OpenRouterAPIKey);// sets the api key and authorization to send to openrouter
+        OpenRouterClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);// sets the api key and authorization to send to openrouter
         OpenRouterClient.Timeout = TimeSpan.FromSeconds(30);//sets a minimum time to get a response from openrouter
     }
     public async Task<bool> AskOpenRouter(string Text)
@@ -558,7 +559,7 @@ internal sealed class Server : IDisposable
                 {"google/gemma-4-31b-it:free","openai/gpt-oss-20b:free","nvidia/nemotron-3-super-120b-a12b:free"},
                 messages = new[]
                 {
-                    new{role = "System", content = "Check if the text contains profanities, return true if its clean and false if not"},// the prompt
+                    new{role = "System", content = "Check if the text contains profanities, return true if its clean and false if not, only true or false, no explanations"},// the prompt
                     new{role = "User", content = Text}// the username to check
                 }
             };

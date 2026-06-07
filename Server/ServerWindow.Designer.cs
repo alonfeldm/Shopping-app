@@ -46,6 +46,7 @@ namespace Server
             ConnectedClientsGrid = new DataGridView();
             UsernameColumn = new DataGridViewTextBoxColumn();
             IPColumn = new DataGridViewTextBoxColumn();
+            KeyTextBox = new TextBox();
             ((System.ComponentModel.ISupportInitialize)ConnectedClientsGrid).BeginInit();
             SuspendLayout();
             // 
@@ -136,14 +137,14 @@ namespace Server
             // 
             // ConnectedClientsGrid
             // 
+            ConnectedClientsGrid.AllowUserToAddRows = false;
             ConnectedClientsGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             ConnectedClientsGrid.Columns.AddRange(new DataGridViewColumn[] { UsernameColumn, IPColumn });
             ConnectedClientsGrid.Location = new System.Drawing.Point(505, 100);
-            ConnectedClientsGrid.Name = "dataGridView1";
+            ConnectedClientsGrid.Name = "ConnectedClientsGrid";
             ConnectedClientsGrid.RowHeadersWidth = 51;
             ConnectedClientsGrid.Size = new System.Drawing.Size(450, 640);
             ConnectedClientsGrid.TabIndex = 9;
-            ConnectedClientsGrid.AllowUserToAddRows = false;
             // 
             // UsernameColumn
             // 
@@ -161,11 +162,21 @@ namespace Server
             IPColumn.ReadOnly = true;
             IPColumn.Width = 250;
             // 
+            // KeyTextBox
+            // 
+            KeyTextBox.Location = new System.Drawing.Point(240, 20);
+            KeyTextBox.Multiline = true;
+            KeyTextBox.Name = "KeyTextBox";
+            KeyTextBox.Size = new System.Drawing.Size(715, 30);
+            KeyTextBox.TabIndex = 10;
+            KeyTextBox.Text = "API key here:";
+            // 
             // ServerWindow
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(1000, 800);
+            Controls.Add(KeyTextBox);
             Controls.Add(ConnectedClientsGrid);
             Controls.Add(ClearMessagesButton);
             Controls.Add(ClearOrdersButton);
@@ -197,5 +208,6 @@ namespace Server
         private System.Windows.Forms.DataGridView ConnectedClientsGrid;
         private System.Windows.Forms.DataGridViewTextBoxColumn UsernameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn IPColumn;
+        private System.Windows.Forms.TextBox KeyTextBox;
     }
 }

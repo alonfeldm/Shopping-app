@@ -42,9 +42,13 @@ namespace Server
                 PrintMessage("Please enter a valid port number (1-65535).");// log it
                 return;
             }
+            if (string.IsNullOrEmpty(KeyTextBox.Text))
+            {
+                PrintMessage("Please enter a valid API key");
+            }
             try
             {
-                Server.Start(port);// try to start the server, contain error and log them but not crash
+                Server.Start(port, KeyTextBox.Text);// try to start the server, contain error and log them but not crash
                 isRunning = true;
                 PrintMessage("Server started successfully.");// log it
             }
