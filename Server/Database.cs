@@ -305,9 +305,9 @@ internal sealed class Database
     public static int GetItemPrice(string ProductId)
     {
         List<ProductWithDetails>? Allproducts = GetAllProducts();
-        for(int i = 0; i < Allproducts.Count; i++)// loops on the products
+        for (int i = 0; i < Allproducts.Count; i++)// loops on the products
         {
-            if(Allproducts[i].ProductID == ProductId.ToString())// checks if a product with a matching productID exists
+            if (Allproducts[i].ProductID == ProductId.ToString())// checks if a product with a matching productID exists
             {
                 return int.Parse(Allproducts[i].Price.ToString());// returns the price of the item with a matching productID
             }

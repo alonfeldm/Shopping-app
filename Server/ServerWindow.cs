@@ -119,7 +119,7 @@ namespace Server
                 Invoke(new Action<string>(PrintMessage), Message);
                 return;
             }
-            LogBox.AppendText("(" + DateTime.Now.Hour +":"+ DateTime.Now.Minute +":"+ DateTime.Now.Second +"): " + Message + Environment.NewLine);// log it
+            LogBox.AppendText("(" + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "): " + Message + Environment.NewLine);// log it
         }
         private void RefreshConnections(Dictionary<int, ClientSession> ConnectedClients)
         {

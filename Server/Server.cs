@@ -487,9 +487,10 @@ internal sealed class Server : IDisposable
         {
             foreach (var client in ConnectedClients.Values)
             {
-                if(client != Sender){// doesnt send to the user who sent the message
-                ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.ChatBroadcast, ProtocolEncryptionFlags.Encrypted, client.RequestCounter, JsonSerializer.SerializeToUtf8Bytes(Payload));
-                client.Send(ResponseFrame, true);// sends the same frame to every client
+                if (client != Sender)
+                {// doesnt send to the user who sent the message
+                    ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.ChatBroadcast, ProtocolEncryptionFlags.Encrypted, client.RequestCounter, JsonSerializer.SerializeToUtf8Bytes(Payload));
+                    client.Send(ResponseFrame, true);// sends the same frame to every client
                 }
             }
         }

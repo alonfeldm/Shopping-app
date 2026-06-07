@@ -342,16 +342,16 @@ namespace Client
                 Invoke(new Action<string, string>(DisplayMessage), username, message);
                 return;// if the call is from a different thread we invoke it with the UI thread
             }
-            ChatBox.AppendText("(" + DateTime.Now.Hour +":"+ DateTime.Now.Minute +":"+ DateTime.Now.Second +"): "+ username + ": " +message+ System.Environment.NewLine);
+            ChatBox.AppendText("(" + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "): " + username + ": " + message + System.Environment.NewLine);
         }
         public void DisplayLog(string log)// adds a log to the log box
         {
             if (logBox.InvokeRequired)
             {
-                Invoke(new Action<string>(DisplayLog),log);
+                Invoke(new Action<string>(DisplayLog), log);
                 return;// if the call is from a different thread we invoke it with the UI thread
             }
-            logBox.AppendText("(" + DateTime.Now.Hour +":"+ DateTime.Now.Minute +":"+ DateTime.Now.Second +"): " + log + System.Environment.NewLine);
+            logBox.AppendText("(" + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "): " + log + System.Environment.NewLine);
         }
         public void ClearMessages()// clears the chatbox
         {
@@ -378,7 +378,7 @@ namespace Client
                 Invoke(new Action(ClearStoreColumns));
                 return;
             }
-            foreach(DataGridViewRow row in storeGrid.Rows)// goes over all of the rows
+            foreach (DataGridViewRow row in storeGrid.Rows)// goes over all of the rows
             {
                 row.Cells[2].Value = "";// resets the amount to add to cart
                 row.Cells[4].Value = 0;// resets the total

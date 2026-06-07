@@ -9,7 +9,7 @@ internal class ClientSession : IDisposable// this represents one client connecte
 {
     private readonly TcpClient tcpClient;// used to represent the tcpclient of the client
     private readonly NetworkStream networkStream;
-    private Thread? ReceiveThread; 
+    private Thread? ReceiveThread;
     private readonly object SendLock = new object();// used to not allow multiple threads sending at once
     private bool Disposed;// if the client disposed
     public event Action<ClientSession, ProtocolFrame>? FrameReceived;//is called when a frame is received
@@ -20,7 +20,7 @@ internal class ClientSession : IDisposable// this represents one client connecte
     public System.Security.Cryptography.Aes? aes { get; set; }// the aes object used for encryption
     public string RemoteEndpoint => tcpClient.Client?.RemoteEndPoint?.ToString() ?? "Not known"; // the ip of the user
     public int RequestCounter { get; set; } = 0; // counter 
-    public int loginCounter {get; set;} = 0;//used to know how many times the client has tried to login
+    public int loginCounter { get; set; } = 0;//used to know how many times the client has tried to login
 
     public ClientSession(TcpClient tcpClient, int CliendId)// creates a new client session object and sets fields
     {
