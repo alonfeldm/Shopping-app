@@ -39,7 +39,7 @@ internal sealed class Server : IDisposable
     private string APIKey { get; set; } = string.Empty;// API key used for requests
     public int Port { get; private set; }// the port used by the server
     public int MessageIdCounter = 0;// used to give messages unique ids
-    public string Pepper { private set; get; } = "";
+    public string Pepper { get; } = "F5M/wQ4DB2hfZ7M9yi0NrFcdBQ82VcVu4rWonJCpCq4=";
 
     public void Start(int port, string apikey)
     {
@@ -64,7 +64,6 @@ internal sealed class Server : IDisposable
         ListenThread.Start();// listening for frames
         //InitializeGemini();// starts gemini with the prompt
         InitializeOpenRouter();
-        Pepper = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
     }
     public void Stop()
     {
