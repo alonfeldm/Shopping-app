@@ -1,7 +1,6 @@
 using System.Security.Cryptography; // for aes and rsa 
 using System;
 using System.Text;
-using System.Net.Security;// for encoding
 namespace SharedLibraries;
 
 public static class SecurityHelpers

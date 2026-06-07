@@ -3,7 +3,6 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
-using SharedLibraries;
 using SharedLibraries.Payloads;
 
 namespace Server;
