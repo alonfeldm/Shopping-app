@@ -72,7 +72,8 @@ public class Client
                     ProtocolFrame? Frame = Protocol.ReadFrame(NetworkStream!);
                     if (Frame == null)
                     {
-                        DisplayLog?.Invoke("Frame couldn't be read, connection might be lost");
+                        DisplayLog?.Invoke("Frame couldn't be read, connection is lost");
+                        Stop();// the connection is lost
                         break;
                     }
                     HandleFrame(Frame);// if a frame was read move it to the handler which will sort it 
@@ -333,6 +334,7 @@ public class Client
         byte[] PayloadToSend = JsonSerializer.SerializeToUtf8Bytes(Payload);
         ProtocolFrame FrameToSend = new ProtocolFrame(ProtocolCommands.ChatPost, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, PayloadToSend);
         Send(FrameToSend, true); // send the frame encrypted
+        DisplayMessage!.Invoke(Username!, message);// displays the message
     }
     public void CreateOrderFrame(OrderDetails details, List<ProductAndQuantity> cart)
     {

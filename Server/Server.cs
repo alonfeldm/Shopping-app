@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text;
+using Google.GenAI;
 
 
 namespace Server;
@@ -475,10 +476,10 @@ internal sealed class Server : IDisposable
                 Database.SaveMessage(NewMessage);//saves it in the database
             }
             Messages.Add(NewMessage);// adds it to the quick use list
-            BroadCastChatMessage(NewMessage);// broadcasts it
+            BroadCastChatMessage(client, NewMessage);// broadcasts it
         }
     }
-    public void BroadCastChatMessage(Message message)//sends a chat message to all users
+    public void BroadCastChatMessage(ClientSession Sender, Message message)//sends a chat message to all users
     {
         ChatBroadcastPayload Payload = new ChatBroadcastPayload();
         Payload.Message = message;
@@ -486,8 +487,10 @@ internal sealed class Server : IDisposable
         {
             foreach (var client in ConnectedClients.Values)
             {
+                if(client != Sender){// doesnt send to the user who sent the message
                 ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.ChatBroadcast, ProtocolEncryptionFlags.Encrypted, client.RequestCounter, JsonSerializer.SerializeToUtf8Bytes(Payload));
                 client.Send(ResponseFrame, true);// sends the same frame to every client
+                }
             }
         }
     }
