@@ -56,11 +56,3 @@ C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\ref\Serve
 C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\Server.sourcelink.json
 C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\Server.ServerWindow.resources
 C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\Server.csproj.GenerateResource.cache
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\Google.Apis.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\Google.Apis.Auth.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\Google.Apis.Core.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\Google.GenAI.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\Microsoft.Extensions.AI.Abstractions.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\Newtonsoft.Json.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\System.Management.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\runtimes\win\lib\net7.0\System.Management.dll

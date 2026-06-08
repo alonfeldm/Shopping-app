@@ -25,7 +25,7 @@ internal class ClientSession : IDisposable// this represents one client connecte
     public DateTime LastRegisterRequestTime {get; set;} = DateTime.MinValue;//used to know when the last register request was
 
     public ClientSession(TcpClient tcpClient, int CliendId)
-    // creates a new client session object, sets fields and adds a 10 second time limit for the tcp handshake and 10 second limit for the secure session connection
+    // creates a new client session object, sets fields and adds a 10 second limit for the secure session connection
     {
         this.ClientId = CliendId;
         this.tcpClient = tcpClient;

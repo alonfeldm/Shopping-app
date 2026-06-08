@@ -279,8 +279,10 @@ internal sealed class Server : IDisposable
             
             SendAuthenticationResult(client, false, string.Empty, false);// checks if the payload is empty and if the password and username are valid if not sends a failed result
             PrintOut?.Invoke("Register request denied, too many requests from: " + client.RemoteEndpoint);
+            client.LastRegisterRequestTime = DateTime.UtcNow;
             return;
         }
+        client.LastRegisterRequestTime = DateTime.UtcNow;
         lock (DatabaseLock)
         {
             User? UserExists = Database.SelectUser(Payload!.Username);
