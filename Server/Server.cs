@@ -263,6 +263,7 @@ internal sealed class Server : IDisposable
         SecureSessionPayload? Payload = JsonSerializer.Deserialize<SecureSessionPayload>(DecryptedPayload);
         client.aes!.Key = Payload!.AesKey;// gets the key and IV
         client.aes!.IV = Payload.AesIV;
+        client.SecureSessionComplete();// removes the timeout limit for the handshake
         ConnectionSuccessPayload ResponsePayload = new ConnectionSuccessPayload();
         ResponsePayload.Success = true;// because the server got the aes key it sends a connection success payload
         ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.ConnectionSuccess, ProtocolEncryptionFlags.Encrypted, client.RequestCounter++, JsonSerializer.SerializeToUtf8Bytes(ResponsePayload));
@@ -272,24 +273,16 @@ internal sealed class Server : IDisposable
     public void HandleRegister(ClientSession client, ProtocolFrame frame)// handles a register payload from the user
     {
         RegisterPayload? Payload = JsonSerializer.Deserialize<RegisterPayload>(frame.Payload);
-        if (client.loginCounter >= 10)
-        {
-            SendAuthenticationResult(client, false, Payload!.Username, true);// return false
-            lock (ClientLock)
-            {
-                ConnectedClients.Remove(client.ClientId);// removes the client after locking so no threads work at once
-                ServerStateChanged!.Invoke(ConnectedClients);
-            }
-            client.Dispose();
-            return;
-        }
-        else
-        {
-            client.loginCounter += 1;
-        }
         if (Payload == null || !ValidationHelpers.ValidateUsername(Payload.Username) || !ValidationHelpers.ValidatePassword(Payload!.Password))
         {
             SendAuthenticationResult(client, false, string.Empty, false);// checks if the payload is empty and if the password and username are valid if not sends a failed result
+            return;
+        }
+        if((DateTime.UtcNow -client.LastRegisterRequestTime).TotalSeconds < 5)// checks if the difference between the last request to now is less than five seconds
+        {
+            
+            SendAuthenticationResult(client, false, string.Empty, false);// checks if the payload is empty and if the password and username are valid if not sends a failed result
+            PrintOut?.Invoke("Register request denied, too many requests from: " + client.RemoteEndpoint);
             return;
         }
         lock (DatabaseLock)
@@ -322,7 +315,7 @@ internal sealed class Server : IDisposable
     {
         //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
         LoginPayload? Payload = JsonSerializer.Deserialize<LoginPayload>(frame.Payload);
-        if (client.loginCounter >= 10)
+        if (client.LoginCounter >= 10)
         {
             SendAuthenticationResult(client, false, Payload!.Username, true);// return false
             lock (ClientLock)
@@ -335,7 +328,7 @@ internal sealed class Server : IDisposable
         }
         else
         {
-            client.loginCounter += 1;
+            client.LoginCounter += 1;
         }
         lock (DatabaseLock)// to stop at once work
         {

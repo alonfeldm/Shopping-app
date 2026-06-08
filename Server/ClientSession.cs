@@ -20,14 +20,24 @@ internal class ClientSession : IDisposable// this represents one client connecte
     public System.Security.Cryptography.Aes? aes { get; set; }// the aes object used for encryption
     public string RemoteEndpoint => tcpClient.Client?.RemoteEndPoint?.ToString() ?? "Not known"; // the ip of the user
     public int RequestCounter { get; set; } = 0; // counter 
-    public int loginCounter { get; set; } = 0;//used to know how many times the client has tried to login
+    public int LoginCounter { get; set; } = 0;//used to know how many times the client has tried to login
+    private const int SecureSessionTimeout = 10000;//10 second time limit for the completion of the secure session handshake
+    public DateTime LastRegisterRequestTime {get; set;} = DateTime.MinValue;//used to know when the last register request was
 
-    public ClientSession(TcpClient tcpClient, int CliendId)// creates a new client session object and sets fields
+    public ClientSession(TcpClient tcpClient, int CliendId)
+    // creates a new client session object, sets fields and adds a 10 second time limit for the tcp handshake and 10 second limit for the secure session connection
     {
         this.ClientId = CliendId;
         this.tcpClient = tcpClient;
         this.tcpClient.NoDelay = true;
         networkStream = tcpClient.GetStream();
+        networkStream.ReadTimeout = SecureSessionTimeout;//the timeout for reading from the stream
+        networkStream.WriteTimeout = SecureSessionTimeout;//the timeout for writing to the stream
+    }
+    public void SecureSessionComplete()// called when the secure session handshake is complete, removes the timeout
+    {
+        tcpClient.ReceiveTimeout = 0;
+        networkStream.ReadTimeout = Timeout.Infinite;
     }
     public void Start()
     {
