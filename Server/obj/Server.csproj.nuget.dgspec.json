@@ -57,10 +57,6 @@
           "framework": "net10.0-windows7.0",
           "targetAlias": "net10.0-windows",
           "dependencies": {
-            "Google.GenAI": {
-              "target": "Package",
-              "version": "[1.8.0, )"
-            },
             "System.Data.SQLite.Core": {
               "target": "Package",
               "version": "[1.0.118, )"
