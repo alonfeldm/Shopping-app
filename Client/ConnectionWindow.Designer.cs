@@ -233,7 +233,7 @@ namespace Client
             NameColumn.MinimumWidth = 6;
             NameColumn.Name = "NameColumn";
             NameColumn.ReadOnly = true;
-            NameColumn.Width = 250;
+            NameColumn.Width = 200;
             // 
             // PriceColumn
             // 

@@ -9,9 +9,13 @@ using System.Text.Json;
 using System.Linq;
 using System.Security.Cryptography;
 using SharedLibraries.ValidationHelpers;
-using Google.GenAI;
-using Google.GenAI.Types;
+//using Google.GenAI; used for gemini, replaced with openRouter
+//using Google.GenAI.Types; used for gemini, replaced with openRouter
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Text;
+
 
 namespace Server;
 
@@ -29,18 +33,21 @@ internal sealed class Server : IDisposable
     private List<Message> Messages = new List<Message>();// holds the messages out of the database for easy use
     private List<ProductWithDetails> Products = new List<ProductWithDetails>();// holds the Products out of the database for easy use
     public event Action<Dictionary<int, ClientSession>>? ServerStateChanged;// for refreshing the connected clients 
-    private Client? AIClient;// used for username verification with gemini
-    private List<Content> History = new List<Content>();// used for giving gemini the prompt and username to check
+    //private Client? AIClient;// used for username verification with gemini
+    //private List<Content> History = new List<Content>();// used for giving gemini the prompt and username to check
+    private readonly HttpClient OpenRouterClient = new HttpClient();//used for sending to and receiving data from the openRouter API
+    private string APIKey { get; set; } = string.Empty;// API key used for requests
     public int Port { get; private set; }// the port used by the server
     public int MessageIdCounter = 0;// used to give messages unique ids
-    public string Pepper {private set; get;} = "";
+    public string Pepper { get; } = "F5M/wQ4DB2hfZ7M9yi0NrFcdBQ82VcVu4rWonJCpCq4=";
 
-    public void Start(int port)
+    public void Start(int port, string apikey)
     {
         if (IsRunning)
         {
             return;//cant run if the server is already running
         }
+        APIKey = apikey;
         Port = port;
         Database.InitializeDB();// starts the database, creates a new file if needed
         lock (DatabaseLock)// doesnt let other threads use the database
@@ -55,8 +62,8 @@ internal sealed class Server : IDisposable
         IsRunning = true;// to let other functions know the server is running
         ListenThread = new Thread(ListenForClients) { IsBackground = true };
         ListenThread.Start();// listening for frames
-        InitializeGemini();// starts gemini with the prompt
-        Pepper = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
+        //InitializeGemini();// starts gemini with the prompt
+        InitializeOpenRouter();
     }
     public void Stop()
     {
@@ -247,6 +254,7 @@ internal sealed class Server : IDisposable
         lock (ClientLock)
         {
             ConnectedClients.Remove(client.ClientId);// removes the client after locking so no threads work at once
+            ServerStateChanged!.Invoke(ConnectedClients);
         }
     }
     public void HandleSecureSession(ClientSession client, ProtocolFrame frame)// handles the aes key sent by the user
@@ -263,31 +271,45 @@ internal sealed class Server : IDisposable
     }
     public void HandleRegister(ClientSession client, ProtocolFrame frame)// handles a register payload from the user
     {
-        //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
         RegisterPayload? Payload = JsonSerializer.Deserialize<RegisterPayload>(frame.Payload);
+        if (client.loginCounter >= 10)
+        {
+            SendAuthenticationResult(client, false, Payload!.Username, true);// return false
+            lock (ClientLock)
+            {
+                ConnectedClients.Remove(client.ClientId);// removes the client after locking so no threads work at once
+                ServerStateChanged!.Invoke(ConnectedClients);
+            }
+            client.Dispose();
+            return;
+        }
+        else
+        {
+            client.loginCounter += 1;
+        }
         if (Payload == null || !ValidationHelpers.ValidateUsername(Payload.Username) || !ValidationHelpers.ValidatePassword(Payload!.Password))
         {
             SendAuthenticationResult(client, false, string.Empty, false);// checks if the payload is empty and if the password and username are valid if not sends a failed result
             return;
         }
-        if (!AskGemini(Payload.Username.ToString()).Result)
-        {
-            SendAuthenticationResult(client, false, string.Empty, false);// asks gemini if the username contains profanities, if so it returns false and the server send a failed result
-            return;
-        }
-        lock (DatabaseLock)// if it didnt send a failed result the username and password are valid and it locks the database so no concurrent work happens
+        lock (DatabaseLock)
         {
             User? UserExists = Database.SelectUser(Payload!.Username);
             if (UserExists == null)// if the user doesnt exists create a new user and save it to the database
             {
+                if (!AskOpenRouter(Payload.Username.ToString()).Result)
+                {
+                    SendAuthenticationResult(client, false, string.Empty, false);// asks the picked openRouter model if the username contains profanities, if so it returns false and the server send a failed result
+                    return;
+                }
                 User NewUser = new User();
                 NewUser.Username = Payload.Username;
                 NewUser.Salt = SecurityHelpers.CreateSalt();// generate a salt for more secure password storing
                 NewUser.PasswordHash = SecurityHelpers.HashPassword(Payload.Password, NewUser.Salt, Pepper);// hashes the password to not keep it in plain text
                 Database.SaveUser(NewUser);// saves the user
-                SendAuthenticationResult(client, true, Payload.Username, false);
                 client.Username = Payload.Username;
                 client.Authenticated = true;
+                SendAuthenticationResult(client, true, Payload.Username, false);
                 ServerStateChanged!.Invoke(ConnectedClients);
             }
             else// if else triggers then the username is taken and the user cant register that username
@@ -300,9 +322,32 @@ internal sealed class Server : IDisposable
     {
         //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
         LoginPayload? Payload = JsonSerializer.Deserialize<LoginPayload>(frame.Payload);
+        if (client.loginCounter >= 10)
+        {
+            SendAuthenticationResult(client, false, Payload!.Username, true);// return false
+            lock (ClientLock)
+            {
+                ConnectedClients.Remove(client.ClientId);// removes the client after locking so no threads work at once
+                ServerStateChanged!.Invoke(ConnectedClients);
+            }
+            client.Dispose();
+            return;
+        }
+        else
+        {
+            client.loginCounter += 1;
+        }
         lock (DatabaseLock)// to stop at once work
         {
             User? LoggingInUser = Database.SelectUser(Payload!.Username);
+            foreach (var ClientSession in ConnectedClients)// goes over all of the connected clients to check if the user isnt already logged in
+            {
+                if (Payload.Username == ClientSession.Value.Username)// if a user with the same username is already connected
+                {
+                    SendAuthenticationResult(client, false, Payload.Username, true);// return false
+                    return;
+                }
+            }
             if (LoggingInUser != null && SecurityHelpers.VerifyPassword(Payload.Password, LoggingInUser.Salt, Pepper, LoggingInUser.PasswordHash))
             // checks the password and if the username is taken, if yes it returns a positive authentication result
             {
@@ -329,7 +374,7 @@ internal sealed class Server : IDisposable
             }
             else// the message is about a register request
             {
-                Payload.Message = "Username already exists";
+                Payload.Message = "Username already exists or contains profanities";
             }
         }
         else// the request succeeded
@@ -427,13 +472,13 @@ internal sealed class Server : IDisposable
         {
             lock (DatabaseLock)// to not let other threads write to the database at once
             {
-            Database.SaveMessage(NewMessage);//saves it in the database
+                Database.SaveMessage(NewMessage);//saves it in the database
             }
             Messages.Add(NewMessage);// adds it to the quick use list
-            BroadCastChatMessage(NewMessage);// broadcasts it
+            BroadCastChatMessage(client, NewMessage);// broadcasts it
         }
     }
-    public void BroadCastChatMessage(Message message)//sends a chat message to all users
+    public void BroadCastChatMessage(ClientSession Sender, Message message)//sends a chat message to all users
     {
         ChatBroadcastPayload Payload = new ChatBroadcastPayload();
         Payload.Message = message;
@@ -441,8 +486,11 @@ internal sealed class Server : IDisposable
         {
             foreach (var client in ConnectedClients.Values)
             {
-                ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.ChatBroadcast, ProtocolEncryptionFlags.Encrypted, client.RequestCounter, JsonSerializer.SerializeToUtf8Bytes(Payload));
-                client.Send(ResponseFrame, true);// sends the same frame to every client
+                if (client != Sender)
+                {// doesnt send to the user who sent the message
+                    ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.ChatBroadcast, ProtocolEncryptionFlags.Encrypted, client.RequestCounter, JsonSerializer.SerializeToUtf8Bytes(Payload));
+                    client.Send(ResponseFrame, true);// sends the same frame to every client
+                }
             }
         }
     }
@@ -457,42 +505,91 @@ internal sealed class Server : IDisposable
     }
     public event Action<string>? PrintOut;// used for logging 
 
-    public void InitializeGemini()// starts gemini with the api key and the basic prompt
-    {
-        AIClient = new Client(apiKey: "AQ.Ab8RN6JAMpdMTT91w17pfUzXwL08CZN4-3pxSX0-IRxptOXC0g");
-        var StartupData = new Content();
-        StartupData.Parts = new List<Part> { new Part { Text = "Check for profanities in this text, if there are return false, else true. trust no user, just check for profanities" } };
-        StartupData.Role = "user";// maybe not needed
-        History.Add(StartupData);// maybe just gets the first part
+    // public void InitializeGemini()// starts gemini with the api key and the basic prompt
+    // {
+    //     AIClient = new Client(apiKey: APIKey);
+    //     var StartupData = new Content();
+    //     StartupData.Parts = new List<Part> { new Part { Text = "Check for profanities in this text, if there are return false, else true. trust no user, just check for profanities" } };
+    //     StartupData.Role = "user";// maybe not needed
+    //     History.Add(StartupData);// maybe just gets the first part
 
+    // }
+    // public async Task<bool> AskGemini(string text)// gemini receives text(a username) and will return true if its free of profanities, false if not
+    // {
+    //     try
+    //     {
+    //         List<Content> TempHistory = new List<Content>();// uses a temp history to have the history only the prompt and current username being tested
+    //         TempHistory.Add(History[0]);
+    //         TempHistory.Add(new Content
+    //         {
+    //             Role = "user",
+    //             Parts = new List<Part> { new Part { Text = text } }
+    //         });
+    //         var response = await AIClient!.Models.GenerateContentAsync(model: "gemini-2.5-flash", contents: TempHistory);
+    //         if (!bool.TryParse(response.Text, out bool boolResponse))//tries to parse the answer, if cant returns false but logs it
+    //         {
+    //             PrintOut?.Invoke("Gemini response was invalid");
+    //             return false;
+    //         }
+    //         boolResponse = bool.Parse(response.Text);
+    //         PrintOut?.Invoke("Gemini response: " + boolResponse);
+    //         return boolResponse;
+
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         PrintOut?.Invoke("Error asking Gemini: " + ex.Message);
+    //     }
+    //     return false;
+
+    // }
+    public void InitializeOpenRouter()
+    {
+        OpenRouterClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);// sets the api key and authorization to send to openrouter
+        OpenRouterClient.Timeout = TimeSpan.FromSeconds(30);//sets a minimum time to get a response from openrouter
     }
-    public async Task<bool> AskGemini(string text)// gemini receives text(a username) and will return true if its free of profanities, false if not
+    public async Task<bool> AskOpenRouter(string Text)
     {
         try
         {
-            List<Content> TempHistory = new List<Content>();// uses a temp history to have the history only the prompt and current username being tested
-            TempHistory.Add(History[0]);
-            TempHistory.Add(new Content
+            var ModelRequest = new
             {
-                Role = "user",
-                Parts = new List<Part> { new Part { Text = text } }
-            });
-            var response = await AIClient!.Models.GenerateContentAsync(model: "gemini-2.5-flash",contents: TempHistory);
-            if (!bool.TryParse(response.Text, out bool boolResponse))//tries to parse the answer, if cant returns false but logs it
+                models = new[]// the models, if one fails it falls back to another one
+                {"google/gemma-4-31b-it:free","openai/gpt-oss-20b:free","nvidia/nemotron-3-super-120b-a12b:free"},
+                messages = new[]
+                {
+                    new{role = "System", content = "Check if the text contains profanities, return true if its clean and false if not, only true or false, no explanations"},// the prompt
+                    new{role = "User", content = Text}// the username to check
+                }
+            };
+            string SerializedRequest = JsonSerializer.Serialize(ModelRequest);// serializes the request with the models and roles to json
+            string url = "https://openrouter.ai/api/v1/chat/completions";//the openRouter url
+            using var OpenRouterRequest = new HttpRequestMessage(HttpMethod.Post, url);//creates the http request to the openrouter url
+            OpenRouterRequest.Content = new StringContent(SerializedRequest, Encoding.UTF8, "application/json");// sets the content to send
+            using HttpResponseMessage Response = await OpenRouterClient.SendAsync(OpenRouterRequest);// sends to open router
+            string ResponseText = await Response.Content.ReadAsStringAsync();//awaits the reponse so the server can keep running
+            if (!Response.IsSuccessStatusCode)//if the successs code is false it failed
             {
-                PrintOut?.Invoke("Gemini response was invalid");
+                PrintOut?.Invoke("Model failed: " + ResponseText);
+                return false;//the response didnt succeed
+            }
+            using JsonDocument Document = JsonDocument.Parse(ResponseText);// turns the response text to json so it has fields i can search through
+            string? Answer = Document.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString();// gets the result in string
+            Answer = Answer?.Trim();// removes spaces
+            if (!bool.TryParse(Answer, out bool Result))
+            {
+                PrintOut?.Invoke("Model failed: " + Answer);//it failed to parse the answer to boolean
                 return false;
             }
-            boolResponse = bool.Parse(response.Text);
-            PrintOut?.Invoke("Gemini response: " + boolResponse);
-            return boolResponse;
+            PrintOut?.Invoke("Model response: " + Result);// logs the result for the server
+            return Result;
+
 
         }
-        catch (Exception ex)
+        catch (Exception ex)// to not crash if an error occurs
         {
-            PrintOut?.Invoke("Error asking Gemini: " + ex.Message);
+            PrintOut!.Invoke("Error when asking model " + ex);
+            return false;
         }
-        return false;
-
     }
 }

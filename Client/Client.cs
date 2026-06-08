@@ -55,6 +55,10 @@ public class Client
             Username = null; // now a new user can login
             TcpConnected = false;// now the client is not tcp connected
             LoggedIn = false; // not the client is not logged in
+            ClearLogs!();
+            ClearMessages!();
+            ClearStore!();
+
         }
         catch (Exception ex)// if failed to disconnect properly, log it but dont crash
         {
@@ -72,7 +76,8 @@ public class Client
                     ProtocolFrame? Frame = Protocol.ReadFrame(NetworkStream!);
                     if (Frame == null)
                     {
-                        DisplayLog?.Invoke("Frame couldn't be read, connection might be lost");
+                        DisplayLog?.Invoke("Frame couldn't be read, connection is lost");
+                        Stop();// the connection is lost
                         break;
                     }
                     HandleFrame(Frame);// if a frame was read move it to the handler which will sort it 
@@ -246,7 +251,7 @@ public class Client
         }
         else
         {
-            DisplayLog?.Invoke("Authentication failed");
+            DisplayLog?.Invoke("Authentication failed: " + Payload.Message);
             // if the payload was false then the authentication failed and there are no products or messages to display
         }
     }
@@ -289,7 +294,7 @@ public class Client
         ErrorPayload? Payload = JsonSerializer.Deserialize<ErrorPayload>(DecryptedPayload);
         DisplayLog?.Invoke("Error from server: " + Payload!.ErrorMessage);// logs the error message sent by the server
     }
-    public event Action<string>? PrintOut;
+    //public event Action<string>? PrintOut;// might get used so im not deleting it
     // used for messagebox.show, opens a small window with the error, less user friendly than the log but might be needed for important messages
     public event Action<string>? DisplayLog;
     //used for the log, more user friendly than printout but might not be noticed
@@ -333,6 +338,7 @@ public class Client
         byte[] PayloadToSend = JsonSerializer.SerializeToUtf8Bytes(Payload);
         ProtocolFrame FrameToSend = new ProtocolFrame(ProtocolCommands.ChatPost, ProtocolEncryptionFlags.UnEncrypted, NextRequestId++, PayloadToSend);
         Send(FrameToSend, true); // send the frame encrypted
+        DisplayMessage!.Invoke(Username!, message);// displays the message
     }
     public void CreateOrderFrame(OrderDetails details, List<ProductAndQuantity> cart)
     {
