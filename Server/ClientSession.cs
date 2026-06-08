@@ -36,7 +36,6 @@ internal class ClientSession : IDisposable// this represents one client connecte
     }
     public void SecureSessionComplete()// called when the secure session handshake is complete, removes the timeout
     {
-        tcpClient.ReceiveTimeout = 0;
         networkStream.ReadTimeout = Timeout.Infinite;
     }
     public void Start()
