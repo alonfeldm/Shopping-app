@@ -35,14 +35,7 @@ C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\Server.de
 C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\Server.runtimeconfig.json
 C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\Server.dll
 C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\Server.pdb
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\EntityFramework.SqlServer.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\EntityFramework.dll
 C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\System.Data.SQLite.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\System.Data.SqlClient.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\System.Data.SQLite.EF6.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\runtimes\win-arm64\native\sni.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\runtimes\win-x64\native\sni.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\runtimes\win-x86\native\sni.dll
 C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\runtimes\linux-x64\native\SQLite.Interop.dll
 C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\runtimes\osx-x64\native\SQLite.Interop.dll
 C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\runtimes\win-x64\native\SQLite.Interop.dll
@@ -63,8 +56,6 @@ C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\ref\Serve
 C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\Server.sourcelink.json
 C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\Server.ServerWindow.resources
 C:\Users\alonf\Documents\Shopping app\Server\obj\Debug\net10.0-windows\Server.csproj.GenerateResource.cache
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\runtimes\unix\lib\net8.0\System.Data.SqlClient.dll
-C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\runtimes\win\lib\net8.0\System.Data.SqlClient.dll
 C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\Google.Apis.dll
 C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\Google.Apis.Auth.dll
 C:\Users\alonf\Documents\Shopping app\Server\bin\Debug\net10.0-windows\Google.Apis.Core.dll
