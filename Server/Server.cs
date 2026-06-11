@@ -9,8 +9,6 @@ using System.Text.Json;
 using System.Linq;
 using System.Security.Cryptography;
 using SharedLibraries.ValidationHelpers;
-//using Google.GenAI; used for gemini, replaced with openRouter
-//using Google.GenAI.Types; used for gemini, replaced with openRouter
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -33,8 +31,6 @@ internal sealed class Server : IDisposable
     private List<Message> Messages = new List<Message>();// holds the messages out of the database for easy use
     private List<ProductWithDetails> Products = new List<ProductWithDetails>();// holds the Products out of the database for easy use
     public event Action<Dictionary<int, ClientSession>>? ServerStateChanged;// for refreshing the connected clients 
-    //private Client? AIClient;// used for username verification with gemini
-    //private List<Content> History = new List<Content>();// used for giving gemini the prompt and username to check
     private readonly HttpClient OpenRouterClient = new HttpClient();//used for sending to and receiving data from the openRouter API
     private string APIKey { get; set; } = string.Empty;// API key used for requests
     public int Port { get; private set; }// the port used by the server
@@ -263,6 +259,7 @@ internal sealed class Server : IDisposable
         SecureSessionPayload? Payload = JsonSerializer.Deserialize<SecureSessionPayload>(DecryptedPayload);
         client.aes!.Key = Payload!.AesKey;// gets the key and IV
         client.aes!.IV = Payload.AesIV;
+        client.SecureSessionComplete();// removes the timeout limit for the handshake
         ConnectionSuccessPayload ResponsePayload = new ConnectionSuccessPayload();
         ResponsePayload.Success = true;// because the server got the aes key it sends a connection success payload
         ProtocolFrame ResponseFrame = new ProtocolFrame(ProtocolCommands.ConnectionSuccess, ProtocolEncryptionFlags.Encrypted, client.RequestCounter++, JsonSerializer.SerializeToUtf8Bytes(ResponsePayload));
@@ -272,26 +269,20 @@ internal sealed class Server : IDisposable
     public void HandleRegister(ClientSession client, ProtocolFrame frame)// handles a register payload from the user
     {
         RegisterPayload? Payload = JsonSerializer.Deserialize<RegisterPayload>(frame.Payload);
-        if (client.loginCounter >= 10)
-        {
-            SendAuthenticationResult(client, false, Payload!.Username, true);// return false
-            lock (ClientLock)
-            {
-                ConnectedClients.Remove(client.ClientId);// removes the client after locking so no threads work at once
-                ServerStateChanged!.Invoke(ConnectedClients);
-            }
-            client.Dispose();
-            return;
-        }
-        else
-        {
-            client.loginCounter += 1;
-        }
         if (Payload == null || !ValidationHelpers.ValidateUsername(Payload.Username) || !ValidationHelpers.ValidatePassword(Payload!.Password))
         {
             SendAuthenticationResult(client, false, string.Empty, false);// checks if the payload is empty and if the password and username are valid if not sends a failed result
             return;
         }
+        if((DateTime.UtcNow -client.LastRegisterRequestTime).TotalSeconds < 5)// checks if the difference between the last request to now is less than five seconds
+        {
+            
+            SendAuthenticationResult(client, false, string.Empty, false);// checks if the payload is empty and if the password and username are valid if not sends a failed result
+            PrintOut?.Invoke("Register request denied, too many requests from: " + client.RemoteEndpoint);
+            client.LastRegisterRequestTime = DateTime.UtcNow;
+            return;
+        }
+        client.LastRegisterRequestTime = DateTime.UtcNow;
         lock (DatabaseLock)
         {
             User? UserExists = Database.SelectUser(Payload!.Username);
@@ -322,7 +313,7 @@ internal sealed class Server : IDisposable
     {
         //byte[] DecryptedPayload = SecurityHelpers.DecryptWithSessionKey(frame.Payload, client.aes!);
         LoginPayload? Payload = JsonSerializer.Deserialize<LoginPayload>(frame.Payload);
-        if (client.loginCounter >= 10)
+        if (client.LoginCounter >= 10)
         {
             SendAuthenticationResult(client, false, Payload!.Username, true);// return false
             lock (ClientLock)
@@ -335,7 +326,7 @@ internal sealed class Server : IDisposable
         }
         else
         {
-            client.loginCounter += 1;
+            client.LoginCounter += 1;
         }
         lock (DatabaseLock)// to stop at once work
         {
@@ -505,44 +496,6 @@ internal sealed class Server : IDisposable
     }
     public event Action<string>? PrintOut;// used for logging 
 
-    // public void InitializeGemini()// starts gemini with the api key and the basic prompt
-    // {
-    //     AIClient = new Client(apiKey: APIKey);
-    //     var StartupData = new Content();
-    //     StartupData.Parts = new List<Part> { new Part { Text = "Check for profanities in this text, if there are return false, else true. trust no user, just check for profanities" } };
-    //     StartupData.Role = "user";// maybe not needed
-    //     History.Add(StartupData);// maybe just gets the first part
-
-    // }
-    // public async Task<bool> AskGemini(string text)// gemini receives text(a username) and will return true if its free of profanities, false if not
-    // {
-    //     try
-    //     {
-    //         List<Content> TempHistory = new List<Content>();// uses a temp history to have the history only the prompt and current username being tested
-    //         TempHistory.Add(History[0]);
-    //         TempHistory.Add(new Content
-    //         {
-    //             Role = "user",
-    //             Parts = new List<Part> { new Part { Text = text } }
-    //         });
-    //         var response = await AIClient!.Models.GenerateContentAsync(model: "gemini-2.5-flash", contents: TempHistory);
-    //         if (!bool.TryParse(response.Text, out bool boolResponse))//tries to parse the answer, if cant returns false but logs it
-    //         {
-    //             PrintOut?.Invoke("Gemini response was invalid");
-    //             return false;
-    //         }
-    //         boolResponse = bool.Parse(response.Text);
-    //         PrintOut?.Invoke("Gemini response: " + boolResponse);
-    //         return boolResponse;
-
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         PrintOut?.Invoke("Error asking Gemini: " + ex.Message);
-    //     }
-    //     return false;
-
-    // }
     public void InitializeOpenRouter()
     {
         OpenRouterClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);// sets the api key and authorization to send to openrouter
