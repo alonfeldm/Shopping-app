@@ -1,0 +1,6 @@
+**/.appdata/
+**/.dotnet/
+**/.vscode/
+**/bin/
+**/obj/
+**/.vs/
