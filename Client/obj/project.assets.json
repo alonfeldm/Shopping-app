@@ -1,7 +1,7 @@
 {
-  "version": 4,
+  "version": 3,
   "targets": {
-    "net10.0-windows": {
+    "net10.0-windows7.0": {
       "SharedLibraries/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
@@ -22,7 +22,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net10.0-windows": [
+    "net10.0-windows7.0": [
       "SharedLibraries >= 1.0.0"
     ]
   },
@@ -33,11 +33,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\Client.csproj",
+      "projectUniqueName": "C:\\Users\\alonf\\Documents\\GitHub\\Shopping-app\\Client\\Client.csproj",
       "projectName": "Client",
-      "projectPath": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\Client.csproj",
+      "projectPath": "C:\\Users\\alonf\\Documents\\GitHub\\Shopping-app\\Client\\Client.csproj",
       "packagesPath": "C:\\Users\\alonf\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alonf\\Documents\\Shopping app\\Client\\obj\\",
+      "outputPath": "C:\\Users\\alonf\\Documents\\GitHub\\Shopping-app\\Client\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -56,12 +56,11 @@
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net10.0-windows": {
-          "framework": "net10.0-windows7.0",
+        "net10.0-windows7.0": {
           "targetAlias": "net10.0-windows",
           "projectReferences": {
-            "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj": {
-              "projectPath": "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj"
+            "C:\\Users\\alonf\\Documents\\GitHub\\Shopping-app\\SharedLibraries\\SharedLibraries.csproj": {
+              "projectPath": "C:\\Users\\alonf\\Documents\\GitHub\\Shopping-app\\SharedLibraries\\SharedLibraries.csproj"
             }
           }
         }
@@ -76,11 +75,10 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.300"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
-      "net10.0-windows": {
-        "framework": "net10.0-windows7.0",
+      "net10.0-windows7.0": {
         "targetAlias": "net10.0-windows",
         "imports": [
           "net461",
@@ -101,7 +99,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",

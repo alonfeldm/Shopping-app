@@ -10,3 +10,15 @@ C:\Users\alonf\Documents\Shopping app\SharedLibraries\obj\Debug\net10.0\refint\S
 C:\Users\alonf\Documents\Shopping app\SharedLibraries\obj\Debug\net10.0\SharedLibraries.pdb
 C:\Users\alonf\Documents\Shopping app\SharedLibraries\obj\Debug\net10.0\ref\SharedLibraries.dll
 C:\Users\alonf\Documents\Shopping app\SharedLibraries\obj\Debug\net10.0\SharedLibraries.sourcelink.json
+C:\Users\alonf\Documents\GitHub\Shopping-app\SharedLibraries\bin\Debug\net10.0\SharedLibraries.deps.json
+C:\Users\alonf\Documents\GitHub\Shopping-app\SharedLibraries\bin\Debug\net10.0\SharedLibraries.dll
+C:\Users\alonf\Documents\GitHub\Shopping-app\SharedLibraries\bin\Debug\net10.0\SharedLibraries.pdb
+C:\Users\alonf\Documents\GitHub\Shopping-app\SharedLibraries\obj\Debug\net10.0\SharedLibraries.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alonf\Documents\GitHub\Shopping-app\SharedLibraries\obj\Debug\net10.0\SharedLibraries.AssemblyInfoInputs.cache
+C:\Users\alonf\Documents\GitHub\Shopping-app\SharedLibraries\obj\Debug\net10.0\SharedLibraries.AssemblyInfo.cs
+C:\Users\alonf\Documents\GitHub\Shopping-app\SharedLibraries\obj\Debug\net10.0\SharedLibraries.csproj.CoreCompileInputs.cache
+C:\Users\alonf\Documents\GitHub\Shopping-app\SharedLibraries\obj\Debug\net10.0\SharedLibraries.sourcelink.json
+C:\Users\alonf\Documents\GitHub\Shopping-app\SharedLibraries\obj\Debug\net10.0\SharedLibraries.dll
+C:\Users\alonf\Documents\GitHub\Shopping-app\SharedLibraries\obj\Debug\net10.0\refint\SharedLibraries.dll
+C:\Users\alonf\Documents\GitHub\Shopping-app\SharedLibraries\obj\Debug\net10.0\SharedLibraries.pdb
+C:\Users\alonf\Documents\GitHub\Shopping-app\SharedLibraries\obj\Debug\net10.0\ref\SharedLibraries.dll

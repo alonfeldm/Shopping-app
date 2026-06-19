@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj": {}
+    "C:\\Users\\alonf\\Documents\\GitHub\\Shopping-app\\SharedLibraries\\SharedLibraries.csproj": {}
   },
   "projects": {
-    "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj": {
+    "C:\\Users\\alonf\\Documents\\GitHub\\Shopping-app\\SharedLibraries\\SharedLibraries.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj",
+        "projectUniqueName": "C:\\Users\\alonf\\Documents\\GitHub\\Shopping-app\\SharedLibraries\\SharedLibraries.csproj",
         "projectName": "SharedLibraries",
-        "projectPath": "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\SharedLibraries.csproj",
+        "projectPath": "C:\\Users\\alonf\\Documents\\GitHub\\Shopping-app\\SharedLibraries\\SharedLibraries.csproj",
         "packagesPath": "C:\\Users\\alonf\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alonf\\Documents\\Shopping app\\SharedLibraries\\obj\\",
+        "outputPath": "C:\\Users\\alonf\\Documents\\GitHub\\Shopping-app\\SharedLibraries\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -31,7 +31,6 @@
         },
         "frameworks": {
           "net10.0": {
-            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -46,11 +45,10 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "imports": [
             "net461",
@@ -68,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
