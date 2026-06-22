@@ -76,17 +76,23 @@ namespace Client
             // 
             // connectButton
             // 
+            connectButton.BackColor = System.Drawing.Color.FromArgb(37, 99, 235);
+            connectButton.FlatAppearance.BorderSize = 0;
+            connectButton.FlatStyle = FlatStyle.Flat;
+            connectButton.ForeColor = System.Drawing.Color.White;
             connectButton.Location = new System.Drawing.Point(20, 20);
             connectButton.Name = "connectButton";
             connectButton.Size = new System.Drawing.Size(100, 30);
             connectButton.TabIndex = 0;
             connectButton.Text = "Connect";
-            connectButton.UseVisualStyleBackColor = true;
+            connectButton.UseVisualStyleBackColor = false;
             connectButton.Click += ConnectButton_Click;
             // 
             // ipLabel
             // 
             ipLabel.Location = new System.Drawing.Point(190, 20);
+            ipLabel.BackColor = System.Drawing.Color.Transparent;
+            ipLabel.ForeColor = System.Drawing.Color.FromArgb(76, 55, 120);
             ipLabel.Name = "ipLabel";
             ipLabel.Size = new System.Drawing.Size(30, 30);
             ipLabel.TabIndex = 1;
@@ -94,23 +100,27 @@ namespace Client
             // 
             // ipTextBox
             // 
+            ipTextBox.AutoSize = false;
             ipTextBox.Location = new System.Drawing.Point(130, 60);
-            ipTextBox.Multiline = true;
             ipTextBox.Name = "ipTextBox";
+            ipTextBox.PlaceholderText = "Server IP";
             ipTextBox.Size = new System.Drawing.Size(150, 30);
             ipTextBox.TabIndex = 2;
             // 
             // portTextBox
             // 
+            portTextBox.AutoSize = false;
             portTextBox.Location = new System.Drawing.Point(290, 60);
-            portTextBox.Multiline = true;
             portTextBox.Name = "portTextBox";
+            portTextBox.PlaceholderText = "Port";
             portTextBox.Size = new System.Drawing.Size(150, 30);
             portTextBox.TabIndex = 3;
             // 
             // portLabel
             // 
             portLabel.Location = new System.Drawing.Point(345, 20);
+            portLabel.BackColor = System.Drawing.Color.Transparent;
+            portLabel.ForeColor = System.Drawing.Color.FromArgb(76, 55, 120);
             portLabel.Name = "portLabel";
             portLabel.Size = new System.Drawing.Size(40, 30);
             portLabel.TabIndex = 4;
@@ -118,44 +128,56 @@ namespace Client
             // 
             // registerButton
             // 
+            registerButton.BackColor = System.Drawing.Color.FromArgb(37, 99, 235);
+            registerButton.FlatAppearance.BorderSize = 0;
+            registerButton.FlatStyle = FlatStyle.Flat;
+            registerButton.ForeColor = System.Drawing.Color.White;
             registerButton.Location = new System.Drawing.Point(450, 20);
             registerButton.Name = "registerButton";
             registerButton.Size = new System.Drawing.Size(100, 30);
             registerButton.TabIndex = 5;
             registerButton.Text = "Register";
-            registerButton.UseVisualStyleBackColor = true;
+            registerButton.UseVisualStyleBackColor = false;
             registerButton.Click += RegisterButton_Click;
             // 
             // loginButton
             // 
+            loginButton.BackColor = System.Drawing.Color.FromArgb(37, 99, 235);
+            loginButton.FlatAppearance.BorderSize = 0;
+            loginButton.FlatStyle = FlatStyle.Flat;
+            loginButton.ForeColor = System.Drawing.Color.White;
             loginButton.Location = new System.Drawing.Point(450, 60);
             loginButton.Name = "loginButton";
             loginButton.Size = new System.Drawing.Size(100, 30);
             loginButton.TabIndex = 6;
             loginButton.Text = "Login";
-            loginButton.UseVisualStyleBackColor = true;
+            loginButton.UseVisualStyleBackColor = false;
             loginButton.Click += LoginButton_Click;
             // 
             // passwordTextBox
             // 
             passwordTextBox.Location = new System.Drawing.Point(720, 60);
-            passwordTextBox.Multiline = true;
+            passwordTextBox.AutoSize = false;
             passwordTextBox.Name = "passwordTextBox";
-            passwordTextBox.PasswordChar = '*';
+            passwordTextBox.PlaceholderText = "Password";
             passwordTextBox.Size = new System.Drawing.Size(150, 30);
             passwordTextBox.TabIndex = 7;
+            passwordTextBox.UseSystemPasswordChar = true;
             // 
             // usernameTextBox
             // 
             usernameTextBox.Location = new System.Drawing.Point(560, 60);
-            usernameTextBox.Multiline = true;
+            usernameTextBox.AutoSize = false;
             usernameTextBox.Name = "usernameTextBox";
+            usernameTextBox.PlaceholderText = "Username";
             usernameTextBox.Size = new System.Drawing.Size(150, 30);
             usernameTextBox.TabIndex = 8;
             // 
             // usernameLabel
             // 
             usernameLabel.Location = new System.Drawing.Point(600, 20);
+            usernameLabel.BackColor = System.Drawing.Color.Transparent;
+            usernameLabel.ForeColor = System.Drawing.Color.FromArgb(76, 55, 120);
             usernameLabel.Name = "usernameLabel";
             usernameLabel.Size = new System.Drawing.Size(75, 30);
             usernameLabel.TabIndex = 9;
@@ -164,6 +186,8 @@ namespace Client
             // passwordLabel
             // 
             passwordLabel.Location = new System.Drawing.Point(760, 20);
+            passwordLabel.BackColor = System.Drawing.Color.Transparent;
+            passwordLabel.ForeColor = System.Drawing.Color.FromArgb(76, 55, 120);
             passwordLabel.Name = "passwordLabel";
             passwordLabel.Size = new System.Drawing.Size(70, 30);
             passwordLabel.TabIndex = 10;
@@ -171,17 +195,22 @@ namespace Client
             // 
             // disconnectButton
             // 
+            disconnectButton.BackColor = System.Drawing.Color.FromArgb(37, 99, 235);
+            disconnectButton.FlatAppearance.BorderSize = 0;
+            disconnectButton.FlatStyle = FlatStyle.Flat;
+            disconnectButton.ForeColor = System.Drawing.Color.White;
             disconnectButton.Location = new System.Drawing.Point(20, 60);
             disconnectButton.Name = "disconnectButton";
             disconnectButton.Size = new System.Drawing.Size(100, 30);
             disconnectButton.TabIndex = 11;
             disconnectButton.Text = "Disconnect";
-            disconnectButton.UseVisualStyleBackColor = true;
+            disconnectButton.UseVisualStyleBackColor = false;
             disconnectButton.Click += DisconnectButton_Click;
             // 
             // ChatBox
             // 
             ChatBox.Location = new System.Drawing.Point(1130, 60);
+            ChatBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             ChatBox.Multiline = true;
             ChatBox.Name = "ChatBox";
             ChatBox.ReadOnly = true;
@@ -192,6 +221,8 @@ namespace Client
             // ChatLabel
             // 
             ChatLabel.Location = new System.Drawing.Point(1350, 15);
+            ChatLabel.BackColor = System.Drawing.Color.Transparent;
+            ChatLabel.ForeColor = System.Drawing.Color.FromArgb(76, 55, 120);
             ChatLabel.Name = "ChatLabel";
             ChatLabel.Size = new System.Drawing.Size(39, 30);
             ChatLabel.TabIndex = 13;
@@ -200,24 +231,42 @@ namespace Client
             // MessageTextBox
             // 
             MessageTextBox.Location = new System.Drawing.Point(1130, 720);
-            MessageTextBox.Multiline = true;
+            MessageTextBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            MessageTextBox.AutoSize = false;
             MessageTextBox.Name = "MessageTextBox";
+            MessageTextBox.PlaceholderText = "Message";
             MessageTextBox.Size = new System.Drawing.Size(360, 30);
             MessageTextBox.TabIndex = 14;
             // 
             // SendButton
             // 
+            SendButton.BackColor = System.Drawing.Color.FromArgb(37, 99, 235);
+            SendButton.FlatAppearance.BorderSize = 0;
+            SendButton.FlatStyle = FlatStyle.Flat;
+            SendButton.ForeColor = System.Drawing.Color.White;
             SendButton.Location = new System.Drawing.Point(1500, 720);
+            SendButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             SendButton.Name = "SendButton";
             SendButton.Size = new System.Drawing.Size(80, 30);
             SendButton.TabIndex = 15;
             SendButton.Text = "Send";
-            SendButton.UseVisualStyleBackColor = true;
+            SendButton.UseVisualStyleBackColor = false;
             SendButton.Click += SendButton_Click;
             // 
             // storeGrid
             // 
             storeGrid.AllowUserToAddRows = false;
+            storeGrid.AllowUserToResizeRows = false;
+            storeGrid.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            storeGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            storeGrid.AlternatingRowsDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(242, 238, 255);
+            storeGrid.BackgroundColor = System.Drawing.Color.White;
+            storeGrid.ColumnHeadersDefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(224, 214, 255);
+            storeGrid.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.FromArgb(45, 35, 70);
+            storeGrid.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.FromArgb(218, 205, 255);
+            storeGrid.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.FromArgb(35, 32, 46);
+            storeGrid.EnableHeadersVisualStyles = false;
+            storeGrid.GridColor = System.Drawing.Color.FromArgb(205, 194, 235);
             storeGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             storeGrid.Columns.AddRange(new DataGridViewColumn[] { NameColumn, PriceColumn, qtyToCartBoxColumn, addToCartButtonColumn, TotalColumn, QuantityColumn, productIdColumn });
             storeGrid.Location = new System.Drawing.Point(20, 100);
@@ -282,54 +331,62 @@ namespace Client
             // addressBox
             // 
             addressBox.Location = new System.Drawing.Point(880, 60);
-            addressBox.Multiline = true;
+            addressBox.AutoSize = false;
             addressBox.Name = "addressBox";
+            addressBox.PlaceholderText = "Address";
             addressBox.Size = new System.Drawing.Size(240, 30);
             addressBox.TabIndex = 17;
             // 
             // creditCardBox
             // 
             creditCardBox.Location = new System.Drawing.Point(940, 140);
-            creditCardBox.Multiline = true;
+            creditCardBox.AutoSize = false;
             creditCardBox.Name = "creditCardBox";
+            creditCardBox.PlaceholderText = "Card number";
             creditCardBox.Size = new System.Drawing.Size(180, 30);
             creditCardBox.TabIndex = 18;
             // 
             // monthBox
             // 
             monthBox.Location = new System.Drawing.Point(880, 300);
-            monthBox.Multiline = true;
+            monthBox.AutoSize = false;
             monthBox.Name = "monthBox";
+            monthBox.PlaceholderText = "MM";
             monthBox.Size = new System.Drawing.Size(80, 30);
             monthBox.TabIndex = 19;
             // 
             // yearBox
             // 
             yearBox.Location = new System.Drawing.Point(970, 300);
-            yearBox.Multiline = true;
+            yearBox.AutoSize = false;
             yearBox.Name = "yearBox";
+            yearBox.PlaceholderText = "YYYY";
             yearBox.Size = new System.Drawing.Size(80, 30);
             yearBox.TabIndex = 20;
             // 
             // firstNameBox
             // 
             firstNameBox.Location = new System.Drawing.Point(880, 220);
-            firstNameBox.Multiline = true;
+            firstNameBox.AutoSize = false;
             firstNameBox.Name = "firstNameBox";
+            firstNameBox.PlaceholderText = "First name";
             firstNameBox.Size = new System.Drawing.Size(115, 30);
             firstNameBox.TabIndex = 21;
             // 
             // CvvBox
             // 
             CvvBox.Location = new System.Drawing.Point(880, 140);
-            CvvBox.Multiline = true;
+            CvvBox.AutoSize = false;
             CvvBox.Name = "CvvBox";
+            CvvBox.PlaceholderText = "CVV";
             CvvBox.Size = new System.Drawing.Size(50, 30);
             CvvBox.TabIndex = 23;
             // 
             // CvvLabel
             // 
             CvvLabel.Location = new System.Drawing.Point(885, 100);
+            CvvLabel.BackColor = System.Drawing.Color.Transparent;
+            CvvLabel.ForeColor = System.Drawing.Color.FromArgb(76, 55, 120);
             CvvLabel.Name = "CvvLabel";
             CvvLabel.Size = new System.Drawing.Size(40, 30);
             CvvLabel.TabIndex = 24;
@@ -338,6 +395,8 @@ namespace Client
             // monthLabel
             // 
             monthLabel.Location = new System.Drawing.Point(880, 260);
+            monthLabel.BackColor = System.Drawing.Color.Transparent;
+            monthLabel.ForeColor = System.Drawing.Color.FromArgb(76, 55, 120);
             monthLabel.Name = "monthLabel";
             monthLabel.Size = new System.Drawing.Size(80, 30);
             monthLabel.TabIndex = 25;
@@ -346,6 +405,8 @@ namespace Client
             // yearLabel
             // 
             yearLabel.Location = new System.Drawing.Point(1005, 260);
+            yearLabel.BackColor = System.Drawing.Color.Transparent;
+            yearLabel.ForeColor = System.Drawing.Color.FromArgb(76, 55, 120);
             yearLabel.Name = "yearLabel";
             yearLabel.Size = new System.Drawing.Size(80, 30);
             yearLabel.TabIndex = 26;
@@ -354,6 +415,8 @@ namespace Client
             // creditNumberLabel
             // 
             creditNumberLabel.Location = new System.Drawing.Point(960, 100);
+            creditNumberLabel.BackColor = System.Drawing.Color.Transparent;
+            creditNumberLabel.ForeColor = System.Drawing.Color.FromArgb(76, 55, 120);
             creditNumberLabel.Name = "creditNumberLabel";
             creditNumberLabel.Size = new System.Drawing.Size(140, 30);
             creditNumberLabel.TabIndex = 27;
@@ -362,6 +425,8 @@ namespace Client
             // addressLabel
             // 
             addressLabel.Location = new System.Drawing.Point(965, 20);
+            addressLabel.BackColor = System.Drawing.Color.Transparent;
+            addressLabel.ForeColor = System.Drawing.Color.FromArgb(76, 55, 120);
             addressLabel.Name = "addressLabel";
             addressLabel.Size = new System.Drawing.Size(70, 30);
             addressLabel.TabIndex = 28;
@@ -370,6 +435,8 @@ namespace Client
             // firstNameLabel
             // 
             firstNameLabel.Location = new System.Drawing.Point(897, 180);
+            firstNameLabel.BackColor = System.Drawing.Color.Transparent;
+            firstNameLabel.ForeColor = System.Drawing.Color.FromArgb(76, 55, 120);
             firstNameLabel.Name = "firstNameLabel";
             firstNameLabel.Size = new System.Drawing.Size(80, 30);
             firstNameLabel.TabIndex = 29;
@@ -378,14 +445,17 @@ namespace Client
             // lastNameBox
             // 
             lastNameBox.Location = new System.Drawing.Point(1005, 220);
-            lastNameBox.Multiline = true;
+            lastNameBox.AutoSize = false;
             lastNameBox.Name = "lastNameBox";
+            lastNameBox.PlaceholderText = "Last name";
             lastNameBox.Size = new System.Drawing.Size(115, 30);
             lastNameBox.TabIndex = 30;
             // 
             // lastNameLabel
             // 
             lastNameLabel.Location = new System.Drawing.Point(1022, 180);
+            lastNameLabel.BackColor = System.Drawing.Color.Transparent;
+            lastNameLabel.ForeColor = System.Drawing.Color.FromArgb(76, 55, 120);
             lastNameLabel.Name = "lastNameLabel";
             lastNameLabel.Size = new System.Drawing.Size(80, 30);
             lastNameLabel.TabIndex = 31;
@@ -393,17 +463,22 @@ namespace Client
             // 
             // orderButton
             // 
+            orderButton.BackColor = System.Drawing.Color.FromArgb(37, 99, 235);
+            orderButton.FlatAppearance.BorderSize = 0;
+            orderButton.FlatStyle = FlatStyle.Flat;
+            orderButton.ForeColor = System.Drawing.Color.White;
             orderButton.Location = new System.Drawing.Point(1060, 300);
             orderButton.Name = "orderButton";
             orderButton.Size = new System.Drawing.Size(60, 30);
             orderButton.TabIndex = 32;
             orderButton.Text = "Order";
-            orderButton.UseVisualStyleBackColor = true;
+            orderButton.UseVisualStyleBackColor = false;
             orderButton.Click += OrderButton_Click;
             // 
             // logBox
             // 
             logBox.Location = new System.Drawing.Point(880, 340);
+            logBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             logBox.Multiline = true;
             logBox.Name = "logBox";
             logBox.ReadOnly = true;
@@ -415,7 +490,9 @@ namespace Client
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.FromArgb(218, 205, 255);
             ClientSize = new System.Drawing.Size(1582, 803);
+            MinimumSize = new System.Drawing.Size(1200, 700);
             Controls.Add(logBox);
             Controls.Add(orderButton);
             Controls.Add(lastNameLabel);
