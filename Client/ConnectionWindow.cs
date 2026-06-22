@@ -182,6 +182,7 @@ namespace Client
             try
             {
                 Client.CreateMessageFrame(MessageTextBox.Text.Trim());
+                MessageTextBox.Clear();
 
             }
             catch (Exception ex)

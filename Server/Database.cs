@@ -185,7 +185,7 @@ internal sealed class Database
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "01",
-            Name = "Campus Laptop Sleeve",
+            Name = "Laptop sleeve",
             Description = "Protective 14-inch sleeve for school and office use.",
             Price = 80m
         });
@@ -193,7 +193,7 @@ internal sealed class Database
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "02",
-            Name = "Mechanical Keyboard",
+            Name = "Mechanical keyboard",
             Description = "Compact keyboard with a comfortable typing feel.",
             Price = 230m
         });
@@ -201,28 +201,28 @@ internal sealed class Database
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "03",
-            Name = "USB-C Dock",
+            Name = "USB-C dock",
             Description = "Seven-port dock with HDMI, ethernet, and USB expansion.",
             Price = 185m
         });
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "04",
-            Name = "Wireless Mouse",
+            Name = "Wireless mouse",
             Description = "Ergonomic mouse with adjustable DPI settings.",
             Price = 50m
         });
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "05",
-            Name = "Noise-Cancelling Headphones",
+            Name = "Noise cancelling headphones",
             Description = "Over-ear headphones with active noise cancellation.",
             Price = 200m
         });
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "06",
-            Name = "4K 27in Monitor",
+            Name = "4K 27in monitor",
             Description = "27-inch monitor with stunning 4K resolution.",
             Price = 350m
         });
@@ -236,23 +236,102 @@ internal sealed class Database
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "08",
-            Name = "Webcam with Microphone",
+            Name = "Webcam with microphone",
             Description = "1080p webcam with built-in microphone for clear video calls.",
             Price = 90m
         });
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "09",
-            Name = "Laptop Stand",
+            Name = "Laptop stand",
             Description = "Adjustable stand to improve laptop ergonomics.",
             Price = 40m
         });
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "10",
-            Name = "Bluetooth Speaker",
+            Name = "Bluetooth speaker",
             Description = "Portable speaker with rich sound and long battery life.",
             Price = 60m
+        });
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "11",
+            Name = "USB-C charging cable",
+            Description = "Durable two-meter cable with fast charging support.",
+            Price = 35m
+        });
+
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "12",
+            Name = "Power bank 20,000mah",
+            Description = "Compact 20,000mah battery with USB-C fast charging.",
+            Price = 120m
+        });
+
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "13",
+            Name = "Desk mat",
+            Description = "Large non slip desk mat with a smooth fabric surface.",
+            Price = 45m
+        });
+
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "14",
+            Name = "Wireless charger",
+            Description = "Charging stand for compatible phones and earbuds.",
+            Price = 75m
+        });
+
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "15",
+            Name = "Adjustable desk lamp",
+            Description = "LED desk lamp with adjustable brightness and color temperature.",
+            Price = 110m
+        });
+
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "16",
+            Name = "Cable Organizer",
+            Description = "Reusable clips that keep charging and computer cables tidy.",
+            Price = 25m
+        });
+
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "17",
+            Name = "Gaming Headset",
+            Description = "Comfortable headset with surround sound and a removable microphone.",
+            Price = 180m
+        });
+
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "18",
+            Name = "Smartphone tripod",
+            Description = "Compact adjustable tripod with a Bluetooth camera remote.",
+            Price = 65m
+        });
+
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "19",
+            Name = "USB flash drive 128GB",
+            Description = "Compact high-speed flash drive with USB-A and USB-C connectors.",
+            Price = 55m
+        });
+
+        ProductList.Add(new ProductWithDetails
+        {
+            ProductID = "20",
+            Name = "Ergonomic wrist rest",
+            Description = "Memory-foam wrist support designed for keyboards and laptops.",
+            Price = 40m
         });
 
         return ProductList;// returns the product list
