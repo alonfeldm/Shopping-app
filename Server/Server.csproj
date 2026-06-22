@@ -10,9 +10,11 @@
 
     <ItemGroup>
   <ProjectReference Include="..\SharedLibraries\SharedLibraries.csproj" />
-</ItemGroup>
-
+    </ItemGroup>
     <ItemGroup>
         <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
     </ItemGroup>
+    <None Include="..\.env" Link=".env">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
 </Project>

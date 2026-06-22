@@ -508,7 +508,7 @@ internal sealed class Server : IDisposable
             var ModelRequest = new
             {
                 models = new[]// the models, if one fails it falls back to another one
-                {"google/gemma-4-31b-it:free","openai/gpt-oss-20b:free","nvidia/nemotron-3-super-120b-a12b:free"},
+                {"openai/gpt-oss-120b:free", "openai/gpt-oss-20b:free", "nvidia/nemotron-3-super-120b-a12b:free"},
                 messages = new[]
                 {
                     new{role = "System", content = "Check if the text contains profanities, return true if its clean and false if not, only true or false, no explanations"},// the prompt
