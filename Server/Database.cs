@@ -186,7 +186,7 @@ internal sealed class Database
         {
             ProductID = "01",
             Name = "Laptop sleeve",
-            Description = "Protective 14-inch sleeve for school and office use.",
+            Description = "Protective 14 inch laptop sleeve for school and office use.",
             Price = 80m
         });
 
@@ -202,7 +202,7 @@ internal sealed class Database
         {
             ProductID = "03",
             Name = "USB-C dock",
-            Description = "Seven-port dock with HDMI, ethernet, and USB expansion.",
+            Description = "Seven port dock with HDMI, ethernet, and USB expansion.",
             Price = 185m
         });
         ProductList.Add(new ProductWithDetails
@@ -216,14 +216,14 @@ internal sealed class Database
         {
             ProductID = "05",
             Name = "Noise cancelling headphones",
-            Description = "Over-ear headphones with active noise cancellation.",
+            Description = "Over ear headphones with active noise cancellation.",
             Price = 200m
         });
         ProductList.Add(new ProductWithDetails
         {
             ProductID = "06",
             Name = "4K 27in monitor",
-            Description = "27-inch monitor with stunning 4K resolution.",
+            Description = "27 inch monitor with stunning 4K resolution.",
             Price = 350m
         });
         ProductList.Add(new ProductWithDetails
@@ -237,7 +237,7 @@ internal sealed class Database
         {
             ProductID = "08",
             Name = "Webcam with microphone",
-            Description = "1080p webcam with built-in microphone for clear video calls.",
+            Description = "1080p webcam with built in microphone for clear video calls.",
             Price = 90m
         });
         ProductList.Add(new ProductWithDetails
@@ -258,7 +258,7 @@ internal sealed class Database
         {
             ProductID = "11",
             Name = "USB-C charging cable",
-            Description = "Durable two-meter cable with fast charging support.",
+            Description = "Durable two meter cable with fast charging support.",
             Price = 35m
         });
 
@@ -330,7 +330,7 @@ internal sealed class Database
         {
             ProductID = "20",
             Name = "Ergonomic wrist rest",
-            Description = "Memory-foam wrist support designed for keyboards and laptops.",
+            Description = "Memory foam wrist support designed for keyboards and laptops.",
             Price = 40m
         });
 
