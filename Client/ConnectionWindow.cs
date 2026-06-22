@@ -34,7 +34,7 @@ namespace Client
             cart = new List<ProductAndQuantity>();
         }
 
-        private void ConnectButton_Click(object? sender, EventArgs e)
+        private void ConnectButtonClick(object? sender, EventArgs e)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace Client
             MessageBox.Show(Message);
         }
 
-        private void RegisterButton_Click(object? sender, EventArgs e)
+        private void RegisterButtonClick(object? sender, EventArgs e)
         {
             if (!Client.SecureSessionConnected || !Client.TcpConnected) // cant register if the connection isnt fully established
             {
@@ -124,7 +124,7 @@ namespace Client
             }
         }
 
-        private void LoginButton_Click(object? sender, EventArgs e)
+        private void LoginButtonClick(object? sender, EventArgs e)
         {
             if (!Client.SecureSessionConnected || !Client.TcpConnected) // cant login if the connection isnt fully established
             {
@@ -152,7 +152,7 @@ namespace Client
                 DisplayLog($"Failed to login: {ex.Message}");
             }
         }
-        private void DisconnectButton_Click(object? sender, EventArgs e)
+        private void DisconnectButtonClick(object? sender, EventArgs e)
         {
             if (!Client.TcpConnected)//cant disconnect if not connected
             {
@@ -162,7 +162,7 @@ namespace Client
             Client.Stop();
             DisplayLog("Disconnected from the server.");
         }
-        private void SendButton_Click(object? sender, EventArgs e)
+        private void SendButtonClick(object? sender, EventArgs e)
         {
             if (!Client.TcpConnected)//cant send if not connected
             {
@@ -189,7 +189,7 @@ namespace Client
                 DisplayLog($"Failed to send message: {ex.Message}");
             }
         }
-        private void OrderButton_Click(object? sender, EventArgs e)
+        private void OrderButtonClick(object? sender, EventArgs e)
         {
             if (!Client.TcpConnected)//cant place order if not connected
             {
@@ -263,7 +263,7 @@ namespace Client
             }
             storeGrid.Rows.Clear();
         }
-        private void StoreGrid_CellContentClick(object? sender, DataGridViewCellEventArgs e)
+        private void StoreGridCellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
             {

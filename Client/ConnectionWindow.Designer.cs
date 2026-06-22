@@ -86,7 +86,7 @@ namespace Client
             connectButton.TabIndex = 0;
             connectButton.Text = "Connect";
             connectButton.UseVisualStyleBackColor = false;
-            connectButton.Click += ConnectButton_Click;
+            connectButton.Click += ConnectButtonClick;
             // 
             // ipLabel
             // 
@@ -138,7 +138,7 @@ namespace Client
             registerButton.TabIndex = 5;
             registerButton.Text = "Register";
             registerButton.UseVisualStyleBackColor = false;
-            registerButton.Click += RegisterButton_Click;
+            registerButton.Click += RegisterButtonClick;
             // 
             // loginButton
             // 
@@ -152,7 +152,7 @@ namespace Client
             loginButton.TabIndex = 6;
             loginButton.Text = "Login";
             loginButton.UseVisualStyleBackColor = false;
-            loginButton.Click += LoginButton_Click;
+            loginButton.Click += LoginButtonClick;
             // 
             // passwordTextBox
             // 
@@ -205,7 +205,7 @@ namespace Client
             disconnectButton.TabIndex = 11;
             disconnectButton.Text = "Disconnect";
             disconnectButton.UseVisualStyleBackColor = false;
-            disconnectButton.Click += DisconnectButton_Click;
+            disconnectButton.Click += DisconnectButtonClick;
             // 
             // ChatBox
             // 
@@ -251,7 +251,7 @@ namespace Client
             SendButton.TabIndex = 15;
             SendButton.Text = "Send";
             SendButton.UseVisualStyleBackColor = false;
-            SendButton.Click += SendButton_Click;
+            SendButton.Click += SendButtonClick;
             // 
             // storeGrid
             // 
@@ -274,7 +274,7 @@ namespace Client
             storeGrid.RowHeadersWidth = 51;
             storeGrid.Size = new System.Drawing.Size(850, 650);
             storeGrid.TabIndex = 16;
-            storeGrid.CellContentClick += StoreGrid_CellContentClick;
+            storeGrid.CellContentClick += StoreGridCellContentClick;
             // 
             // NameColumn
             // 
@@ -473,7 +473,7 @@ namespace Client
             orderButton.TabIndex = 32;
             orderButton.Text = "Order";
             orderButton.UseVisualStyleBackColor = false;
-            orderButton.Click += OrderButton_Click;
+            orderButton.Click += OrderButtonClick;
             // 
             // logBox
             // 

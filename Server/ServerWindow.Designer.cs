@@ -82,7 +82,7 @@ namespace Server
             StartButton.TabIndex = 2;
             StartButton.Text = "Start";
             StartButton.UseVisualStyleBackColor = false;
-            StartButton.Click += StartButton_Click;
+            StartButton.Click += StartButtonClick;
             // 
             // StopButton
             // 
@@ -96,7 +96,7 @@ namespace Server
             StopButton.TabIndex = 3;
             StopButton.Text = "Stop";
             StopButton.UseVisualStyleBackColor = false;
-            StopButton.Click += StopButton_Click;
+            StopButton.Click += StopButtonClick;
             // 
             // IPLabel
             // 
@@ -132,7 +132,7 @@ namespace Server
             ClearUsersButton.TabIndex = 6;
             ClearUsersButton.Text = "Clear user database";
             ClearUsersButton.UseVisualStyleBackColor = false;
-            ClearUsersButton.Click += ClearUsersButton_Click;
+            ClearUsersButton.Click += ClearUsersButtonClick;
             // 
             // ClearOrdersButton
             // 
@@ -146,7 +146,7 @@ namespace Server
             ClearOrdersButton.TabIndex = 7;
             ClearOrdersButton.Text = "Clear order database";
             ClearOrdersButton.UseVisualStyleBackColor = false;
-            ClearOrdersButton.Click += ClearOrdersButton_Click;
+            ClearOrdersButton.Click += ClearOrdersButtonClick;
             // 
             // ClearMessagesButton
             // 
@@ -160,7 +160,7 @@ namespace Server
             ClearMessagesButton.TabIndex = 8;
             ClearMessagesButton.Text = "Clear message database";
             ClearMessagesButton.UseVisualStyleBackColor = false;
-            ClearMessagesButton.Click += ClearMessagesButton_Click;
+            ClearMessagesButton.Click += ClearMessagesButtonClick;
             // 
             // ConnectedClientsGrid
             // 
