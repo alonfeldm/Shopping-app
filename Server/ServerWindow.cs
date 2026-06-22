@@ -20,7 +20,7 @@ namespace Server
             IPLabel.Text = IPv4?.ToString() ?? "No IPv4 address found";// sets the iplabel to the ip address if its a string, if its null then to no address found
         }
 
-        private void StartButton_Click(object sender, EventArgs e)
+        private void StartButtonClick(object sender, EventArgs e)
         {
             if (IsRunning)// cant run the server if its already running
             {
@@ -69,7 +69,7 @@ namespace Server
                 return;
             }
         }
-        private void StopButton_Click(object sender, EventArgs e)
+        private void StopButtonClick(object sender, EventArgs e)
         {
             if (IsRunning)
             {
@@ -91,7 +91,7 @@ namespace Server
                 return;
             }
         }
-        private void ClearUsersButton_Click(object sender, EventArgs e)//used for resetting the servers users
+        private void ClearUsersButtonClick(object sender, EventArgs e)//used for resetting the servers users
         {
             if (IsRunning)
             {
@@ -108,7 +108,7 @@ namespace Server
                 PrintMessage("Error clearing the users table:" + ex.Message);// log it
             }
         }
-        private void ClearMessagesButton_Click(object sender, EventArgs e)//used for resetting the servers messages
+        private void ClearMessagesButtonClick(object sender, EventArgs e)//used for resetting the servers messages
         {
             if (IsRunning)
             {
@@ -125,7 +125,7 @@ namespace Server
                 PrintMessage("Error clearing the messages table:" + ex.Message);// log it
             }
         }
-        private void ClearOrdersButton_Click(object sender, EventArgs e)//used for resetting the orders users
+        private void ClearOrdersButtonClick(object sender, EventArgs e)//used for resetting the orders users
         {
             if (IsRunning)
             {
