@@ -508,11 +508,12 @@ internal sealed class Server : IDisposable
             var ModelRequest = new
             {
                 models = new[]// the models, if one fails it falls back to another one
-                {"openai/gpt-oss-120b:free", "openai/gpt-oss-20b:free", "nvidia/nemotron-3-super-120b-a12b:free"},
+                //{"openai/gpt-oss-120b:free", "openai/gpt-oss-20b:free", "nvidia/nemotron-3-super-120b-a12b:free"},
+                {"openai/gpt-oss-120b:free", "openai/gpt-oss-20b:free", "openrouter/free"},
                 messages = new[]
                 {
-                    new{role = "System", content = "Check if the text contains profanities, return true if its clean and false if not, only true or false, no explanations"},// the prompt
-                    new{role = "User", content = Text}// the username to check
+                    new{role = "system", content = "Check if the text contains profanities, return true if it does not contain profanities and false if it does, only true or false, no explanations"},// the prompt
+                    new{role = "user", content = Text}// the username to check
                 }
             };
             string SerializedRequest = JsonSerializer.Serialize(ModelRequest);// serializes the request with the models and roles to json
