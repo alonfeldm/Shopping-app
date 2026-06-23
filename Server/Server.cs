@@ -512,7 +512,8 @@ internal sealed class Server : IDisposable
                 {"openai/gpt-oss-120b:free", "openai/gpt-oss-20b:free", "openrouter/free"},
                 messages = new[]
                 {
-                    new{role = "system", content = "Check if the text contains profanities, return true if it does not contain profanities and false if it does, only true or false, no explanations"},// the prompt
+                    new{role = "system", content = "You are a profanity classifier. Return exactly one lowercase word: true if the text is clean, false if it contains profanity."},
+                    //new{role = "system", content = "Check if the text contains profanities, return true if it does not contain profanities and false if it does, only true or false, no explanations"},// the prompt
                     new{role = "user", content = Text}// the username to check
                 }
             };
